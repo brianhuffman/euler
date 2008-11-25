@@ -2,7 +2,6 @@ module Euler170 where
 import Permutation
 import Data.List
 import Data.Int ( Int64 )
-import Data.Array
 
 {-
 Problem 170
