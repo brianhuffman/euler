@@ -512,7 +512,8 @@ checks = [
   (214, 209, Euler214.main, "1677366278943"), -- Totient chains
   (215,   4, Euler215.main, "806844323190414"),
   (216, 923, Euler216.main, "5437849"),
-  (217,   3, Euler217.main, "6273134")
+  (217,   3, Euler217.main, "6273134"),
+  (218,   0, Euler218.main, "0")
   ]
 
 total_time :: Int
