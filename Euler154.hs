@@ -394,6 +394,7 @@ pascal_primes p n k = snd (divN (choose n k) p)
 
 -}
 
+{-
 type RLE a = [(a, Int)]
 
 listRLE :: RLE a -> [a]
@@ -442,6 +443,7 @@ pascal_nonmult_prime_power (p,e) n
     (q, r) = divMod n p
     qs = pascal_nonmult_prime p q
     rs = pascal_nonmult_prime p r
+-}
 
 triangle_mod n =
   map (map (\x -> (' ' : ['1'..]) !! fromInteger (x `mod` n)))
