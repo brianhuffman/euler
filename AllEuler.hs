@@ -465,7 +465,7 @@ checks = [
   (167,   4, Euler167.main, "3916160068885"),
   (168,   0, Euler168.main, "59206"),
   (169,   0, Euler169.main, "178653872807"),
-  (170, 999, return "", "9857164023"), -- Pandigital by concatenating products
+  (170,   3, Euler170.main, "9857164023"), -- Pandigital by concatenating products
   (171,   2, Euler171.main, "142989277"),
   (172,   0, Euler172.main, "227485267000992000"),
   (173,   0, Euler173.main, "1572729"),
@@ -506,7 +506,6 @@ checks = [
   (208,  66, Euler208.main, "331951449665644800"), -- Robot walks
   (209,   0, Euler209.main, "15964587728784"),
   (210, 999, Euler210.main, "1598174770174689458"),
-  -- missing: 210 - 211
   -- (211,   0, Euler211.main, "1922364685"),
   (212,  25, Euler212.main, "328968937309"),
   -- missing: 213
