@@ -220,6 +220,7 @@ import qualified Euler215
 import qualified Euler216
 import qualified Euler217
 import qualified Euler218
+import qualified Euler219
 
 timeIO_ :: IO () -> IO TimeDiff
 timeIO_ action =
@@ -237,7 +238,7 @@ timeIO action =
 
 check :: Int -> IO String -> String -> IO ()
 check n action answer =
-  do putStr (show n ++ ": ")
+  do putStrLn (show n ++ ": ")
      (x, t) <- timeIO (printIO action)
      if x /= answer
        then putStrLn ("\tIncorrect! Should be " ++ answer)
@@ -249,7 +250,7 @@ check n action answer =
   where
     printIO action = do
       x <- action
-      putStrLn x
+      putStrLn ('\t' : x)
       return x
 --check _ _ _ = return ()
 
@@ -465,7 +466,7 @@ checks = [
   (167,   4, Euler167.main, "3916160068885"),
   (168,   0, Euler168.main, "59206"),
   (169,   0, Euler169.main, "178653872807"),
-  (170,   3, Euler170.main, "9857164023"), -- Pandigital by concatenating products
+  (170,   3, Euler170.main, "9857164023"), -- Pandigital concatenated products
   (171,   2, Euler171.main, "142989277"),
   (172,   0, Euler172.main, "227485267000992000"),
   (173,   0, Euler173.main, "1572729"),
@@ -513,7 +514,8 @@ checks = [
   (215,   4, Euler215.main, "806844323190414"),
   (216, 923, Euler216.main, "5437849"),
   (217,   3, Euler217.main, "6273134"),
-  (218,   0, Euler218.main, "0")
+  (218,   0, Euler218.main, "0"),
+  (219,   0, Euler219.main, "64564225042")
   ]
 
 total_time :: Int
