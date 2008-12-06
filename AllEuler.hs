@@ -221,6 +221,7 @@ import qualified Euler216
 import qualified Euler217
 import qualified Euler218
 import qualified Euler219
+import qualified Euler220
 
 timeIO_ :: IO () -> IO TimeDiff
 timeIO_ action =
@@ -507,7 +508,7 @@ checks = [
   (208,  66, Euler208.main, "331951449665644800"), -- Robot walks
   (209,   0, Euler209.main, "15964587728784"),
   (210, 999, Euler210.main, "1598174770174689458"),
-  -- (211,   0, Euler211.main, "1922364685"),
+  (211,   0, Euler211.main, "1922364685"),
   (212,  25, Euler212.main, "328968937309"),
   -- missing: 213
   (214, 209, Euler214.main, "1677366278943"), -- Totient chains
@@ -515,7 +516,8 @@ checks = [
   (216, 923, Euler216.main, "5437849"),
   (217,   3, Euler217.main, "6273134"),
   (218,   0, Euler218.main, "0"),
-  (219,   0, Euler219.main, "64564225042")
+  (219,   0, Euler219.main, "64564225042"),
+  (220,   0, Euler220.main, "139776,963904")
   ]
 
 total_time :: Int
