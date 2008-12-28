@@ -223,6 +223,9 @@ import qualified Euler218
 import qualified Euler219
 import qualified Euler220
 import qualified Euler222
+import qualified Euler223
+import qualified Euler224
+import qualified Euler225
 
 timeIO_ :: IO () -> IO TimeDiff
 timeIO_ action =
@@ -520,7 +523,8 @@ checks = [
   (219,   0, Euler219.main, "64564225042"),
   (220,   0, Euler220.main, "139776,963904"),
   -- missing: 221
-  (222,   0, Euler222.main, "1590933")
+  (222,   0, Euler222.main, "1590933"),
+  (224, 999, Euler224.main, "4137330")
   ]
 
 total_time :: Int
