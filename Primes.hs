@@ -46,6 +46,8 @@ expMod a b n
   | otherwise = seq x (if even b then x else (a * x) `mod` n)
       where x = expMod ((a * a) `mod` n) (b `div` 2) n
 
+-- extended_gcd a b = (u, v, g)
+-- such that a*u + b*v = g = gcd(a,b)
 extended_gcd a b = f a b 0 1 1 0
   where
     f a 0 x y x' y' = (x',y',a)
@@ -58,6 +60,13 @@ invMod a n = if g /= 1 then error "invMod" else u'
     a' = a `mod` n
     (u,v,g) = extended_gcd a' n
     u' = u `mod` n
+
+chinese (x,a) (y,b)
+  | g == 1 = ((x*b*v + y*a*u) `mod` c, c)
+  | otherwise = error "chinese: not coprime"
+  where
+    (u,v,g) = extended_gcd a b
+    c = a * b
 
 ---------------------
 -- Primality tests --
