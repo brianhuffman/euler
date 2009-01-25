@@ -516,7 +516,7 @@ checks = [
   (208,  66, Euler208.main, "331951449665644800"), -- Robot walks
   (209,   0, Euler209.main, "15964587728784"),
   (210, 532, Euler210.main, Euler210.answer), -- Obtuse Angled Triangles
-  (211,   0, Euler211.main, "1922364685"),
+  (211,9999, Euler211.main, Euler211.answer), -- Divisor Square Sum
   (212,  25, Euler212.main, "328968937309"),
   (213,  28, Euler213.main, Euler213.answer), -- Flea Circus
   (214, 209, Euler214.main, "1677366278943"), -- Totient chains
