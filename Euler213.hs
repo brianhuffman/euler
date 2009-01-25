@@ -33,17 +33,13 @@ nextDist :: Dist -> Dist
 nextDist dist = accumArray (+) 0 (bounds dist) (concatMap p (indices dist))
   where
     ((x0,y0),(x1,y1)) = bounds dist
-    p (x, y)
-      | x == x0 && y == y0 = choose 2 [(x+1, y), (x, y+1)]
-      | x == x0 && y == y1 = choose 2 [(x+1, y), (x, y-1)]
-      | x == x1 && y == y0 = choose 2 [(x-1, y), (x, y+1)]
-      | x == x1 && y == y1 = choose 2 [(x-1, y), (x, y-1)]
-      | x == x0 = choose 3 [(x+1, y), (x, y-1), (x, y+1)]
-      | x == x1 = choose 3 [(x-1, y), (x, y-1), (x, y+1)]
-      | y == y0 = choose 3 [(x, y+1), (x-1, y), (x+1, y)]
-      | y == y1 = choose 3 [(x, y-1), (x-1, y), (x+1, y)]
-      | otherwise = choose 4 [(x+1, y), (x-1, y), (x, y+1), (x, y-1)]
-     where choose n = map (\xy -> (xy, dist!(x, y) / n))
+    p (x, y) = [ (pos, z) | pos <- n1 ]
+      where
+        n1 = if x == x0 then n2 else (x-1, y) : n2
+        n2 = if x == x1 then n3 else (x+1, y) : n3
+        n3 = if y == y0 then n4 else (x, y-1) : n4
+        n4 = if y == y1 then [] else (x, y+1) : []
+        z = dist!(x, y) / fromIntegral (length n1)
 
 initDist :: (Pos, Pos) -> Pos -> Dist
 initDist ij a = accumArray (const id) 0 ij [(a, 1)]
