@@ -166,7 +166,7 @@ import qualified Euler161
 import qualified Euler162
 import qualified Euler163
 import qualified Euler164
---import qualified Euler165
+import qualified Euler165
 import qualified Euler166
 import qualified Euler167
 import qualified Euler168
@@ -470,7 +470,7 @@ checks = [
   (162,   0, Euler162.main, "3D58725572C62302"),
   (163,   0, Euler163.main, "343047"),
   (164,   0, Euler164.main, "378158756814587"),
-  (165, 999, return "", "2868868"), -- Intersections
+  (165,3096, Euler165.main, Euler165.answer), -- Intersections
   (166,  18, Euler166.main, "7130034"),
   (167,   4, Euler167.main, "3916160068885"),
   (168,   0, Euler168.main, "59206"),

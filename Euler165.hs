@@ -1,22 +1,76 @@
 module Euler165 where
 import Ratio
-import List
+import Data.List
 import qualified SortedList as S
 import Int
 
-------------------------------------------------------------------------------
--- 165. Intersections
+{-
+Problem 165
+Intersections
 
-type I = Int64
-type R = Ratio I
+27 October 2007
+
+A segment is uniquely defined by its two endpoints.
+
+By considering two line segments in plane geometry there are three
+possibilities: the segments have zero points, one point, or infinitely
+many points in common.
+
+Moreover when two segments have exactly one point in common it might
+be the case that that common point is an endpoint of either one of the
+segments or of both. If a common point of two segments is not an
+endpoint of either of the segments it is an interior point of both
+segments.
+
+We will call a common point T of two segments L_(1) and L_(2) a true
+intersection point of L_(1) and L_(2) if T is the only common point of
+L_(1) and L_(2) and T is an interior point of both segments.
+
+Consider the three segments L_(1), L_(2), and L_(3):
+
+L_(1): (27, 44) to (12, 32)
+L_(2): (46, 53) to (17, 62)
+L_(3): (46, 70) to (22, 40)
+
+It can be verified that line segments L_(2) and L_(3) have a true
+intersection point. We note that as the one of the end points of
+L_(3): (22,40) lies on L_(1) this is not considered to be a true point
+of intersection. L_(1) and L_(2) have no common point. So among the
+three line segments, we find one true intersection point.
+
+Now let us do the same for 5000 line segments. To this end, we
+generate 20000 numbers using the so-called "Blum Blum Shub"
+pseudo-random number generator.
+
+s_(0) = 290797
+s_(n+1) = s_(n)×s_(n) (modulo 50515093)
+t_(n) = s_(n) (modulo 500)
+
+To create each line segment, we use four consecutive numbers
+t_(n). That is, the first line segment is given by:
+
+(t_(1), t_(2)) to (t_(3), t_(4))
+
+The first four numbers computed according to the above generator
+should be: 27, 144, 12 and 232. The first segment would thus be
+(27,144) to (12,232).
+
+How many distinct true intersection points are found among the 5000
+line segments?
+
+-}
+
+type Z = Integer
+type R = Ratio Z
 type Pt = (R,R)
-type Seg = ((I,I),(I,I))
+-- type Seg = ((Z,Z),(Z,Z))
+type Seg = (Pt, Pt)
 
 --------------------------------------------------
 -- segments
 
 segments :: Int -> [Seg]
-segments n = take n $ tuple (drop 1 (random 290797))
+segments n = take n $ tuple $ drop 1 $ map fromIntegral $ random 290797
   where
     tuple (a:b:c:d:xs) = ((a,b),(c,d)) : tuple xs
     random a = (a `mod` 500) : random (a * a `mod` 50515093)
@@ -31,6 +85,11 @@ test_segs = [seg1, seg2, seg3]
 
 --------------------------------------------------
 -- comparing segments
+
+-- GT means to the left, LT means to the right
+pt_compare :: Seg -> Pt -> Ordering
+pt_compare ((x1,y1),(x2,y2)) (x3,y3) =
+  compare ((x2-x1) * (y3-y1)) ((y2-y1) * (x3-x1))
 
 data SegOrdering = Above | Below | Across | OnTop
 
@@ -48,11 +107,13 @@ seg_compare ((x1,y1),(x2,y2)) ((x3,y3),(x4,y4)) =
     c4 = (x2-x1) * (y4-y1) - (y2-y1) * (x4-x1)
 
 -- positive means to the left, negative means to the right
-seg_cross :: Seg -> Seg -> (I, I)
+{-
+seg_cross :: Seg -> Seg -> (R, R)
 seg_cross ((x1,y1),(x2,y2)) ((x3,y3),(x4,y4)) = (c3, c4)
   where
     c3 = (x2-x1) * (y3-y1) - (y2-y1) * (x3-x1)
     c4 = (x2-x1) * (y4-y1) - (y2-y1) * (x4-x1)
+-}
 
 seg_crosses :: Seg -> Seg -> Bool
 seg_crosses ((x1,y1),(x2,y2)) ((x3,y3),(x4,y4)) =
@@ -75,8 +136,12 @@ seg_intersection seg1 seg2 = (x, y)
     (dx1, dy1, cxy1) = prep seg1
     (dx2, dy2, cxy2) = prep seg2
     d = (dx2 * dy1 - dx1 * dy2)
-    x = (dx1 * cxy2 - dx2 * cxy1) % d
-    y = (dy1 * cxy2 - dy2 * cxy1) % d
+    x = (dx1 * cxy2 - dx2 * cxy1) / d
+    y = (dy1 * cxy2 - dy2 * cxy1) / d
+
+all_pairs :: [a] -> [(a,a)]
+all_pairs [] = []
+all_pairs (x:ys) = [ (x,y) | y <- ys ] ++ all_pairs ys
 
 {-
 intersection of segments ((x1,y1),(x2,y2)) and ((x3,y3),(x4,y4))
@@ -101,6 +166,55 @@ u = [(x3-x4)(y1-y3) - (x1-x3)(y3-y4)] /
 v = [(x3-x1)(y1-y2) - (x1-x2)(y3-y1)] /
     [(x3-x4)(y1-y2) - (x1-x2)(y3-y4)]
 -}
+
+--------------------------------------------------
+-- filtering and splitting
+
+filter_segs :: Seg -> [Seg] -> ([Seg], [Seg], [Seg], [Pt])
+filter_segs key segs = f segs [] [] [] []
+  where
+    f [] lt gt eq pts = (lt, gt, eq, pts)
+    f (seg@(a,b):segs) lt gt eq pts =
+      case (pt_compare key a, pt_compare key b) of
+        (LT, GT) -> f segs ((a,c):lt) ((c,b):gt) eq (c:pts)
+        (LT, _ ) -> f segs (seg:lt) gt eq pts
+        (GT, LT) -> f segs ((c,b):lt) ((a,c):gt) eq (c:pts)
+        (GT, _ ) -> f segs lt (seg:gt) eq pts
+        (EQ, LT) -> f segs (seg:lt) gt eq pts
+        (EQ, GT) -> f segs lt (seg:gt) eq pts
+        (EQ, EQ) -> f segs lt gt (seg:eq) pts
+      where c = seg_intersection key (a,b)
+
+unique_intersections :: [Seg] -> [Pt]
+unique_intersections [] = []
+unique_intersections [seg] = []
+unique_intersections segs = pts' ++ lt_pts ++ gt_pts
+  where
+    key = head segs
+    (lt, gt, eq, pts) = filter_segs key segs
+    on c (a,b) = compare a c == compare c b
+    pts' = [ c | (n,c) <- multiplicities (sort pts), n > 1 || any (on c) eq ]
+    lt_pts = unique_intersections lt
+    gt_pts = unique_intersections gt
+
+count_intersections :: [Seg] -> Int
+count_intersections [] = 0
+count_intersections [seg] = 0
+count_intersections segs = length pts' + lt_pts + gt_pts
+  where
+    key = head segs
+    (lt, gt, eq, pts) = filter_segs key segs
+    on c (a,b) = compare a c == compare c b
+    pts' = [ c | (n,c) <- multiplicities (sort pts), n > 1 || any (on c) eq ]
+    lt_pts = count_intersections lt
+    gt_pts = count_intersections gt
+
+multiplicities :: [Pt] -> [(Int,Pt)]
+multiplicities [] = []
+multiplicities (x:xs) =
+  case multiplicities xs of
+    [] -> [(1,x)]
+    ((n,y):ys) -> if x == y then (n+1,y):ys else (1,x):(n,y):ys
 
 --------------------------------------------------
 -- removing duplicates
@@ -153,7 +267,7 @@ num_distinct (x:xs) = 1 + num_distinct ls + num_distinct rs
 --------------------------------------------------
 -- putting it all together
 
-partition_seg
+-- partition_seg
 
 intersection_list :: [Seg] -> [[Pt]]
 intersection_list [] = []
@@ -215,8 +329,10 @@ prob165 n =
 -- prob165 5000 = 2868868 (2868997)
 
 main :: IO String
-main = return $ show $ prob165 5000
--- 2868868
+main = return $ show $ count_intersections (segments 5000)
+
+answer :: String
+answer = "2868868"
 
 
 {-
