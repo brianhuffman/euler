@@ -518,7 +518,7 @@ checks = [
   (210, 999, Euler210.main, "1598174770174689458"),
   (211,   0, Euler211.main, "1922364685"),
   (212,  25, Euler212.main, "328968937309"),
-  -- missing: 213
+  (213, 210, Euler213.main, Euler213.answer), -- Flea Circus
   (214, 209, Euler214.main, "1677366278943"), -- Totient chains
   (215,   4, Euler215.main, "806844323190414"),
   (216, 923, Euler216.main, "5437849"),

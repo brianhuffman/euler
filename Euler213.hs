@@ -1,15 +1,21 @@
 module Euler213 where
 import Data.Array.Unboxed
 import System.Random
-import List
+import Data.List
 
 {-
-A 3030 grid of squares contains 900 fleas, initially one flea per square.
-When a bell is rung, each flea jumps to an adjacent square at random (usually
-4 possibilities, except for fleas on the edge of the grid or at the corners).
 
-What is the expected number of unoccupied squares after 50 rings of the bell?
-Give your answer rounded to six decimal places.
+Problem 213
+18 October 2008
+
+A 30×30 grid of squares contains 900 fleas, initially one flea per
+square.  When a bell is rung, each flea jumps to an adjacent square at
+random (usually 4 possibilities, except for fleas on the edge of the
+grid or at the corners).
+
+What is the expected number of unoccupied squares after 50 rings of
+the bell? Give your answer rounded to six decimal places.
+
 -}
 
 {-
@@ -57,8 +63,19 @@ prob213 n k = [ (p, empty p) | p <- positions n ]
   where
     dists = finalDists n k
     empty p = product [ 1 - d!p | d <- dists ]
-    
-    
+
+show_rounded :: Int -> Double -> String
+show_rounded d x =
+  show (floor x) ++ "." ++ replicate (d - length (show r)) '0' ++ show r
+  where
+    r = round (x * 10^d) `mod` (10^d)
+
+main :: IO String
+main = return $ show_rounded 6 $ sum $ map snd $ prob213 30 50
+
+answer :: String
+answer = "330.721154"
+
 -------------------------------------------------------
 -- Simulation
 
