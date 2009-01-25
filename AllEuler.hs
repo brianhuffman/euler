@@ -515,7 +515,7 @@ checks = [
   (207,   0, Euler207.main, "44043947822"),
   (208,  66, Euler208.main, "331951449665644800"), -- Robot walks
   (209,   0, Euler209.main, "15964587728784"),
-  (210, 999, Euler210.main, "1598174770174689458"),
+  (210, 532, Euler210.main, Euler210.answer), -- Obtuse Angled Triangles
   (211,   0, Euler211.main, "1922364685"),
   (212,  25, Euler212.main, "328968937309"),
   (213,  28, Euler213.main, Euler213.answer), -- Flea Circus

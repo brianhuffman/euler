@@ -1,32 +1,50 @@
 module Euler210 where
+import EulerLib (square_root)
 import Data.Int ( Int64 )
 
 {-
-Consider the set S(r) of points (x,y) with integer coordinates satisfying
-|x| + |y| <= r.
+Problem 210
+26 September 2008
+
+Consider the set S(r) of points (x,y) with integer coordinates
+satisfying |x| + |y| ≤ r.
+
 Let O be the point (0,0) and C the point (r/4,r/4).
-Let N(r) be the number of points B in S(r), so that the triangle OBC has
-an obtuse angle, i.e. the largest angle α satisfies 90° < α < 180°.
+
+Let N(r) be the number of points B in S(r), so that the triangle OBC
+has an obtuse angle, i.e. the largest angle α satisfies 90°<α<180°.
+
 So, for example, N(4)=24 and N(8)=100.
 
-What is N(1,000,000,000)? 
+What is N(1,000,000,000)?
+
 -}
 
 
 {-
 
-        *
-      = * *
-    = - = * /
-  * * = = C * *
-* * * * O = = * *
-  * * / * = - =
-    / * * * =
+If point B lies in the left or lower quadrants, then angle O will be
+obtuse. We will call these areas "region O".
+
+If point B lies in the outer half of the upper or right quadrants,
+then angle C will be obtuse. We will call these areas "region C".
+
+If point B lies in the interior of the circle with diameter O-C, then
+angle B will be obtuse. We will call these areas "region B".
+
+-----------------------------------------
+r = 4:  *
+      \ * *
+    \ - \ * /
+  * * \ = C * *
+* * * * O = \ * *
+  * * / * \ - \
+    / * * * \
       * * *
         *
-
-
-                *
+Region O (8), region C (4), region B (0).
+-----------------------------------------
+r = 8:          *
               * * *
             \ * * * *
           . . \ * * * *
@@ -43,23 +61,10 @@ What is N(1,000,000,000)?
             * * * * *
               * * *
                 *
-
-1, 2, ...
-8, 32, ...
-4, 16, ...
+Region O (32), region C (16), region B (2).
+-----------------------------------------
 
 N(x) ~ (3/2 + pi/32)(x^2)
-
-+-C
-|/ 
-O
-
-+---C  (m=4)
-|**/
-|*/
-|/
-O
-triangle (m-2) = 
 -}
 
 type Z = Int64
@@ -78,17 +83,24 @@ region_C r = 4 * n^2
 
 -- precondition: 8 divides r
 region_B :: Z -> Z
-region_B r = 2 * f 1 0 0 + a
+region_B r = a + 2 * f m m 0 
   where
+    -- point C is at (n, n)
     n = r `div` 4
+    -- center of circle is at (m, m)
     m = r `div` 8
+    -- radius squared of circle
     d = 2*m^2
+    -- points in interior of 90-45-45 triangle with hypotenuse OC
     a = (n-2)*(n-1)`div`2
-    f y x' t
-      | y > m = t
-      | (y-m)^2 + (x'+m)^2 < d = f y (x'+1) t
-      | otherwise = f (y+1) x' $! t'
-          where t' = (if y<m then 2*x' else x') + t
+    -- points in interior of circle with radius-squared = d,
+    -- with x-coordinate greater than x.
+    -- invariant: (x,y) within 1 of circle boundary.
+    f x y t
+      | y < 0 = t
+      | x^2 + y^2 >= d = f x (y-1) t
+      | otherwise = f (x+1) (y-dy) $! (2*y + 1 + t)
+          where dy = x `div` (y+1)
 
 prob210 :: Z -> Z
 prob210 r =
@@ -108,7 +120,10 @@ N(10^9) ~ 1.5981747704246812e18
 -}
 
 main :: IO String
-main = return $ show $ prob210 (10^8)
+main = return $ show $ prob210 (10^9)
+
+answer :: String
+answer = "1598174770174689458"
 
 ---------------------------------------------
 -- slow version used as a check
