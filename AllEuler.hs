@@ -455,7 +455,7 @@ checks = [
   (147,   0, Euler147.main, "846910284"),
   (148,   0, Euler148.main, "2129970655314432"),
   (149,  83, Euler149.main, "52852124"),
-  (150,2700, Euler150.main, "-271248680"), --(270 s) Sub-triangle sums
+  (150, 267, Euler150.main, Euler150.answer), -- Sub-triangle sums
   (151,   0, Euler151.main, "0.464398781601087"),
   (152, 143, Euler152.main, "301"),
   (153, 339, Euler153.main, Euler153.answer), -- Factors of Gaussian integers

@@ -1,10 +1,10 @@
 module Euler150 where
 import Data.List
 import Data.Int
---import Data.Array.Unboxed
+import Data.Array.Unboxed
 import Control.Monad.ST
 import Data.Array.ST
-import Data.Array
+import Data.Array.IArray
 import Control.Monad (foldM)
 
 {-
@@ -12,12 +12,12 @@ Problem 150
 Searching a triangular array for a sub-triangle having minimum-sum.
 13 April 2007
 
-In a triangular array of positive and negative integers, we wish to find a
-sub-triangle such that the sum of the numbers it contains is the smallest
-possible.
+In a triangular array of positive and negative integers, we wish to
+find a sub-triangle such that the sum of the numbers it contains is
+the smallest possible.
 
-In the example below, it can be easily verified that the marked triangle
-satisfies this condition having a sum of -42.
+In the example below, it can be easily verified that the marked
+triangle satisfies this condition having a sum of -42.
 
           15
             / \
@@ -31,9 +31,10 @@ satisfies this condition having a sum of -42.
      -----------------
 -16  31   2   9  28  3
 
-We wish to make such a triangular array with one thousand rows, so we generate
-500500 pseudo-random numbers s(k) in the range 219, using a type of random
-number generator (known as a Linear Congruential Generator) as follows:
+We wish to make such a triangular array with one thousand rows, so we
+generate 500500 pseudo-random numbers s(k) in the range 219, using a
+type of random number generator (known as a Linear Congruential
+Generator) as follows:
 
   t := 0
   for k = 1 up to k = 500500:
@@ -42,7 +43,8 @@ number generator (known as a Linear Congruential Generator) as follows:
 
 Thus: s(1) = 273519, s(2) = 153582, s(3) = 450905 etc
 
-Our triangular array is then formed using the pseudo-random numbers thus:
+Our triangular array is then formed using the pseudo-random numbers
+thus:
 
       s1
     s2  s3
@@ -50,10 +52,11 @@ Our triangular array is then formed using the pseudo-random numbers thus:
 s7  s8  s9  s10
      ...
 
-Sub-triangles can start at any element of the array and extend down as far as
-we like (taking-in the two elements directly below it from the next row, the
-three elements directly below from the row after that, and so on). The "sum
-of a sub-triangle" is defined as the sum of all the elements it contains.
+Sub-triangles can start at any element of the array and extend down as
+far as we like (taking-in the two elements directly below it from the
+next row, the three elements directly below from the row after that,
+and so on). The "sum of a sub-triangle" is defined as the sum of all
+the elements it contains.
 
 Find the smallest possible sub-triangle sum.
 -}
@@ -106,107 +109,27 @@ test_triangle =
    [1,-4,-5,-18,5],
    [-16,31,2,9,28,3]]
 
-tminimum :: [[Z]] -> Z
-tminimum = minimum . map minimum
-
-tplus :: [[Z]] -> [[Z]] -> [[Z]]
-tplus = zipWith (zipWith (+))
-
-{-
-prob150b :: [[Z]] -> [Z]
-prob150b t0 = f (tminimum t0) t0 t0
+prep_triangle :: [[Z]] -> [UArray Int Z]
+prep_triangle = zipWith prep_row [1..]
   where
-    f m l [] = []
-    f m l t = m : f m' l' t'
-      where
-         l' = tplus t0 (tail l)
-         t' = tplus l' (map tail (tail t))
-         m' = min m (tminimum t')
--}
+    prep_row n xs = listArray (0, n) (scanl (+) 0 xs)
 
-{-
-prob150e t0 = map f (tails (reverse t0))
-  where
-    f [] = 0
-    f (xs:xss) = g (minimum xs) (repeat 0) xs xss
-    total x l r z = x + l + r - z
-    g m zs ys [] = m
-    g m zs ys (xs:xss) = (g $! m') ys ys' xss
-      where
-        ys' = zipWith4 total xs ys (tail ys) (tail zs)
-        m' = minimum (m : ys')
--}
-
-sums_triangle :: [Z] -> [[Z]]
-sums_triangle xs = f xs xs
-  where
-    f xs [] = []
-    f xs (_:ys) = xs : f (zipWith (+) xs ys) ys
-
-min_subtriangle_sum :: [[Z]] -> Z
-min_subtriangle_sum t0 = fst $ foldl f (0, []) t0
-  where
-    f (z,yss) xs = (z', yss')
-      where
-        t = sums_triangle xs
-        yss' = xs : tplus yss (tail t)
-        z' = minimum (z : map minimum yss')
 prob150 :: Int -> Z
-prob150 n = min_subtriangle_sum (random_triangle n)
+prob150 n = find 1 table
+  where
+    table = prep_triangle (random_triangle n)
+    find w [] = 0
+    find w arrs = min z1 z2
+      where
+        z1 = minimum [ find1 x arrs | x <- [1 .. w] ]
+        z2 = find (w+1) (tail arrs)
+    find1 x arrs = minimum sums
+      where
+        rows = zipWith (\y a -> a!y - a!(x-1)) [x..] arrs
+        sums = scanl (+) 0 rows
 
 main :: IO String
 main = return $ show $ prob150 1000
--- -271248680
 
-
-
-
-
--- solution using unboxed arrays
-{-
-rand_triangle :: Int -> [Row]
-rand_triangle n = reverse $ take n $ g 1 $ map fromIntegral $ lcg ()
-  where
-    g n xs = listArray (1, n) ys : g (n+1) zs
-      where
-        (ys, zs) = splitAt n xs
-
-
-
-funArray :: (IArray a e, Ix i) => (i, i) -> (i -> e) -> a i e
-funArray ij f = listArray ij (map f (range ij))
-
-type Row = UArray Int Z
-
--- lists sorted with bottom of triangle first
-
-rand_triangle :: Int -> [Row]
-rand_triangle n = reverse $ take n $ g 1 $ map fromIntegral $ lcg ()
-  where
-    g n xs = listArray (1, n) ys : g (n+1) zs
-      where
-        (ys, zs) = splitAt n xs
-
-row_min :: Row -> Z
-row_min = minimum . elems
-
-rows_min :: [Row] -> Z
-rows_min = minimum . map row_min
-
-more_sums :: [Row] -> Row -> [Row]
-more_sums oldsums r = f (snd (bounds r)) (repeat 0) s0 oldsums
-  where
-    s0 = r
-    xs0 = elems s0
-    -- precondition: (_, n) = bounds s
-    f 1 xs s _ = [s]
-    f n xs s (r:rs) = s : f n' xs' s'
-      where
-        n' = n - 1
-        ys = elems s
-        xs' = tail ys
-        s' = listArray (1, n-1) (zipWith (-) (zipWith (+) ys xs')
-    s1 = listArray (1, n-1) (zipWith (+) xs0 (tail xs0))
-    f s1 s2 [] = [s1, s2]
--- next_sum 
--}
+answer :: String
+answer = "-271248680"
