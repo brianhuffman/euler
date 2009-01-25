@@ -1,7 +1,6 @@
 module Euler153 where
 import EulerLib
-import List
-import Array
+import Data.Array
 
 {-
 Problem 153
@@ -9,23 +8,26 @@ Investigating Gaussian Integers
 
 05 May 2007
 
-As we all know the equation x^2=-1 has no solutions for real x. If we however
-introduce the imaginary number i this equation has two solutions: x=i and x=-i.
-If we go a step further the equation (x-3)^2=-4 has two complex solutions:
-x=3+2i and x=3-2i. x=3+2i and x=3-2i are called each others' complex conjugate.
-Numbers of the form a+bi are called complex numbers. In general a+bi and a-bi
-are each other's complex conjugate.
+As we all know the equation x^2=-1 has no solutions for real x. If we
+however introduce the imaginary number i this equation has two
+solutions: x=i and x=-i.  If we go a step further the equation
+(x-3)^2=-4 has two complex solutions: x=3+2i and x=3-2i. x=3+2i and
+x=3-2i are called each others' complex conjugate.  Numbers of the form
+a+bi are called complex numbers. In general a+bi and a-bi are each
+other's complex conjugate.
 
-A Gaussian Integer is a complex number a+bi such that both a and b are integers.
-The regular integers are also Gaussian integers (with b=0). To distinguish them
-from Gaussian integers with b <> 0 we call such integers "rational integers."
-A Gaussian integer is called a divisor of a rational integer n if the result is
-also a Gaussian integer.
+A Gaussian Integer is a complex number a+bi such that both a and b are
+integers.  The regular integers are also Gaussian integers (with
+b=0). To distinguish them from Gaussian integers with b <> 0 we call
+such integers "rational integers."  A Gaussian integer is called a
+divisor of a rational integer n if the result is also a Gaussian
+integer.
 
-If for example we divide 5 by 1+2i we can simplify 5/(1+2i) in the following
-manner:
+If for example we divide 5 by 1+2i we can simplify 5/(1+2i) in the
+following manner:
 
-Multiply numerator and denominator by the complex conjugate of 1+2i: 1-2i.
+Multiply numerator and denominator by the complex conjugate of 1+2i:
+1-2i.
 
                5      5   1-2i   5(1-2i)    5(1-2i)   5(1-2i)
 The result is ---- = ---- ---- = -------- = ------- = ------- = 1-2i.
@@ -35,14 +37,15 @@ So 1+2i is a divisor of 5.
 
 Note that 1+i is not a divisor of 5 because 5/(1+i) = 5/2 - 5/2 i.
 
-Note also that if the Gaussian Integer (a+bi) is a divisor of a rational
-integer n, then its complex conjugate (a-bi) is also a divisor of n.
+Note also that if the Gaussian Integer (a+bi) is a divisor of a
+rational integer n, then its complex conjugate (a-bi) is also a
+divisor of n.
 
 In fact, 5 has six divisors such that the real part is positive:
-{1, 1 + 2i, 1 2i, 2 + i, 2 i, 5}.
+{1, 1+2i, 1-2i, 2+i, 2-i, 5}.
 
-The following is a table of all of the divisors for the first five positive
-rational integers:
+The following is a table of all of the divisors for the first five
+positive rational integers:
 
 n       Gaussian integer divisors       Sum s(n) of
         with positive real part         these divisors
@@ -52,9 +55,10 @@ n       Gaussian integer divisors       Sum s(n) of
 4       1, 1+i, 1-i, 2, 2+2i, 2-2i,4    13
 5       1, 1+2i, 1-2i, 2+i, 2-i, 5      12
 
-For divisors with positive real parts, then, we have: SUM n=1..5. s(n) = 35.
+For divisors with positive real parts, then, we have:
+SUM n=1..5. s(n) = 35.
 
-For 1 <= n <= 10^5, SUM s(n)=17924657155.
+For 1 <= n <= 10^5, SUM s(n) = 17924657155.
 
 What is SUM s(n) for 1 <= n <= 10^8?
 -}
@@ -125,13 +129,23 @@ sums_squares_upto m = (2,2) :
     a <- takeWhile (\a -> a^2 < m) [1 ..],
     b <- takeWhile (\b -> a^2 + b^2 <= m) [a+1 ..],
     gcd a b == 1 ]
--- (2,1) represents factors (1+i) + (1-i)
--- (a^2+b^2, a+b) represents factors (a+bi) + (a-bi) + (b+ai) + (b-ai)
+-- (2,2) represents factors (1+i) + (1-i)
+-- (a^2+b^2, 2*(a+b)) represents factors (a+bi) + (a-bi) + (b+ai) + (b-ai)
+
+-- slightly faster for large values of m
+sums_squares_upto' :: Z -> [(Z, Z)]
+sums_squares_upto' m = (2,2) : p [(0,1,1,1)]
+  where
+    p [] = []
+    p ((a,b,c,d) : rest)
+      | e^2 + f^2 > m = p rest
+      | otherwise = (e^2 + f^2, 2*(e+f)) : p ((a,b,e,f):(e,f,c,d):rest)
+      where (e,f) = (a+c, b+d)
 
 sum_complex_factors_upto :: Z -> Z
 sum_complex_factors_upto m = sum
   [ s * srf (m`div`n) |
-    (n, s) <- sums_squares_upto m ]
+    (n, s) <- sums_squares_upto' m ]
   where
     msize = square_root m `div` 2
     a = listArray (1, msize) (map sum_real_factors_upto [1 .. msize])
@@ -142,4 +156,6 @@ prob153 m = sum_real_factors_upto m + sum_complex_factors_upto m
 
 main :: IO String
 main = return $ show $ prob153 (10^8)
--- 17971254122360635
+
+answer :: String
+answer = "17971254122360635"

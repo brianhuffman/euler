@@ -458,7 +458,7 @@ checks = [
   (150,2700, Euler150.main, "-271248680"), --(270 s) Sub-triangle sums
   (151,   0, Euler151.main, "0.464398781601087"),
   (152, 143, Euler152.main, "301"),
-  (153, 356, Euler153.main, "17971254122360635"),
+  (153, 339, Euler153.main, Euler153.answer), -- Factors of Gaussian integers
   (154, 804, Euler154.main, "479742450"), -- (80 s) Pascal's pyramid
   (155,1110, Euler155.main, "3857447"), --(160 s) Capacitor circuits
   (156,  14, Euler156.main, "21295121502550"),
