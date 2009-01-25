@@ -1,5 +1,6 @@
 module Euler213 where
 import Data.Array.Unboxed
+import Data.Array.IArray
 import System.Random
 import Data.List
 
@@ -49,15 +50,22 @@ initDist ij a = accumArray (const id) 0 ij [(a, 1)]
 positions :: Int -> [Pos]
 positions n = [ (i, j) | i <- [1 .. n], j <- [1 .. n] ]
 
-finalDists :: Int -> Int -> [Dist]
-finalDists n k =
-  [ iterate nextDist (initDist bnds pos) !! k | pos <- positions n ]
-  where bnds = ((1, 1), (n, n))
+finalDists :: Int -> Int -> Array Pos Dist
+finalDists n k = dist
+  where
+    dist = array bnds [ (p, finalDist p) | p <- positions n ]
+    bnds = ((1, 1), (n, n))
+    flip_x (x,y) = (n+1-x, y)
+    flip_d (x,y) = (y, x)
+    finalDist p@(x,y)
+      | n < 2*x = ixmap bnds flip_x (dist ! flip_x p)
+      | x < y   = ixmap bnds flip_d (dist ! flip_d p)
+      | otherwise = iterate nextDist (initDist bnds p) !! k
 
 prob213 :: Int -> Int -> [(Pos, Prob)]
 prob213 n k = [ (p, empty p) | p <- positions n ]
   where
-    dists = finalDists n k
+    dists = elems (finalDists n k)
     empty p = product [ 1 - d!p | d <- dists ]
 
 show_rounded :: Int -> Double -> String
