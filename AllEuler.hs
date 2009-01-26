@@ -529,7 +529,7 @@ checks = [
   -- missing: 221
   (222,   0, Euler222.main, "1590933", "Sphere Packing"),
   (223,  63, Euler223.main, Euler223.answer, "Almost right-angled triangles I"),
-  (224, 999, Euler224.main, "4137330", "Almost right-angled triangles II"),
+  (224,   5, Euler224.main, Euler224.answer, "Almost right-angled triangles II"),
   -- missing: 225
   (226,   0, Euler226.main, "0.11316017", "A Scoop of Blancmange"),
   -- missing: 227
