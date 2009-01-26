@@ -527,7 +527,7 @@ checks = [
   (218,   0, Euler218.main, "0", "Perfect right-angled triangles"),
   (219,   0, Euler219.main, "64564225042", "Skew-cost coding"),
   (220,   0, Euler220.main, "139776,963904", "Heighway Dragon"),
-  (221,  99, Euler221.main, Euler221.answer, "Alexandrian Integers"),
+  (221,  62, Euler221.main, Euler221.answer, "Alexandrian Integers"),
   (222,   0, Euler222.main, "1590933", "Sphere Packing"),
   (223,  63, Euler223.main, Euler223.answer, "Almost right-angled triangles I"),
   (224,   5, Euler224.main, Euler224.answer, "Almost right-angled triangles II"),
