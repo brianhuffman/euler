@@ -53,3 +53,6 @@ no_multiple_list = f [3,5..]
 
 main :: IO String
 main = return $ show $ no_multiple_list !! (124-1)
+
+answer :: String
+answer = "2009"

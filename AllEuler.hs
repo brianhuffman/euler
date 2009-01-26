@@ -531,7 +531,7 @@ checks = [
   (222,   0, Euler222.main, "1590933", "Sphere Packing"),
   (223,  63, Euler223.main, Euler223.answer, "Almost right-angled triangles I"),
   (224,   5, Euler224.main, Euler224.answer, "Almost right-angled triangles II"),
-  -- missing: 225
+  (225,   1, Euler225.main, Euler225.answer, "Tribonacci non-divisors"),
   (226,   0, Euler226.main, "0.11316017", "A Scoop of Blancmange"),
   -- missing: 227
   (228,   0, Euler228.main, "86226", "Minkowski Sums"),
