@@ -1,6 +1,5 @@
 module Euler221 where
-import qualified SortedList as S
-import Primes
+import qualified Data.Set as Set
 
 {-
 Problem 221
@@ -92,11 +91,20 @@ We have 0 < p, thus 0 > -p = p'.
 -}
 
 alexandrians :: [Integer]
-alexandrians = f (1,-2,-3)
+alexandrians = f (Set.singleton (6, (1,-2,-3)))
   where
-    f (p,q,r) = p*q*r : S.union (f (next (q,p,r))) (f (next (r,p,q)))
-
-next (p, q, r) = (-p, 2*p+q, 2*p+r)
+    prod (p,q,r) = p*q*r
+    next1 (p,q,r) = (-q, 2*q+p, 2*q+r)
+    next2 (p,q,r) = (-r, 2*r+p, 2*r+q)
+    f set = a : f set2
+      where
+        ((a,t), set0) = Set.deleteFindMin set
+        t1 = next1 t
+        t2 = next2 t
+        a1 = prod t1
+        a2 = prod t2
+        set1 = Set.insert (a1,t1) set0
+        set2 = Set.insert (a2,t2) set1
 
 prob221 :: Int -> Integer
 prob221 n = alexandrians !! (n - 1)
