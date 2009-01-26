@@ -1,4 +1,5 @@
 module Euler221 where
+import qualified SortedList as S
 import Primes
 
 {-
@@ -20,8 +21,6 @@ Find the 150000th Alexandrian integer.
 
 -}
 
-
-
 {-
 A = pqr and 1/A = 1/p + 1/q + 1/r
 1/pqr = 1/p + 1/q + 1/r
@@ -29,7 +28,6 @@ A = pqr and 1/A = 1/p + 1/q + 1/r
 1 = qr + pr + pq
 p^2 + 1 = p^2 + qr + pr + pq
 p^2 + 1 = (p + q)(p + r)
-
 
 Fact: p,q,r are pairwise coprime.
 
@@ -43,94 +41,68 @@ r = (1 - pq)/(p + q)
 If p>0, q<0, r<0, then pq<0, and (1-pq)>0. Thus (p+q)<0, i.e. p < -q.
 Similarly, pr<0 and (1-pr)>0; thus (p+r)<0, i.e. p < -r.
 Therefore p has the smallest absolute value of all three numbers.
-WLOG, assume that |q| < |r|.
 
-Let Q = -q and R = -r.
+We also have that -2p must be between q and r:
+-2p <= q
+-p <= p + q
+(p + q)(p + r) <= -p(p + r)   (using p + r < 0)
+p^2 + 1 <= -p(p + r)
+p^2 < -p(p + r)
+p < -(p + r)
+p + r < -p
+r < -2p
 
-1 = qr + pr + pq
-1 = QR - pR - pQ
-1 = QR - pR - pQ
-1 + pQ = R(Q - p)
-R = (1 + pQ)/(Q - p)
+WLOG, assume that |q| < |r|. Then -q <= 2p < -r.
 
-Let d = Q - p, so that Q = p + d.
-R = (1 + p(p + d)) / d
-R = (1 + p^2 + pd) / d
-R - p = (1 + p^2) / d
-
-Thus d must be a factor of 1 + p^2.
-
-Any factor of p^2 + 1 is automatically coprime to p.
-
-
-
-p(Q + R) = QR - 1
-
-
-
-p(q + r) + qr = 1
-
-qr == 1  (mod p)
-pr == 1  (mod q)
-pq == 1  (mod r)
-
-
----------------------
-
-Table of values:
-
-A  (p,q,r)
-----------
-6  (1, -2, -3)
-42  (2, -3, -7)
-120 (3, -5, -8)
-156 (3, -4, -13)
-420 (4, -5, -21)
-630 (5, -7, -18)
-930 (5, -6, -31)
-...
-
+Furthermore, the only such solution with -q = 2p is (1,-2,-3).
 -}
 
-
-alexandrians =
-  [ (p*q*r, (p, -q, -r)) |
-    p <- [1 ..],
-    d <- [1 .. p],
-    let q = p + d,
-    gcd p d == 1,
-    let (e, z) = divMod (p*p + 1) d,
-    z == 0,
-    let r = p + e]
-
-alexandrians' pmax =
-  [ (p*q*r, (p, -q, -r)) |
-    p <- [1 .. pmax],
-    let k = p^2 + 1,
-    let ds = list_divisors k,
-    d <- takeWhile (<=p) ds,
-    let e = k `div` d,
-    let q = p + d,
-    let r = p + e]
 {-
-Sorted by p, 150000 in the sequence has p = 28037.
-The smallest
-The last
-88830221091882
-22039139046653
-length [ a | (a,_) <- alexandrians' 28037, a < 28037^3 ] = 33344
-length [ a | (a,_) <- alexandrians' 30000, a < 30000^3 ] = 35776
-length [ a | (a,_) <- alexandrians' 50000, a < 50000^3 ] = 60047
-length [ a | (a,_) <- alexandrians' 70000, a < 70000^3 ] = 84389
-length [ a | (a,_) <- alexandrians' 100000, a < 100000^3 ] = 121060
-length [ a | (a,_) <- alexandrians' 130000, a < 130000^3 ] = 157923
+1 = qr + pr + pq
 
+This is a separated hyperboloid, symmetric about the axis p = q = r.
 
+if (p,q,r) is a solution, then (-p, q+2p, r+2p) is also a solution.
+Furthermore, (-p,-q,-r) is a solution, and any permutation of (p,q,r)
+is a solution.
+
+|-1 0 0|   |-1 0 0|
+| 2 1 0| * | 2 1 0|
+| 2 0 1|   | 2 0 1|
+
+(p, q, r)
+-----------
+(1, -2, -3)
+(2, -3, -7)
+(3, -5, -8)
+(3, -4, -13)
+(4, -5, -21)
+(5, -7, -18)
+(5, -6, -31)
+
+-q <= 2p < -r
+
+We have -q <= 2p, thus 0 <= 2p + q = q'.
+Inequality is strict unless (p,q,r) = (1,-2,-3).
+
+We have 2p < -r, thus 0 > 2p + r = r'.
+
+We have 0 < p, thus 0 > -p = p'.
 
 -}
 
+alexandrians :: [Integer]
+alexandrians = f (1,-2,-3)
+  where
+    f (p,q,r) = p*q*r : S.union (f (next (q,p,r))) (f (next (r,p,q)))
 
--- r = (1 - pq)/(p + q)
--- r = (1 - pq)/(p - q')
--- r' = (1 - pq)/(q' - p)
--- r' = (1 + p*q')/(q' - p)
+next (p, q, r) = (-p, 2*p+q, 2*p+r)
+
+prob221 :: Int -> Integer
+prob221 n = alexandrians !! (n - 1)
+
+main :: IO String
+main = return $ show $ prob221 150000
+
+answer :: String
+answer = "1884161251122450"
