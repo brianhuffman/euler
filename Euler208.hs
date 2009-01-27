@@ -1,7 +1,5 @@
 module Euler208 where
 import Memoize
-import EulerLib
-import Data.Array
 
 {-
 Problem 208
@@ -57,12 +55,37 @@ For a trip of length 70, each direction must be taken 14 times.
 Equivalently, each of the 5 possible orientations (A,B,C,D,E)
 must be visited an equal number of times.
 
-State space = 14^5 = 537824 entries
+Out of 32 possible combinations of parities, only 10 are reachable:
+(0,0,0,0,0)
+(1,0,0,0,0)
+(1,1,0,0,0)
+(1,1,1,0,0)
+(1,1,1,1,0)
+(1,1,1,1,1)
+(0,1,1,1,1)
+(0,0,1,1,1)
+(0,0,0,1,1)
+(0,0,0,0,1)
+
+ n  visited states
+----------------
+ 0  1 / 1
+ 1  10 / 32
+ 2  65 / 243
+ 3  276 / 1024
+ 4  893 / 3125
+ 5  2216 / 7776
+ 6  4981 / 16807
+ 7  9646 / 32768
+ 8  17825 / 59049
+ 9  29982 / 100000
 
 -}
 
+type State = (Int, Int, Int, Int, Int)
+
 -- a,b,c,d,e = how many previous moves in directions 1,2,3,4,5
-path_count_memo :: Int -> (Int,Int,Int,Int,Int) -> Integer
+path_count_memo :: Int -> State -> Integer
 path_count_memo l = p
   where
     p = memoize ((0,0,0,0,0), (l,l,l,l,l)) f
