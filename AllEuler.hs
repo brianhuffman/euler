@@ -285,9 +285,9 @@ Slow:
 210: (50 s) Obtuse Angled Triangles
 
 Productivity:
-208: (4%) Robot Walks
 135: (6%) Number of solutions to x^2-y^2-z^2=n
 149: (15%) Searching for a maximum-sum subsequence.
+208: (21%) Robot Walks
 221: (23%) Alexandrian Integers
 201: (29%) Subsets with a unique sum
 161: (40%) Triominoes
@@ -541,7 +541,7 @@ checks = [
   (205,   0, Euler205.main, "0.5731441", "Dice Game"),
   (206,   1, Euler206.main, "1389019170", "Concealed Square"),
   (207,   0, Euler207.main, "44043947822", "Integer partition equations"),
-  (208,  66, Euler208.main, "331951449665644800", "Robot Walks"),
+  (208,   7, Euler208.main, Euler208.answer, "Robot Walks"),
   (209,   0, Euler209.main, "15964587728784", "Circular Logic"),
   (210, 532, Euler210.main, Euler210.answer, "Obtuse Angled Triangles"),
   (211,  60, Euler211.main, Euler211.answer, "Divisor Square Sum"),
