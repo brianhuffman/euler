@@ -1,5 +1,4 @@
 module Euler210 where
-import EulerLib (square_root)
 import Data.Int ( Int64 )
 
 {-
