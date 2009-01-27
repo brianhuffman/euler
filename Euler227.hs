@@ -24,8 +24,6 @@ Give your answer rounded to ten significant digits.
 
 -}
 
-
-
 {-
 Let E(x) =
   expected number of turns for game to last, 
@@ -63,57 +61,61 @@ E(x)/2 = 1 + [ E(x-2) + 8 E(x-1) + 8 E(x+1) + E(x+2) ] / 36
 E(x) = 2 + [ E(x-2) + 8 E(x-1) + 8 E(x+1) + E(x+2) ] / 18
 -}
 
-n :: Int
-n = 50
+normalize :: [Rational] -> [Rational]
+normalize (x:xs) = map (/x) xs
 
-type State = UArray Int Double
-
-initial :: State
-initial = listArray (0, n) (repeat 0)
---initial = listArray (0, 2*n-1) (repeat 0)
-
-next :: State -> State
-next a = listArray (0, n) (map f [0 .. n])
+triangular :: [[Rational]] -> [[Rational]]
+triangular [xs] = [1 : normalize xs]
+triangular (xs:xss) = (1 : xs') : map (0:) (triangular (map reduce xss))
   where
-{-
-    f i
-      | i == 0    = 0
-      | i == 1    = 1 + e(1)/36 + e(1)/2 + e(2)*2/9 + e(3)/36
-      | i == n-1  = 1 + e(n-3)/36 + e(n-2)*2/9 + e(n-1)/2 + e(n)*2/9 + e(n-1)/36
-      | i == n    = 1 + e(n-2)/18 + e(n-1)*4/9 + e(n)/2
-      | otherwise = 1 + e(i-2)/36 + e(i-1)*2/9 + e(i)/2 + e(i+1)*2/9 + e(i+2)/36
--}
-    f 0 = 0
-    f i = 1 + e(i-2)/36 + e(i-1)*2/9 + e(i)/2 + e(i+1)*2/9 + e(i+2)/36
---    f i = 2 + e(i-2)/18 + e(i-1)*4/9 + e(i+1)*4/9 + e(i+2)/18
---    e j = a!j
-    e j
-      | j < 0 = a!(-j)
-      | j > n = a!(2*n-j)
-      | otherwise = a!j
-{-
-next :: State -> State
-next a = listArray (0, 2*n-1) (map f [0 .. 2*n-1])
+    xs' = normalize xs
+    reduce (k:ys) = zipWith (\x y -> y - k*x) xs' ys
+
+solver :: [[Rational]] -> Rational
+solver [[x,y]] = y / x
+solver (xs:xss) = solver (map reduce xss)
   where
-    f 0 = 0
-    f i = 1 + (e(i-2) + 8*e(i-1) + 18*e(i) + 8*e(i+1) + e(i+2)) / 36
-    e j = a!(j `mod` (2*n))
--}
+    xs' = normalize xs
+    reduce (k:ys) = zipWith (\x y -> y - k*x) xs' ys
 
-states :: [State]
-states = iterate next initial
+-- 10 player game.
+xss10 :: [[Rational]]
+xss10 =
+  [ [-17,   8,   1,   0,   0, -36],
+    [  8, -18,   8,   1,   0, -36],
+    [  1,   8, -18,   8,   1, -36],
+    [  0,   1,   8, -17,   8, -36],
+    [  0,   0,   2,  16, -18, -36] ]
 
-state :: Int -> State
-state k = iterate next initial !! k
 
-fixed_state :: State
-fixed_state = fix initial
+constraints :: Int -> [[Rational]]
+constraints n = [ row k ++ [-1] | k <- [1 .. n] ]
   where
-    fix s = if s == s' then s else fix s'
-      where s' = next s
+    row k
+      | k == 1 = [ -17/36, 2/9, 1/36 ] ++ replicate (n-3) 0
+      | k == 2 = [ 2/9, -1/2, 2/9, 1/36 ] ++ replicate (n-4) 0
+      | k == n = replicate (n-3) 0 ++ [ 1/18, 4/9, -1/2 ]
+      | k == n-1 = replicate (n-4) 0 ++ [ 1/36, 2/9, -17/36, 2/9 ]
+      | otherwise =
+          replicate (k-3) 0 ++
+          [ 1/36, 2/9, -1/2, 2/9, 1/36 ] ++
+          replicate (n-k-2) 0
 
--- 10: 156.12372435560127
--- 20: 612.2474487138957
--- 50: 3780.6186217842583
+show_significant :: RealFrac a => Int -> a -> String
+show_significant d x = show_rounded (d - k) x
+  where k = length (show (floor x))
 
--- 50: 3780.6186217846885
+show_rounded :: RealFrac a => Int -> a -> String
+show_rounded d x =
+  show (floor x) ++ "." ++ replicate (d - length (show r)) '0' ++ show r
+  where
+    r = round (x * 10^d) `mod` (10^d)
+
+prob227 :: Int -> Rational
+prob227 n = solver (constraints (n `div` 2))
+
+main :: IO String
+main = return $ show_significant 10 $ prob227 100
+
+answer :: String
+answer = "3780.618622"

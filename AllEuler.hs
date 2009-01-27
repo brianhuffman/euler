@@ -533,7 +533,7 @@ checks = [
   (224,   5, Euler224.main, Euler224.answer, "Almost right-angled triangles II"),
   (225,   1, Euler225.main, Euler225.answer, "Tribonacci non-divisors"),
   (226,   0, Euler226.main, "0.11316017", "A Scoop of Blancmange"),
-  -- missing: 227
+  (227,   1, Euler227.main, Euler227.answer, "The Chase"),
   (228,   0, Euler228.main, "86226", "Minkowski Sums"),
   (229,9999, Euler229.main, "11325263", "Four Representations using Squares")
   ]
