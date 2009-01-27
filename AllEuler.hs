@@ -284,6 +284,35 @@ Slow:
 216: (70 s) Primality of 2n^2-1
 210: (50 s) Obtuse Angled Triangles
 
+Productivity:
+208: (4%) Robot Walks
+135: (6%) Number of solutions to x^2-y^2-z^2=n
+149: (15%) Searching for a maximum-sum subsequence.
+221: (23%) Alexandrian Integers
+201: (29%) Subsets with a unique sum
+161: (40%) Triominoes
+181: (40%) Grouping objects of two different colours.
+143: (48%) Torricelli point of a triangle
+160: (52%) Factorial trailing digits
+195: (56%) Inscribed circles
+189: (60%)
+155: (62%)
+126: (66%)
+159: (66%)
+227: (70%)
+141: (72%)
+212: (73%) Combined Volume of Cuboids
+171: (80%)
+124: (82%)
+215: (82%)
+196: (85%)
+127: (87%)
+134: (87%)
+166: (87%)
+125: (89%)
+214: (89%)
+187: (90%)
+
 -}
 
 parseArg :: String -> Int -> Bool
@@ -439,15 +468,15 @@ checks = [
   (132,   1, Euler132.main, "843296", ""),
   (133,   1, Euler133.main, "453647705", ""),
   (134,  13, Euler134.main, "18613426663617118", ""),
-  (135, 101, Euler135.main, "4989", ""),
-  (136,  26, Euler136.main, "2544559", ""), -- Unique solutions of x^2-y^2-z^2=n
+  (135, 101, Euler135.main, "4989", "Number of solutions to x^2-y^2-z^2=n"),
+  (136,  26, Euler136.main, "2544559", "Unique solutions to x^2-y^2-z^2=n"),
   (137,   0, Euler137.main, "1120149658760", ""),
   (138,   0, Euler138.main, "1118049290473932", ""),
   (139,   0, Euler139.main, "10057761", ""),
   (140,   0, Euler140.main, "5673835352990", ""),
   (141, 235, Euler141.main, "878454337159", ""),
   (142,  59, Euler142.main, "1006193", "Perfect Square Collection"),
-  (143,   8, Euler143.main, "25587759", ""),
+  (143,   8, Euler143.main, "25587759", "Torricelli point of a triangle"),
   (144,   0, Euler144.main, "354", ""),
   (145,   0, Euler145.main, "608720", ""),
   (146,  42, Euler146.main, "676333270", "Investigating a Prime Pattern"),
@@ -485,7 +514,7 @@ checks = [
   (178,   0, Euler178.main, "126461847755", ""),
   (179,  43, Euler179.main, "986262", ""),
   (180,   7, Euler180.main, "285196020571078987", ""),
-  (181,  10, Euler181.main, "83735848679360680", ""),
+  (181,  10, Euler181.main, "83735848679360680", "Grouping objects of two different colours"),
   (182,  10, Euler182.main, "399788195976", ""),
   (183,   0, Euler183.main, "48861552", ""),
   (184,   0, Euler184.main, "1725323624056", ""),
