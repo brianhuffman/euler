@@ -15,6 +15,12 @@ lagged_fib_init = map (fromInteger . f) [1 .. 55]
 lagged_fibonacci :: [Int]
 lagged_fibonacci = xs
   where
-    xs = lagged_fib_init ++ zipWith add xs (drop 31 xs)
+    xs = lagged_fib_init ++ zipWith' add xs (drop 31 xs)
     add x y = if z < 1000000 then z else z - 1000000
       where z = x + y
+
+zipWith' :: (a -> b -> c) -> [a] -> [b] -> [c]
+zipWith' f [] ys = []
+zipWith' f xs [] = []
+zipWith' f (x:xs) (y:ys) = seq z (z : zipWith' f xs ys)
+  where z = f x y
