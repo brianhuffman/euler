@@ -295,7 +295,7 @@ Productivity:
 143: (48%) Torricelli point of a triangle
 160: (52%) Factorial trailing digits
 195: (56%) Inscribed circles
-189: (60%)
+189: (60%) Tri-colouring a triangular grid
 155: (62%)
 126: (66%)
 159: (66%)
@@ -312,6 +312,34 @@ Productivity:
 125: (89%)
 214: (89%)
 187: (90%)
+
+Memory:
+155: (533 Mb) Counting Capacitor Circuits
+214: (308 Mb) Totient Chains
+149: (202 Mb) Searching for a maximum-sum subsequence
+141: (169 Mb) Progressive numbers which are also square
+179: (79 Mb) Consecutive positive divisors
+187: (76 Mb) Semiprimes
+195: (71 Mb) Inscribed circles
+181: (61 Mb) Grouping objects of two different colours
+159: (60 Mb) Digital root sums of factorizations
+221: (56 Mb) Alexandrian Integers
+196: (48 Mb) Prime triplets
+161: (44 Mb) Triominoes
+135: (33 Mb) Number of solutions to x^2-y^2-z^2=n
+193: (26 Mb) Squarefree Numbers
+216: (23 Mb) Primality of 2n^2-1
+40: (21 Mb)
+189: (21 Mb) Tri-colouring a triangular grid
+212: (19 Mb) Combined Volume of Cuboids
+124: (18 Mb)
+75: (17 Mb)
+88: (16 Mb)
+143: (16 Mb) Torricelli point of a triangle
+127: (14 Mb)
+213: (10 Mb) Flea Circus
+
+
 
 -}
 
@@ -474,7 +502,7 @@ checks = [
   (138,   0, Euler138.main, "1118049290473932", ""),
   (139,   0, Euler139.main, "10057761", ""),
   (140,   0, Euler140.main, "5673835352990", ""),
-  (141, 235, Euler141.main, "878454337159", ""),
+  (141, 235, Euler141.main, "878454337159", "Progressive numbers which are also square"),
   (142,  59, Euler142.main, "1006193", "Perfect Square Collection"),
   (143,   8, Euler143.main, "25587759", "Torricelli point of a triangle"),
   (144,   0, Euler144.main, "354", ""),
@@ -512,7 +540,7 @@ checks = [
   (176,   0, Euler176.main, "96818198400000", ""),
   (177,  32, Euler177.main, "129325", ""),
   (178,   0, Euler178.main, "126461847755", ""),
-  (179,  43, Euler179.main, "986262", ""),
+  (179,  43, Euler179.main, "986262", "Consecutive positive divisors"),
   (180,   7, Euler180.main, "285196020571078987", ""),
   (181,  10, Euler181.main, "83735848679360680", "Grouping objects of two different colours"),
   (182,  10, Euler182.main, "399788195976", ""),
@@ -520,9 +548,9 @@ checks = [
   (184,   0, Euler184.main, "1725323624056", ""),
   (185, 130, Euler185.main, "4640261571849533", ""),
   (186,  30, Euler186.main, "2325629", ""),
-  (187,  85, Euler187.main, "17427258", ""),
+  (187,  85, Euler187.main, "17427258", "Semiprimes"),
   (188,   0, Euler188.main, "95962097", ""),
-  (189,   7, Euler189.main, "10834893628237824", ""),
+  (189,   7, Euler189.main, "10834893628237824", "Tri-colouring a triangular grid"),
   (190,   0, Euler190.main, "371048281", ""),
   (191,   0, Euler191.main, "1918080160", ""),
   (192,  17, Euler192.main, "57060635927998347", ""),
