@@ -296,22 +296,12 @@ Productivity:
 160: (52%) Factorial trailing digits
 195: (56%) Inscribed circles
 189: (60%) Tri-colouring a triangular grid
-155: (62%)
+155: (62%) Counting Capacitor Circuits
 126: (66%)
-159: (66%)
-227: (70%)
-141: (72%)
+159: (66%) Digital root sums of factorizations
+227: (70%) The Chase
+141: (72%) Progressive numbers which are also square
 212: (73%) Combined Volume of Cuboids
-171: (80%)
-124: (82%)
-215: (82%)
-196: (85%)
-127: (87%)
-134: (87%)
-166: (87%)
-125: (89%)
-214: (89%)
-187: (90%)
 
 Memory:
 155: (533 Mb) Counting Capacitor Circuits
