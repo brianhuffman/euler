@@ -276,16 +276,14 @@ test n@0 action =
 test _ _ = return ()
 
 {-
-Skip:
-*154: Exploring Pascal's pyramid
-*170: Largest pandigital formed by concatenating products
-
 Slow:
-150: (214 s) Sub-triangle having minimum sum
-155: (145 s) Counting capacitor circuits
-193: (89 s) Squarefree numbers
-165: (67 s) Intersections
-60: (43 s) Concatenating pairs of primes
+165: (300 s) Intersections
+155: (100 s) Counting Capacitor Circuits
+196: (80 s) Prime triplets
+154: (80 s) Exploring Pascal's pyramid
+216: (70 s) Primality of 2n^2-1
+210: (50 s) Obtuse Angled Triangles
+
 -}
 
 parseArg :: String -> Int -> Bool
@@ -468,7 +466,7 @@ checks = [
   (159,  44, Euler159.main, "14489159", "Digital root sums of factorizations."),
   (160,  17, Euler160.main, "16576", "Factorial trailing digits"),
   (161,  10, Euler161.main, "20574308184277971", "Triominoes"),
-  (162,   0, Euler162.main, "3D58725572C62302", "Hexadecima numbers"),
+  (162,   0, Euler162.main, "3D58725572C62302", "Hexadecimal numbers"),
   (163,   0, Euler163.main, "343047", "Cross-hatched triangles"),
   (164,   0, Euler164.main, "378158756814587", ""),
   (165,3096, Euler165.main, Euler165.answer, "Intersections"),
