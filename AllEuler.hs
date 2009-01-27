@@ -510,7 +510,7 @@ checks = [
   (146,  42, Euler146.main, "676333270", "Investigating a Prime Pattern"),
   (147,   0, Euler147.main, "846910284", "Rectangles in cross-hatched grids"),
   (148,   0, Euler148.main, "2129970655314432", "Exploring Pascal's triangle."),
-  (149,  83, Euler149.main, "52852124", "Searching for a maximum-sum subsequence."),
+  (149,  83, Euler149.main, Euler149.answer, "Searching for a maximum-sum subsequence."),
   (150, 267, Euler150.main, Euler150.answer, "Minimum-sum sub-triangles"),
   (151,   0, Euler151.main, "0.464398781601087", "Paper sheets of standard sizes"),
   (152, 143, Euler152.main, "301", "Writing 1/2 as a sum of inverse squares"),

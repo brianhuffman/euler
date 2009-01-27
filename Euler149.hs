@@ -1,6 +1,7 @@
 module Euler149 where
 import EulerLib (chunk)
 import Lagged
+import Data.Array.Unboxed
 
 {-
 Problem 149
@@ -8,9 +9,9 @@ Searching for a maximum-sum subsequence.
 
 13 April 2007
 
-Looking at the table below, it is easy to verify that the maximum possible
-sum of adjacent numbers in any direction (horizontal, vertical, diagonal or
-anti-diagonal) is 16 (= 8 + 7 + 1).
+Looking at the table below, it is easy to verify that the maximum
+possible sum of adjacent numbers in any direction (horizontal,
+vertical, diagonal or anti-diagonal) is 16 (= 8 + 7 + 1).
 
  -2   5   3   2
   9  -6   5   1
@@ -19,22 +20,24 @@ anti-diagonal) is 16 (= 8 + 7 + 1).
 
 Now, let us repeat the search, but on a much larger scale:
 
-First, generate four million pseudo-random numbers using a specific form of
-what is known as a "Lagged Fibonacci Generator":
+First, generate four million pseudo-random numbers using a specific
+form of what is known as a "Lagged Fibonacci Generator":
 
-For 1 <= k <= 55,
-s(k) = [100003 - 200003k + 300007k^3] (modulo 1000000) - 500000.
-For 56 <= k <= 4000000,
-s(k) = [s(k-24) + s(k-55) + 1000000] (modulo 1000000) - 500000.
+For 1 ≤ k ≤ 55,
+s_(k) = [100003 - 200003k + 300007k^(3)] (modulo 1000000) - 500000.
 
-Thus, s(10) = -393027 and s(100) = 86613.
+For 56 ≤ k ≤ 4000000,
+s_(k) = [s_(k-24) + s_(k-55) + 1000000] (modulo 1000000) - 500000.
 
-The terms of s are then arranged in a 2000x2000 table, using the first 2000
-numbers to fill the first row (sequentially), the next 2000 numbers to fill
-the second row, and so on.
+Thus, s_(10) = -393027 and s_(100) = 86613.
 
-Finally, find the greatest sum of (any number of) adjacent entries in any
-direction (horizontal, vertical, diagonal or anti-diagonal).
+The terms of s are then arranged in a 2000×2000 table, using the first
+2000 numbers to fill the first row (sequentially), the next 2000
+numbers to fill the second row, and so on.
+
+Finally, find the greatest sum of (any number of) adjacent entries in
+any direction (horizontal, vertical, diagonal or anti-diagonal).
+
 -}
 
 type Rect = [[Int]]
@@ -43,13 +46,14 @@ random_rect :: Int -> Rect
 random_rect n =
   take n $ chunk n $ map (subtract 500000) $ lagged_fibonacci
 
+test_rect :: Rect
+test_rect = [[-2,5,3,2],[9,-6,5,1],[3,2,7,3],[-1,8,-4,8]]
+
 max0sum :: Int -> Int -> Int
 max0sum m x = max 0 (m+x)
 
 max_subsequence_sum :: [Int] -> Int
 max_subsequence_sum = foldl max 0 . scanl max0sum 0
-
-test_rectangle = [[-2,5,3,2],[9,-6,5,1],[3,2,7,3],[-1,8,-4,8]]
 
 prob149_horiz :: Rect -> Int
 prob149_horiz xss =
@@ -83,9 +87,9 @@ prob149_diag2 xss =
 -- 42783189
 
 prob149_all :: Rect -> Int
-prob149_all xss = f 0 m0 m0 m0 xss
+prob149_all (xs:xss) = f z0 xs xs xs xss
   where
-    m0 = repeat 0
+    z0 = max_subsequence_sum xs
     f z us vs ws [] = z
     f z us vs ws (xs:xss) = (f $! z') us' vs' ws' xss
       where
@@ -103,6 +107,6 @@ prob149 n = prob149_all (random_rect n)
 
 main :: IO String
 main = return $ show $ prob149 2000
--- 52852124
 
--- TODO: rewrite using STUArray
+answer :: String
+answer = "52852124"
