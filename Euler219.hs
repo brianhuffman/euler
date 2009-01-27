@@ -51,8 +51,12 @@ n = total number of all codes.
 t = total cost of all codes.
 
 Recurrence:
-(k, x, y, z, n, t) -> (k+1, y, z, n, n+x, t+n*k)
-
+k' = k+1
+x' = y
+y' = z
+z' = n
+n' = n + x
+t' = t + n*k
 -}
 
 cost :: Integer -> Integer
