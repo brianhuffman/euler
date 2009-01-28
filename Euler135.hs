@@ -40,9 +40,7 @@ Next let's find some constraints on d and y to limit our search:
        4dy - y^2 < n
 4d^2 - 4dy + y^2 > 4d^2 - n
       (2d - y)^2 > 4d^2 - n
-          2d - y > square_root (4d^2 - n)
-             - y > square_root (4d^2 - n) - 2d
-               y < 2d - square_root (4d^2 - n)
+        |2d - y| > square_root (4d^2 - n)
 
 Laws about integer square_root function:
 square_root (x^2) == x
@@ -107,24 +105,6 @@ Case 3:
   y == 1 or 3 (mod 4)
   q == 3 or 1 (mod 4)
   Any factorization of n = q*y (with q < 3y) yields a solution.
--}
-
-{-
-prob135a m =
-  [ (n, 1) |
-    y <- [1 .. m-1],
-    let dmin = y`div`4 + 1,
-    let dmax = min (y-1) ((m + y^2)`div`(4*y)),
-    d <- [dmin .. dmax],
-    let n = (4*d - y)*y,
-    0 < n, n < m ]
-
-prob135a' m = concatMap f [1 .. dmax]
-  where
-    dmax = m`div`4
-    f d = takeWhile (\(n,_,_,_) -> n<m) $ g d ++ h d ++ [(4*d^2, 2*d, d, 1)]
-    g d = [ ((4*d - y)*y, 4*d-y, d, 1) | y <- [1 .. d] ]
-    h d = [ ((4*d - y)*y, y, d, 2) | y <- [d+1 .. 2*d-1] ]
 -}
 
 -- prob135a m = list of (n, multiplicity)
