@@ -277,11 +277,20 @@ test _ _ = return ()
 
 {-
 Slow:
+229: (999 s) Four Representations using Squares
 165: (300 s) Intersections
-196: (80 s) Prime triplets
 154: (80 s) Exploring Pascal's pyramid
-216: (70 s) Primality of 2n^2-1
+196: (80 s) Prime triplets
+216: (61 s) Primality of 2n^2-1
 210: (50 s) Obtuse Angled Triangles
+153: (33 s) Investigating Gaussian Integers
+150: (32 s) Minimum-sum sub-triangles
+141: (17 s) Progressive numbers which are also square
+155: (14 s) Counting Capacitor Circuits
+193: (11 s) Squarefree Numbers
+152: (10 s) Writing 1/2 as a sum of inverse squares
+ 60: (10 s) Concatenating a set of five primes
+185: (9 s) Number Mind
 
 Productivity:
 149: (17%) Searching for a maximum-sum subsequence
@@ -407,7 +416,7 @@ checks = [
   ( 57,   1, Euler057.main, "153", ""),
   ( 58,   9, Euler058.main, "26241", ""),
   ( 59,   0, Euler059.main, "107359", ""),
-  ( 60, 102, Euler060.main, "26033", ""),
+  ( 60, 102, Euler060.main, "26033", "Concatenating a set of five primes"),
   ( 61,   0, Euler061.main, "28684", ""),
   ( 62,   3, Euler062.main, "127035954683", ""),
   ( 63,   0, Euler063.main, "49", ""),
@@ -532,7 +541,7 @@ checks = [
   (182,  10, Euler182.main, "399788195976", ""),
   (183,   0, Euler183.main, "48861552", ""),
   (184,   0, Euler184.main, "1725323624056", ""),
-  (185, 130, Euler185.main, "4640261571849533", ""),
+  (185, 130, Euler185.main, "4640261571849533", "Number Mind"),
   (186,  30, Euler186.main, "2325629", ""),
   (187,  85, Euler187.main, "17427258", "Semiprimes"),
   (188,   0, Euler188.main, "95962097", ""),
@@ -563,7 +572,7 @@ checks = [
   (213,  28, Euler213.main, Euler213.answer, "Flea Circus"),
   (214,  59, Euler214.main, Euler214.answer, "Totient Chains"),
   (215,   4, Euler215.main, "806844323190414", "Crack-free Walls"),
-  (216, 923, Euler216.main, "5437849", "Primality of 2n^2-1"),
+  (216, 618, Euler216.main, "5437849", "Primality of 2n^2-1"),
   (217,   3, Euler217.main, "6273134", "Balanced Numbers"),
   (218,   0, Euler218.main, "0", "Perfect right-angled triangles"),
   (219,   0, Euler219.main, "64564225042", "Skew-cost coding"),
