@@ -316,7 +316,6 @@ Memory:
 193: (26 Mb) Squarefree Numbers
 214: (25 Mb) Totient Chains
 216: (23 Mb) Primality of 2n^2-1
-40: (21 Mb)
 189: (21 Mb) Tri-colouring a triangular grid
 212: (19 Mb) Combined Volume of Cuboids
 124: (18 Mb)
@@ -388,7 +387,7 @@ checks = [
   ( 37,   5, Euler037.main, "748317", ""),
   ( 38,   0, Euler038.main, "932718654", ""),
   ( 39,   0, Euler039.main, "840", ""),
-  ( 40,   2, Euler040.main, "210", ""),
+  ( 40,   0, Euler040.main, Euler040.answer, "Finding the nth digit"),
   ( 41,   0, Euler041.main, "7652413", ""),
   ( 42,   1, Euler042.main, "162", ""),
   ( 43,   0, Euler043.main, "16695334890", ""),
