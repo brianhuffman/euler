@@ -78,7 +78,7 @@ prob214 m l =
       if t == 2 then do_prime a s (2*i+1) else return ()
     do_prime a s p = do
       let (q,k) = div2s (p-1) 0 -- q*2^k = p-1
-      tq <- readArray a (q`div`2) -- (p-1)
+      tq <- readArray a (q`div`2)
       let tp = tq + k
       mapM_ (add_many a (tp-2)) (powers p p)
       if tp == l then (do z <- readSTRef s; writeSTRef s (z + toInteger p))
