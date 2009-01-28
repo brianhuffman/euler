@@ -61,6 +61,22 @@ chunk n xs = ys : chunk n zs
 
 triangle x = (x * (x + 1)) `div` 2
 
+-- square_root_aux n = (r, s) such that
+-- n = r^2 + s, and 0 <= s < 2r+1
+square_root_aux :: Integral a => a -> (a, a)
+square_root_aux 0 = (0, 0)
+square_root_aux n
+  | s' < smax = (2*r, s')
+  | otherwise = (2*r+1, s'- smax)
+  where
+    (m, d) = divMod n 4
+    (r, s) = square_root_aux m
+    s' = 4*s + d
+    smax = 4*r + 1
+
+square_root :: Integral a => a -> a
+square_root = fst . square_root_aux
+
 middle Nothing Nothing = 0
 middle (Just a) Nothing = 2 * a + 1
 middle Nothing (Just b) = 2 * b - 1
@@ -77,11 +93,12 @@ binary_search f = between Nothing Nothing
         GT -> between (Just x) b
 
 -- square_root x = either id id $ binary_search (\n -> compare x (square n))
-
+{-
 square_root x = f x
   where
     f r = let r' = ((r + x `div` r) `div` 2)
           in if r <= r' then r else f r'
+-}
 
 sortOf f = sortBy (\x y -> compare (f x) (f y))
 maximumOf f = maximumBy (\x y -> compare (f x) (f y))
