@@ -1,19 +1,22 @@
 module Euler135 where
-import Array
-import Primes
+import Data.Array.Unboxed
 
-------------------------------------------------------------------------------
--- 135. Determining the number of solutions of the equation x^2 − y^2 − z^2 = n.
 {-
+Problem 135
+29 December 2006
+
 Given the positive integers, x, y, and z, are consecutive terms of an
-arithmetic progression, the least value of the positive integer, n, for
-which the equation, x^2 - y^2 - z^2 = n, has exactly two solutions is n = 27:
+arithmetic progression, the least value of the positive integer, n,
+for which the equation, x^(2) - y^(2) - z^(2) = n, has exactly two
+solutions is n = 27:
 
-34^2 - 27^2 - 20^2 = 12^2 - 9^2 - 6^2 = 27
+34^(2) - 27^(2) - 20^(2) = 12^(2) - 9^(2) - 6^(2) = 27
 
-It turns out that n = 1155 is the least value which has exactly ten solutions.
+It turns out that n = 1155 is the least value which has exactly ten
+solutions.
 
-How many values of n less than one million have exactly ten distinct solutions?
+How many values of n less than one million have exactly ten distinct
+solutions?
 -}
 
 {-
@@ -133,9 +136,11 @@ prob135a m = concatMap f [1 .. dmax]
     g d = [ ((4*d - y)*y, 1) | y <- [1 .. d] ]
     h d = [ ((4*d - y)*y, 2) | y <- [d+1 .. 2*d-1] ]
 
-prob135b :: Int -> Array Int Int
+prob135b :: Int -> UArray Int Int
 prob135b m = accumArray (+) 0 (1,m) (prob135a m)
 
 main :: IO String
 main = return $ show $ length $ filter (==10) $ elems (prob135b (10^6))
--- 4989
+
+answer :: String
+answer = "4989"

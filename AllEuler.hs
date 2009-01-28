@@ -284,7 +284,6 @@ Slow:
 210: (50 s) Obtuse Angled Triangles
 
 Productivity:
-135: (6%) Number of solutions to x^2-y^2-z^2=n
 149: (17%) Searching for a maximum-sum subsequence
 208: (21%) Robot Walks
 221: (23%) Alexandrian Integers
@@ -314,7 +313,6 @@ Memory:
 221: (56 Mb) Alexandrian Integers
 196: (48 Mb) Prime triplets
 161: (44 Mb) Triominoes
-135: (33 Mb) Number of solutions to x^2-y^2-z^2=n
 193: (26 Mb) Squarefree Numbers
 214: (25 Mb) Totient Chains
 216: (23 Mb) Primality of 2n^2-1
@@ -485,7 +483,7 @@ checks = [
   (132,   1, Euler132.main, "843296", ""),
   (133,   1, Euler133.main, "453647705", ""),
   (134,  13, Euler134.main, "18613426663617118", ""),
-  (135, 101, Euler135.main, "4989", "Number of solutions to x^2-y^2-z^2=n"),
+  (135,   3, Euler135.main, Euler135.answer, "Number of solutions to x^2-y^2-z^2=n"),
   (136,  26, Euler136.main, "2544559", "Unique solutions to x^2-y^2-z^2=n"),
   (137,   0, Euler137.main, "1120149658760", ""),
   (138,   0, Euler138.main, "1118049290473932", ""),
