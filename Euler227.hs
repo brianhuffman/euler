@@ -1,5 +1,4 @@
 module Euler227 where
-import Data.Array.Unboxed
 
 {-
 
