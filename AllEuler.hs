@@ -303,11 +303,11 @@ Productivity:
 212: (73%) Combined Volume of Cuboids
 
 Memory:
-214: (308 Mb) Totient Chains
 149: (175 Mb) Searching for a maximum-sum subsequence
 141: (169 Mb) Progressive numbers which are also square
 155: (156 Mb) Counting Capacitor Circuits
 179: (79 Mb) Consecutive positive divisors
+214: (79 Mb) Totient Chains
 187: (76 Mb) Semiprimes
 195: (71 Mb) Inscribed circles
 181: (61 Mb) Grouping objects of two different colours
@@ -564,7 +564,7 @@ checks = [
   (211,  60, Euler211.main, Euler211.answer, "Divisor Square Sum"),
   (212,  25, Euler212.main, "328968937309", "Combined Volume of Cuboids"),
   (213,  28, Euler213.main, Euler213.answer, "Flea Circus"),
-  (214, 209, Euler214.main, "1677366278943", "Totient Chains"),
+  (214, 127, Euler214.main, Euler214.answer, "Totient Chains"),
   (215,   4, Euler215.main, "806844323190414", "Crack-free Walls"),
   (216, 923, Euler216.main, "5437849", "Primality of 2n^2-1"),
   (217,   3, Euler217.main, "6273134", "Balanced Numbers"),

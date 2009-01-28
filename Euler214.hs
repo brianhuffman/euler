@@ -1,9 +1,9 @@
 module Euler214 where
-import PrimeArray ( totient_array )
-import Primes ( totient )
-import Memoize
-import Data.Array.Unboxed
+import Primes (totient)
 import Data.Array.ST
+import Data.Int (Int8)
+import Control.Monad.ST
+import Data.STRef
 
 {-
 Problem 214
@@ -11,11 +11,12 @@ Totient Chains
 
 25 October 2008
 
-Let φ be Euler's totient function, i.e. for a natural number n, φ(n) is the
-number of k, 1 <= k <= n, for which gcd(k,n) = 1.
+Let φ be Euler's totient function, i.e. for a natural number n, φ(n)
+is the number of k, 1 <= k <= n, for which gcd(k,n) = 1.
 
-By iterating φ, each positive integer generates a decreasing chain of numbers
-ending in 1. E.g. if we start with 5 the sequence 5,4,2,1 is generated.
+By iterating φ, each positive integer generates a decreasing chain of
+numbers ending in 1. E.g. if we start with 5 the sequence 5,4,2,1 is
+generated.
 
 Here is a listing of all chains with length 4:
 5,4,2,1
@@ -29,8 +30,8 @@ Here is a listing of all chains with length 4:
 
 Only two of these chains start with a prime, their sum is 12.
 
-What is the sum of all primes less than 40 million which generate a chain of
-length 25?
+What is the sum of all primes less than 40 million which generate a
+chain of length 25?
 -}
 
 {-
@@ -44,27 +45,54 @@ Least possible start value for length l = 2^(l-2) + 1.
 
 phi(2n) = phi(n), if n is odd
 phi(2n) = 2 phi(n), if n is even
+
+Define t(n) = length of totient chain starting with n.
+
+t(1) = 1
+t(2) = 2
+t(2n) = t(n) + 1, for n > 1.
+t(m*n) = t(m) + t(n) - 2, for odd n > 1.
+t(p) = t(p-1) + 1, for prime p.
+
+Using these rules, it is possible to generate a table of chain lengths
+directly, without calculating the totients themselves.
+
 -}
 
-prob214 :: Int -> Int -> [Integer]
+prob214 :: Int -> Int8 -> Integer
 prob214 m l =
-  [ toInteger p |
-    p <- ps,
-    let ts = chain (p-1),
-    length (p:ts) == l ]
+  runST (do
+    a <- newArray (1, m) 2
+    s <- newSTRef 0
+    writeArray a 1 1
+    mapM_ (add_many a 1) (powers 2 4)
+    mapM_ (check a s) [3, 5 .. m]
+    readSTRef s
+  )
   where
-    -- generating totients takes about 80% of time
-    a = totient_array m
-    pmin = 2^(l-2) + 1
-    ps = [ n | n <- [pmin, pmin+2 .. m], a!n == n-1 ]
-    chain 1 = [1]
-    chain n = n : chain (a!n)
+    check a s n = do
+      t <- readArray a n
+      if t == 2 then do_prime a s n else return ()
+    do_prime a s p = do
+      x <- readArray a (p-1)
+      mapM_ (add_many a (x-1)) (powers p p)
+      if x+1 == l then (do z <- readSTRef s; writeSTRef s (z + toInteger p))
+                  else (return ())
+    add :: STUArray s Int Int8 -> Int8 -> Int -> ST s ()
+    add a x i = do
+      y <- readArray a i
+      writeArray a i (x+y)
+    add_many a x i = mapM_ (add a x) [i, 2*i .. m]
+    powers p n
+      | n <= m `div` p = n : powers p (p*n)
+      | otherwise = [n]
 
 totient_chain :: Integer -> [Integer]
 totient_chain 1 = [1]
 totient_chain n = n : totient_chain (totient n)
 
 main :: IO String
-main = return $ show $ sum $ prob214 (40*10^6) 25 
--- 1677366278943
--- length (prob214 (40*10^6) 25) = 51147
+main = return $ show $ prob214 (40*10^6) 25 
+
+answer :: String
+answer = "1677366278943"
