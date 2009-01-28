@@ -278,7 +278,6 @@ test _ _ = return ()
 {-
 Slow:
 165: (300 s) Intersections
-155: (100 s) Counting Capacitor Circuits
 196: (80 s) Prime triplets
 154: (80 s) Exploring Pascal's pyramid
 216: (70 s) Primality of 2n^2-1
@@ -292,11 +291,11 @@ Productivity:
 201: (29%) Subsets with a unique sum
 161: (40%) Triominoes
 181: (40%) Grouping objects of two different colours.
+155: (46%) Counting Capacitor Circuits
 143: (48%) Torricelli point of a triangle
 160: (52%) Factorial trailing digits
 195: (56%) Inscribed circles
 189: (60%) Tri-colouring a triangular grid
-155: (62%) Counting Capacitor Circuits
 126: (66%)
 159: (66%) Digital root sums of factorizations
 227: (70%) The Chase
@@ -304,10 +303,10 @@ Productivity:
 212: (73%) Combined Volume of Cuboids
 
 Memory:
-155: (533 Mb) Counting Capacitor Circuits
 214: (308 Mb) Totient Chains
 149: (175 Mb) Searching for a maximum-sum subsequence
 141: (169 Mb) Progressive numbers which are also square
+155: (156 Mb) Counting Capacitor Circuits
 179: (79 Mb) Consecutive positive divisors
 187: (76 Mb) Semiprimes
 195: (71 Mb) Inscribed circles
@@ -506,7 +505,7 @@ checks = [
   (152, 143, Euler152.main, "301", "Writing 1/2 as a sum of inverse squares"),
   (153, 339, Euler153.main, Euler153.answer, "Investigating Gaussian Integers"),
   (154, 804, Euler154.main, "479742450", "Exploring Pascal's pyramid"),
-  (155,1110, Euler155.main, "3857447", "Counting Capacitor Circuits"),
+  (155, 145, Euler155.main, Euler155.answer, "Counting Capacitor Circuits"),
   (156,  14, Euler156.main, "21295121502550", "Counting Digits"),
   (157,   0, Euler157.main, "53490", ""),
   (158,   0, Euler158.main, "409511334375", ""),
