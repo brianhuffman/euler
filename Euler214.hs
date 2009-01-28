@@ -50,7 +50,11 @@ Define t(n) = length of totient chain starting with n.
 
 t(1) = 1
 t(2) = 2
-t(2n) = t(n) + 1, for n > 1.
+
+t(2n) = t(n), for odd n.
+t(2n) = t(n) + 1, for even n.
+t(n * 2^k) = t(n) + (k-1), for odd n.
+
 t(m*n) = t(m) + t(n) - 2, for odd n > 1.
 t(p) = t(p-1) + 1, for prime p.
 
@@ -64,8 +68,6 @@ prob214 m l =
   runST (do
     a <- newArray (1, m) 2
     s <- newSTRef 0
-    writeArray a 1 1
-    mapM_ (add_many a 1) (powers 2 4)
     mapM_ (check a s) [3, 5 .. m]
     readSTRef s
   )
@@ -74,10 +76,12 @@ prob214 m l =
       t <- readArray a n
       if t == 2 then do_prime a s n else return ()
     do_prime a s p = do
-      x <- readArray a (p-1)
-      mapM_ (add_many a (x-1)) (powers p p)
-      if x+1 == l then (do z <- readSTRef s; writeSTRef s (z + toInteger p))
-                  else (return ())
+      let (q,k) = div2s (p-1) 0 -- q*2^k = p-1
+      tq <- readArray a q -- (p-1)
+      let tp = tq + k
+      mapM_ (add_many a (tp-2)) (powers p p)
+      if tp == l then (do z <- readSTRef s; writeSTRef s (z + toInteger p))
+                 else (return ())
     add :: STUArray s Int Int8 -> Int8 -> Int -> ST s ()
     add a x i = do
       y <- readArray a i
@@ -86,6 +90,9 @@ prob214 m l =
     powers p n
       | n <= m `div` p = n : powers p (p*n)
       | otherwise = [n]
+    div2s n k
+      | odd n = (n, k)
+      | otherwise = div2s (n`div`2) (k+1)
 
 totient_chain :: Integer -> [Integer]
 totient_chain 1 = [1]
