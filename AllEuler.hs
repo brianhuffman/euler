@@ -307,7 +307,6 @@ Memory:
 141: (169 Mb) Progressive numbers which are also square
 155: (156 Mb) Counting Capacitor Circuits
 179: (79 Mb) Consecutive positive divisors
-214: (79 Mb) Totient Chains
 187: (76 Mb) Semiprimes
 195: (71 Mb) Inscribed circles
 181: (61 Mb) Grouping objects of two different colours
@@ -317,6 +316,7 @@ Memory:
 161: (44 Mb) Triominoes
 135: (33 Mb) Number of solutions to x^2-y^2-z^2=n
 193: (26 Mb) Squarefree Numbers
+214: (25 Mb) Totient Chains
 216: (23 Mb) Primality of 2n^2-1
 40: (21 Mb)
 189: (21 Mb) Tri-colouring a triangular grid
@@ -564,7 +564,7 @@ checks = [
   (211,  60, Euler211.main, Euler211.answer, "Divisor Square Sum"),
   (212,  25, Euler212.main, "328968937309", "Combined Volume of Cuboids"),
   (213,  28, Euler213.main, Euler213.answer, "Flea Circus"),
-  (214, 127, Euler214.main, Euler214.answer, "Totient Chains"),
+  (214,  59, Euler214.main, Euler214.answer, "Totient Chains"),
   (215,   4, Euler215.main, "806844323190414", "Crack-free Walls"),
   (216, 923, Euler216.main, "5437849", "Primality of 2n^2-1"),
   (217,   3, Euler217.main, "6273134", "Balanced Numbers"),

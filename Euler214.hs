@@ -66,18 +66,19 @@ directly, without calculating the totients themselves.
 prob214 :: Int -> Int8 -> Integer
 prob214 m l =
   runST (do
-    a <- newArray (1, m) 2
+    a <- newArray (0, m') 2
     s <- newSTRef 0
-    mapM_ (check a s) [3, 5 .. m]
+    mapM_ (check a s) [1 .. m']
     readSTRef s
   )
   where
-    check a s n = do
-      t <- readArray a n
-      if t == 2 then do_prime a s n else return ()
+    m' = (m-1) `div` 2
+    check a s i = do
+      t <- readArray a i
+      if t == 2 then do_prime a s (2*i+1) else return ()
     do_prime a s p = do
       let (q,k) = div2s (p-1) 0 -- q*2^k = p-1
-      tq <- readArray a q -- (p-1)
+      tq <- readArray a (q`div`2) -- (p-1)
       let tp = tq + k
       mapM_ (add_many a (tp-2)) (powers p p)
       if tp == l then (do z <- readSTRef s; writeSTRef s (z + toInteger p))
@@ -86,7 +87,8 @@ prob214 m l =
     add a x i = do
       y <- readArray a i
       writeArray a i (x+y)
-    add_many a x i = mapM_ (add a x) [i, 2*i .. m]
+    add_many a x n = mapM_ (add a x) [i, i+n .. m']
+      where i = n`div`2
     powers p n
       | n <= m `div` p = n : powers p (p*n)
       | otherwise = [n]
