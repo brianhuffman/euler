@@ -1,14 +1,32 @@
 module Euler141 where
-import EulerLib
-import Primes
-import qualified Data.Set as Set
-import Monad
-import List
+import EulerLib (square_root)
 import Data.Array.Unboxed
-import Bits
+import Data.List (nub)
 
-------------------------------------------------------------------------------
--- 141. Investigating progressive numbers, n, which are also square.
+{-
+Problem 141
+Investigating progressive numbers, n, which are also square.
+
+17 February 2007
+
+A positive integer, n, is divided by d and the quotient and remainder
+are q and r respectively. In addition d, q, and r are consecutive
+positive integer terms in a geometric sequence, but not necessarily in
+that order.
+
+For example, 58 divided by 6 has quotient 9 and remainder 4. It can
+also be seen that 4, 6, 9 are consecutive terms in a geometric
+sequence (common ratio 3/2).  We will call such numbers, n,
+progressive.
+
+Some progressive numbers, such as 9 and 10404 = 102^(2), happen to
+also be perfect squares.  The sum of all progressive perfect squares
+below one hundred thousand is 124657.
+
+Find the sum of all progressive perfect squares below one trillion
+(10^(12)).
+-}
+
 {-
 n = k^2 = q*d + r  (r < d)
 {d,q,r} are a geometric sequence
@@ -46,6 +64,14 @@ r(n-r) = rdq = ddd
 4ab^3k^2 = 4a^3b^3c + 4a^2b^6c^2
 4ab^3k^2 = (2ab^3c)^2 + 2(2ab^3c)a^2
 4ab^3k^2 = (2ab^3c + a^2)^2 - a^4
+
+3^2 = 1 + 2 * 4           (1,2,1)
+102^2 = 36 + 72 * 144     (1,2,36)
+130^2 = 25 + 75 * 225     (1,3,25)
+312^2 = 8 + 92 * 1058     (2,23,2)
+759^2 = 81 + 360 * 1600   (9,40,1)
+2496^2 = 512 + 1472 * 4232  (8,23,8)
+2706^2 = 1936 + 2420 * 3025 (4,5,121)
 -}
 
 {-
@@ -54,6 +80,31 @@ mod 7: [0,1,6]
 mod 9: [0,1,8]
 mod 13: [0,1,5,8,12]
 -}
+
+--------------------------------------------------
+-- Testing for squares
+
+qr_array :: Int -> UArray Int Bool
+qr_array m = accumArray (||) False (0, m-1)
+  [ (n^2 `mod` m, True) | n <- [0 .. m `div` 2] ]
+
+qr256 :: UArray Int Bool
+qr256 = qr_array 256
+
+qr255 :: UArray Int Bool
+qr255 = qr_array 255
+
+qr1001 :: UArray Int Bool
+qr1001 = qr_array 1001
+
+-- is_square :: N -> Bool
+is_square n =
+  qr256 ! (fromIntegral (n `mod` 256)) &&
+  qr255 ! (fromIntegral (n `mod` 255)) &&
+  qr1001 ! (fromIntegral (n `mod` 1001)) &&
+  (square_root n)^2 == n
+
+--------------------------------------------------
 
 -- all progressive numbers up to m
 progressives m =
@@ -67,81 +118,14 @@ progressives m =
     let ns = [ (a2 + ab3*c)*c | c <- [1 ..] ],
     n <- takeWhile (<= m) ns ]
 
-maybe_square = \n -> a ! (n .&. 255)
-  where
-    squares = [ (n^2 .&. 255, True) | n <- [0 .. 255] ]
-    a :: UArray Integer Bool
-    a = accumArray (||) False (0,255) squares
-
 -- perfect square progressives up to m
-square_progressives m =
-  filter is_square $
-  filter maybe_square $
-  progressives m
-  where
-    is_square n = Set.member n square_set
-    square_set = Set.fromList
-      (takeWhile (<= m) [ n^2 | n <- [1 ..] ])
+square_progressives m = filter is_square (progressives m)
 
 prob141 :: Integer -> Integer
 prob141 m = sum $ nub $ square_progressives (m-1)
 
 main :: IO String
 main = return $ show $ prob141 (10^12)
--- 878454337159
 
---------------------------------------------------------------
-
-prob141c m =
-  [ a*c*(b3*c + a) |
-    b <- takeWhile (\b -> b^3 < m) [1 ..],
-    let b3 = b^3,
-    let amax = m `div` b3,
-    a <- [1 .. amax],
-    c <- [1 .. amax `div` a] ]
-
-list_divisors_of_square n =
-  list_divisors_of_pf [ (p,2*e) | (p,e) <- prime_factorization n ]
-
-divM m n =
-  case divMod m n of
-    (q,0) -> return q
-    _ -> mzero
-{-
-cube_rootM x =
-  either (const mzero) return $
-  binary_search (\n -> compare x (n^3))
--}
-cubeSet = Set.fromList [ n^3 | n <- [1 .. 9999] ]
-
--- exists a < b, c such that k^2 = (ac)(bbbc + a) ?
-prob141a k = do
-  let fs = takeWhile (< k) (list_divisors_of_square k)
-  a <- fs
-  c <- fs
-  guard (a*a*c < k)
-  q <- divM (k^2) (a*c)
-  r <- divM (q-a) c
-  guard (Set.member r cubeSet)
-  -- b <- S.intersectBy (\r b -> compare r (b^3)) [r] [a+1 ..]
-  return (a,c)
-
-prob141b = filter (not . null . prob141a) [1 .. 1000000]
-{-[3, 102, 130, 312, 759, 2496, 2706, 3465, 6072, 6111, 8424, 14004, 16005, 36897, 37156, 92385, 98640, 112032, 117708, 128040, 351260, 378108, 740050]-}
-
--- 3^2 = 1 + 2 * 4           (1,2,1)
--- 102^2 = 36 + 72 * 144     (1,2,36)
--- 130^2 = 25 + 75 * 225     (1,3,25)
--- 312^2 = 8 + 92 * 1058     (2,23,2)
--- 759^2 = 81 + 360 * 1600   (9,40,1)
--- 2496^2 = 512 + 1472 * 4232  (8,23,8)
--- 2706^2 = 1936 + 2420 * 3025 (4,5,121)
-
--- prob141 = sum (map square prob141b)
-
--- main :: Int
--- main = prob141
-
-ks = [3, 102, 130, 312, 759, 2496, 2706, 3465, 6072, 6111, 8424, 14004, 16005, 36897, 37156, 92385, 98640, 112032, 117708, 128040, 351260, 378108, 740050]
-
-ns = map (^2) ks
+answer :: String
+answer = "878454337159"

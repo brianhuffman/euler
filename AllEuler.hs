@@ -285,10 +285,10 @@ Slow:
 210: (50 s) Obtuse Angled Triangles
 153: (33 s) Investigating Gaussian Integers
 150: (32 s) Minimum-sum sub-triangles
-141: (17 s) Progressive numbers which are also square
 155: (14 s) Counting Capacitor Circuits
 193: (11 s) Squarefree Numbers
  60: (10 s) Concatenating a set of five primes
+141: (10 s) Progressive perfect squares
 185: (9 s) Number Mind
 
 Productivity:
@@ -306,12 +306,11 @@ Productivity:
 126: (66%)
 159: (66%) Digital root sums of factorizations
 227: (70%) The Chase
-141: (72%) Progressive numbers which are also square
 212: (73%) Combined Volume of Cuboids
+141: (77%) Progressive perfect squares
 
 Memory:
 149: (175 Mb) Searching for a maximum-sum subsequence
-141: (169 Mb) Progressive numbers which are also square
 155: (156 Mb) Counting Capacitor Circuits
 179: (79 Mb) Consecutive positive divisors
 187: (76 Mb) Semiprimes
@@ -324,6 +323,7 @@ Memory:
 193: (26 Mb) Squarefree Numbers
 214: (25 Mb) Totient Chains
 216: (23 Mb) Primality of 2n^2-1
+141: (22 Mb) Progressive perfect squares
 189: (21 Mb) Tri-colouring a triangular grid
 212: (19 Mb) Combined Volume of Cuboids
 124: (18 Mb)
@@ -496,7 +496,7 @@ checks = [
   (138,   0, Euler138.main, "1118049290473932", ""),
   (139,   0, Euler139.main, "10057761", ""),
   (140,   0, Euler140.main, "5673835352990", ""),
-  (141, 235, Euler141.main, "878454337159", "Progressive numbers which are also square"),
+  (141,  98, Euler141.main, Euler141.answer, "Progressive perfect squares"),
   (142,  59, Euler142.main, "1006193", "Perfect Square Collection"),
   (143,   8, Euler143.main, "25587759", "Torricelli point of a triangle"),
   (144,   0, Euler144.main, "354", ""),
