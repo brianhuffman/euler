@@ -288,7 +288,6 @@ Slow:
 141: (17 s) Progressive numbers which are also square
 155: (14 s) Counting Capacitor Circuits
 193: (11 s) Squarefree Numbers
-152: (10 s) Writing 1/2 as a sum of inverse squares
  60: (10 s) Concatenating a set of five primes
 185: (9 s) Number Mind
 
@@ -508,7 +507,7 @@ checks = [
   (149,  73, Euler149.main, Euler149.answer, "Searching for a maximum-sum subsequence"),
   (150, 267, Euler150.main, Euler150.answer, "Minimum-sum sub-triangles"),
   (151,   0, Euler151.main, "0.464398781601087", "Paper sheets of standard sizes"),
-  (152, 143, Euler152.main, "301", "Writing 1/2 as a sum of inverse squares"),
+  (152,  58, Euler152.main, Euler152.answer, "Writing 1/2 as a sum of inverse squares"),
   (153, 339, Euler153.main, Euler153.answer, "Investigating Gaussian Integers"),
   (154, 804, Euler154.main, "479742450", "Exploring Pascal's pyramid"),
   (155, 145, Euler155.main, Euler155.answer, "Counting Capacitor Circuits"),
