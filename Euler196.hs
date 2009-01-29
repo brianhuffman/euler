@@ -1,6 +1,5 @@
 module Euler196 where
 import EulerLib
---import Primes
 import PrimeArray
 import Data.Array.Unboxed
 import Data.Int
