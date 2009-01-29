@@ -277,7 +277,6 @@ test _ _ = return ()
 
 {-
 Slow:
-229: (999 s) Four Representations using Squares
 165: (300 s) Intersections
 154: (80 s) Exploring Pascal's pyramid
 196: (62 s) Prime triplets
@@ -285,6 +284,7 @@ Slow:
 210: (50 s) Obtuse Angled Triangles
 153: (33 s) Investigating Gaussian Integers
 150: (32 s) Minimum-sum sub-triangles
+229: (21 s) Four Representations using Squares
 155: (14 s) Counting Capacitor Circuits
 193: (11 s) Squarefree Numbers
  60: (10 s) Concatenating a set of five primes
@@ -310,6 +310,7 @@ Productivity:
 141: (77%) Progressive perfect squares
 
 Memory:
+229: (529 Mb) Four Representations using Squares
 149: (175 Mb) Searching for a maximum-sum subsequence
 155: (156 Mb) Counting Capacitor Circuits
 179: (79 Mb) Consecutive positive divisors
@@ -584,7 +585,7 @@ checks = [
   (226,   0, Euler226.main, "0.11316017", "A Scoop of Blancmange"),
   (227,   1, Euler227.main, Euler227.answer, "The Chase"),
   (228,   0, Euler228.main, "86226", "Minkowski Sums"),
-  (229,9999, Euler229.main, "11325263", "Four Representations using Squares")
+  (229, 211, Euler229.main, Euler229.answer, "Four Representations using Squares")
   ]
 
 total_time :: Int
