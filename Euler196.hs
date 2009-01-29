@@ -1,6 +1,7 @@
 module Euler196 where
 import EulerLib
-import Primes
+--import Primes
+import PrimeArray
 import Data.Array.Unboxed
 import Data.Int
 
@@ -102,10 +103,25 @@ If only (k+n-1) is prime, we must also test (k-2) and (k+2n).
 If only (k+n+1) is prime, we must also test (k+2) and (k+2n+2).
 -}
 
+type Z = Int64
+
+prime_table :: (Z, Z) -> UArray Z Bool
+prime_table (i,j) = accumArray (const id) True (i,j) xs
+  where
+    ps = map fromIntegral (primes_upto (fromIntegral (square_root j)))
+    xs = [ (n, False) |
+           p <- ps,
+           let k = max p ((i+p-1) `div` p),
+           n <- [p*k, p*k+p .. j] ]
+
+n1, n2 :: Z
 n1 = 5678027
 n2 = 7208785
 
+row :: Z -> [Z]
 row n = [triangle(n-1) + 1 .. triangle n]
+
+row_bnds :: Z -> (Z, Z)
 row_bnds n = (triangle(n-1) + 1, triangle n)
 
 -- only works for odd rows!
@@ -134,11 +150,14 @@ triplet_primes' n = filter (is_triplet_prime' prime n) (row n)
     arr = prime_table (i,j)
     prime k = arr ! k
 
-prob196 :: Int64 -> Int64
+prob196 :: Z -> Z
 prob196 n = sum (triplet_primes' n)
 
 main :: IO String
 main = return $ show $ prob196 n1 + prob196 n2
+
+answer :: String
+answer = "322303240771079935"
 
 -- prob196 n1 = 79697256800321526
 -- prob196 n2 = 242605983970758409

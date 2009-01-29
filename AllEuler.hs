@@ -280,7 +280,7 @@ Slow:
 229: (999 s) Four Representations using Squares
 165: (300 s) Intersections
 154: (80 s) Exploring Pascal's pyramid
-196: (80 s) Prime triplets
+196: (62 s) Prime triplets
 216: (61 s) Primality of 2n^2-1
 210: (50 s) Obtuse Angled Triangles
 153: (33 s) Investigating Gaussian Integers
@@ -318,7 +318,6 @@ Memory:
 181: (61 Mb) Grouping objects of two different colours
 159: (60 Mb) Digital root sums of factorizations
 221: (56 Mb) Alexandrian Integers
-196: (48 Mb) Prime triplets
 161: (44 Mb) Triominoes
 193: (26 Mb) Squarefree Numbers
 214: (25 Mb) Totient Chains
@@ -330,6 +329,7 @@ Memory:
 75: (17 Mb)
 88: (16 Mb)
 143: (16 Mb) Torricelli point of a triangle
+196: (15 Mb) Prime triplets
 127: (14 Mb)
 213: (10 Mb) Flea Circus
 
@@ -551,7 +551,7 @@ checks = [
   (193, 167, Euler193.main, "684465067343069", "Squarefree Numbers"),
   (194,   0, Euler194.main, "61190912", "Coloured Configurations"),
   (195,  41, Euler195.main, "75085391", "Inscribed circles"),
-  (196,1196, Euler196.main, "322303240771079935", "Prime triplets"),
+  (196, 620, Euler196.main, Euler196.answer, "Prime triplets"),
   (197,   0, Euler197.main, "1.710637717", ""),
   (198,   4, Euler198.main, "52374425", ""),
   (199,   0, Euler199.main, "0.00396087", "Iterative Circle Packing"),
