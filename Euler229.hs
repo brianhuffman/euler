@@ -195,13 +195,13 @@ products_upto m xs = prods 1 xs []
   where
     prods a [] ts = a : ts
     prods a (x:xs) ts
-      | x <= m`div`a = prods a xs (prods (a*x) xs ts)
+      | x <= m`div`a = prods (a*x) xs (prods a xs ts)
       | otherwise = a : ts
 
 prob229 :: Int -> Int
 prob229 m =
   length (filter good_square [1 .. square_root m]) +
-  sum [ square_root (m `div` n) | n <- tail (products_upto m (good_primes m)) ]
+  sum [ square_root (m `div` n) | n <- init (products_upto m (good_primes m)) ]
 
 main :: IO String
 main = return $ show $ prob229 (2*10^9)

@@ -284,8 +284,8 @@ Slow:
 210: (50 s) Obtuse Angled Triangles
 153: (33 s) Investigating Gaussian Integers
 150: (32 s) Minimum-sum sub-triangles
-229: (21 s) Four Representations using Squares
 155: (14 s) Counting Capacitor Circuits
+229: (12 s) Four Representations using Squares
 193: (11 s) Squarefree Numbers
  60: (10 s) Concatenating a set of five primes
 141: (10 s) Progressive perfect squares
@@ -310,7 +310,6 @@ Productivity:
 141: (77%) Progressive perfect squares
 
 Memory:
-229: (529 Mb) Four Representations using Squares
 149: (175 Mb) Searching for a maximum-sum subsequence
 155: (156 Mb) Counting Capacitor Circuits
 179: (79 Mb) Consecutive positive divisors
@@ -331,6 +330,7 @@ Memory:
 88: (16 Mb)
 143: (16 Mb) Torricelli point of a triangle
 196: (15 Mb) Prime triplets
+229: (15 Mb) Four Representations using Squares
 127: (14 Mb)
 213: (10 Mb) Flea Circus
 
@@ -585,7 +585,7 @@ checks = [
   (226,   0, Euler226.main, "0.11316017", "A Scoop of Blancmange"),
   (227,   1, Euler227.main, Euler227.answer, "The Chase"),
   (228,   0, Euler228.main, "86226", "Minkowski Sums"),
-  (229, 211, Euler229.main, Euler229.answer, "Four Representations using Squares")
+  (229, 113, Euler229.main, Euler229.answer, "Four Representations using Squares")
   ]
 
 total_time :: Int
