@@ -450,7 +450,7 @@ checks = [
   ( 92,   0, Euler092.main, "8581146", ""),
   ( 93,   8, Euler093.main, "1258", ""),
   ( 94,   0, Euler094.main, "518408346", ""),
-  ( 95,  14, Euler095.main, "14316", ""),
+  ( 95,   7, Euler095.main, Euler095.answer, "The longest amicable chain"),
   ( 96,  15, Euler096.main, "24702", ""),
   ( 97,   0, Euler097.main, "8739992577", ""),
   ( 98,   1, Euler098.main, "18769", ""),
