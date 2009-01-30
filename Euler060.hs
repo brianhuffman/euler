@@ -1,8 +1,8 @@
 module Euler060 where
-import EulerLib
-import Primes
+import PrimeArray
 import qualified SortedList as S
 import Data.List (tails)
+import Data.Array.Unboxed
 
 {-
 Problem 60
@@ -35,9 +35,6 @@ cat a b = a * ndigits b + b
       | n < 10^8 = 10^8
       | otherwise = error "cat: argument too big"
 
-compatible :: Z -> Z -> Bool
-compatible x y = is_prime (cat x y) && is_prime (cat y x)
-
 type Clique = (Z, [Z])
 {-
 (t, xs) :: Clique
@@ -59,7 +56,7 @@ prob60_upto :: Z -> [[Clique]]
 prob60_upto m = map (map fst) (iterate nextset set0)
   where
     ps0 :: [Z]
-    ps0 = takeWhile (< m) primes
+    ps0 = primes_upto m
     yss0 :: State
     yss0 = [ (x, filter (compatible x) xs) | x:xs <- tails ps0 ]
     set0 :: [(Clique, State)]
@@ -73,6 +70,15 @@ prob60_upto m = map (map fst) (iterate nextset set0)
         let zss = inter yss ys ]
     inter :: State -> [Z] -> State
     inter = S.intersectBy (\(a,_) b -> compare a b)
+    table :: UArray Int Bool
+    table = PrimeArray.odd_prime_array (m^2 `div` 2)
+    prime :: Z -> Bool
+    prime n
+      | even n = n == 2
+      | otherwise = table ! (n`div`2)
+    compatible :: Z -> Z -> Bool
+    compatible x y = prime (cat x y) && prime (cat y x)
+
 
 {-
 (34427,[18433,12409,2341,1237,7])

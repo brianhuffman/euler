@@ -287,7 +287,6 @@ Slow:
 155: (14 s) Counting Capacitor Circuits
 229: (12 s) Four Representations using Squares
 193: (11 s) Squarefree Numbers
- 60: (10 s) Concatenating a set of five primes
 141: (10 s) Progressive perfect squares
 185: (9 s) Number Mind
 
@@ -416,7 +415,7 @@ checks = [
   ( 57,   1, Euler057.main, "153", ""),
   ( 58,   9, Euler058.main, "26241", ""),
   ( 59,   0, Euler059.main, "107359", ""),
-  ( 60, 102, Euler060.main, "26033", "Concatenating a set of five primes"),
+  ( 60,  46, Euler060.main, Euler060.answer, "Concatenating a set of five primes"),
   ( 61,   0, Euler061.main, "28684", ""),
   ( 62,   3, Euler062.main, "127035954683", ""),
   ( 63,   0, Euler063.main, "49", ""),
