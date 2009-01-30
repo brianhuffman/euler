@@ -1,5 +1,5 @@
 module Euler229 where
-import EulerLib (square_root)
+import SquareRoot
 import PrimeArray (primes_upto)
 import Primes (invMod, prime_factorization)
 import Data.Array.Unboxed

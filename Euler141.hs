@@ -1,5 +1,5 @@
 module Euler141 where
-import EulerLib (square_root)
+import SquareRoot
 import Data.Array.Unboxed
 import Data.List (nub)
 
@@ -80,31 +80,6 @@ mod 7: [0,1,6]
 mod 9: [0,1,8]
 mod 13: [0,1,5,8,12]
 -}
-
---------------------------------------------------
--- Testing for squares
-
-qr_array :: Int -> UArray Int Bool
-qr_array m = accumArray (||) False (0, m-1)
-  [ (n^2 `mod` m, True) | n <- [0 .. m `div` 2] ]
-
-qr256 :: UArray Int Bool
-qr256 = qr_array 256
-
-qr255 :: UArray Int Bool
-qr255 = qr_array 255
-
-qr1001 :: UArray Int Bool
-qr1001 = qr_array 1001
-
--- is_square :: N -> Bool
-is_square n =
-  qr256 ! (fromIntegral (n `mod` 256)) &&
-  qr255 ! (fromIntegral (n `mod` 255)) &&
-  qr1001 ! (fromIntegral (n `mod` 1001)) &&
-  (square_root n)^2 == n
-
---------------------------------------------------
 
 -- all progressive numbers up to m
 progressives m =

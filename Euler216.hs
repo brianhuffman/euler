@@ -1,5 +1,5 @@
 module Euler216 where
-import EulerLib
+import SquareRoot
 import Primes
 import PrimeArray
 import Data.Int (Int64)

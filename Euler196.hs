@@ -1,8 +1,9 @@
 module Euler196 where
-import EulerLib
+import EulerLib (triangle)
+import SquareRoot
 import PrimeArray
 import Data.Array.Unboxed
-import Data.Int
+import Data.Int (Int64)
 
 {-
 Problem 196

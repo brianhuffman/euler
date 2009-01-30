@@ -1,5 +1,6 @@
 module Euler085 where
-import EulerLib
+import SquareRoot
+import EulerLib (triangle)
 
 ------------------------------------------------------------------------------
 -- 85. Investigating the number of rectangles in a rectangular grid.

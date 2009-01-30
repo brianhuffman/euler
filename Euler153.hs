@@ -1,5 +1,5 @@
 module Euler153 where
-import EulerLib
+import SquareRoot
 import Data.Array
 
 {-

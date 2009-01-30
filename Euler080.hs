@@ -1,5 +1,5 @@
 module Euler080 where
-import EulerLib
+import SquareRoot
 import qualified SortedList as S
 import Char (digitToInt)
 

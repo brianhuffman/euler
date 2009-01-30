@@ -1,7 +1,7 @@
 module Euler211 where
 import PrimeArray
 import Primes
-import EulerLib (square_root)
+import SquareRoot
 import ContinuedFraction
 import Control.Monad.ST
 import Data.Array.ST
@@ -182,30 +182,6 @@ merge_factors xs@(x:xs') ys@(y:ys') =
     EQ -> merge_factors xs' ys'
 
 
---------------------------------------------------
--- Testing for squares
-
-qr_array :: Int -> UArray Int Bool
-qr_array m = accumArray (||) False (0, m-1)
-  [ (n^2 `mod` m, True) | n <- [0 .. m `div` 2] ]
-
-qr256 :: UArray Int Bool
-qr256 = qr_array 256
-
-qr255 :: UArray Int Bool
-qr255 = qr_array 255
-
-qr1001 :: UArray Int Bool
-qr1001 = qr_array 1001
-
--- is_square :: N -> Bool
-is_square n =
-  qr256 ! (fromIntegral (n `mod` 256)) &&
-  qr255 ! (fromIntegral (n `mod` 255)) &&
-  qr1001 ! (fromIntegral (n `mod` 1001)) &&
-  (square_root n)^2 == n
-
---------------------------------------------------
 {-
 sigma2_array :: N -> UArray N N
 sigma2_array m =
