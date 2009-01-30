@@ -1,6 +1,7 @@
 module Euler153 where
 import SquareRoot
 import Data.Array
+import Data.Int (Int64)
 
 {-
 Problem 153
@@ -134,13 +135,15 @@ sums_squares_upto m = (2,2) :
 
 -- slightly faster for large values of m
 sums_squares_upto' :: Z -> [(Z, Z)]
-sums_squares_upto' m = (2,2) : p [(0,1,1,1)]
+sums_squares_upto' m = (2,2) : p [((0,1,1),(1,1,2))]
   where
+    mediant (a,b,r) (c,d,s) = (a+c, b+d, r+s+2*(a*c+b*d))
     p [] = []
-    p ((a,b,c,d) : rest)
-      | e^2 + f^2 > m = p rest
-      | otherwise = (e^2 + f^2, 2*(e+f)) : p ((a,b,e,f):(e,f,c,d):rest)
-      where (e,f) = (a+c, b+d)
+    p ((x, y) : rest)
+      | r > m = p rest
+      | otherwise = (r, 2*(a+b)) : p ((x,z):(z,y):rest)
+      where
+        z@(a,b,r) = mediant x y
 
 sum_complex_factors_upto :: Z -> Z
 sum_complex_factors_upto m = sum

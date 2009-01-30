@@ -282,8 +282,8 @@ Slow:
 196: (62 s) Prime triplets
 216: (61 s) Primality of 2n^2-1
 210: (50 s) Obtuse Angled Triangles
-153: (33 s) Investigating Gaussian Integers
 150: (32 s) Minimum-sum sub-triangles
+153: (17 s) Investigating Gaussian Integers
 155: (14 s) Counting Capacitor Circuits
 229: (12 s) Four Representations using Squares
 193: (11 s) Squarefree Numbers
@@ -508,7 +508,7 @@ checks = [
   (150, 267, Euler150.main, Euler150.answer, "Minimum-sum sub-triangles"),
   (151,   0, Euler151.main, "0.464398781601087", "Paper sheets of standard sizes"),
   (152,  58, Euler152.main, Euler152.answer, "Writing 1/2 as a sum of inverse squares"),
-  (153, 339, Euler153.main, Euler153.answer, "Investigating Gaussian Integers"),
+  (153, 167, Euler153.main, Euler153.answer, "Investigating Gaussian Integers"),
   (154, 804, Euler154.main, "479742450", "Exploring Pascal's pyramid"),
   (155, 145, Euler155.main, Euler155.answer, "Counting Capacitor Circuits"),
   (156,  14, Euler156.main, "21295121502550", "Counting Digits"),
