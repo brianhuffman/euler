@@ -1,21 +1,23 @@
 module Euler125 where
 import EulerLib
 import qualified SortedList as S
-import List
+import Data.List (tails)
 
-------------------------------------------------------------------------------
--- 125. Finding square sums that are palindromic.
 {-
-The palindromic number 595 is interesting because it can be written as the
-sum of consecutive squares: 6^2 + 7^2 + 8^2 + 9^2 + 10^2 + 11^2 + 12^2.
+Problem 125
+04 August 2006
 
-There are exactly eleven palindromes below one-thousand that can be written
-as consecutive square sums, and the sum of these palindromes is 4164. Note
-that 1 = 0^2 + 1^2 has not been included as this problem is concerned with
-the squares of positive integers.
+The palindromic number 595 is interesting because it can be written as
+the sum of consecutive squares: 6^(2) + 7^(2) + 8^(2) + 9^(2) + 10^(2)
++ 11^(2) + 12^(2).
 
-Find the sum of all the numbers less than 10^8 that are both palindromic and
-can be written as the sum of consecutive squares.
+There are exactly eleven palindromes below one-thousand that can be
+written as consecutive square sums, and the sum of these palindromes
+is 4164. Note that 1 = 0^(2) + 1^(2) has not been included as this
+problem is concerned with the squares of positive integers.
+
+Find the sum of all the numbers less than 10^(8) that are both
+palindromic and can be written as the sum of consecutive squares.
 -}
 
 {-
@@ -75,6 +77,8 @@ prob125 m = sum (prob125c m)
 
 main :: IO String
 main = return $ show $ prob125 (10^8)
--- 2906969179
+
+answer :: String
+answer = "2906969179"
 
 -- FIXME: SLOW
