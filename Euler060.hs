@@ -2,7 +2,7 @@ module Euler060 where
 import EulerLib
 import Primes
 import qualified SortedList as S
-import List
+import Data.List (tails)
 
 {-
 Problem 60
@@ -47,7 +47,7 @@ where
 -}
 
 
-type State = [(I, [I])]
+type State = [(Z, [Z])]
 {-
 [(x,ys)] :: State
 where
@@ -55,10 +55,10 @@ where
   ys = increasing stream of primes, all compatible with x
 -}
 
-prob60_upto :: I -> [[Clique]]
+prob60_upto :: Z -> [[Clique]]
 prob60_upto m = map (map fst) (iterate nextset set0)
   where
-    ps0 :: [I]
+    ps0 :: [Z]
     ps0 = takeWhile (< m) primes
     yss0 :: State
     yss0 = [ (x, filter (compatible x) xs) | x:xs <- tails ps0 ]
@@ -71,7 +71,7 @@ prob60_upto m = map (map fst) (iterate nextset set0)
       [ ((t+y, y:xs), zss) |
         (y,ys) <- yss,
         let zss = inter yss ys ]
-    inter :: State -> [I] -> State
+    inter :: State -> [Z] -> State
     inter = S.intersectBy (\(a,_) b -> compare a b)
 
 {-
@@ -82,7 +82,7 @@ prob60_upto m = map (map fst) (iterate nextset set0)
 prob60 :: Int -> Clique
 prob60 n = f 10000
   where
-    f m = case prob60b m !! n of
+    f m = case prob60_upto m !! n of
             [] -> f (2*m)
             xs -> minimum xs
 -- prob60 5 = (26033,[8389,6733,5701,5197,13])
