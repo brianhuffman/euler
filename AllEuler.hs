@@ -277,11 +277,11 @@ test _ _ = return ()
 
 {-
 Slow:
-165: (300 s) Intersections
 154: (80 s) Exploring Pascal's pyramid
 196: (62 s) Prime triplets
 216: (61 s) Primality of 2n^2-1
 210: (50 s) Obtuse Angled Triangles
+165: (41 s) Intersections
 150: (32 s) Minimum-sum sub-triangles
 153: (17 s) Investigating Gaussian Integers
 155: (14 s) Counting Capacitor Circuits
@@ -367,7 +367,7 @@ checks = [
   (  9,   0, Euler009.main, "31875000", "Pythagorean triplet with a+b+c=1000"),
   ( 10,   1, Euler010.main, "142913828922", "Sum of primes below 2 million"),
   ( 11,   0, Euler011.main, "70600674", "Greatest product of 4 numbers"),
-  ( 12,   2, Euler012.main, "76576500", "Rriangle number with 500 divisors"),
+  ( 12,   2, Euler012.main, "76576500", "Triangle number with 500 divisors"),
   ( 13,   0, Euler013.main, "5537376230", "Sum of one-hundred 50-digit numbers"),
   ( 14,  12, Euler014.main, "837799", "Longest sequence starting under a million"),
   ( 15,   0, Euler015.main, "137846528820", "How many routes to the bottom corner"),
@@ -520,7 +520,7 @@ checks = [
   (162,   0, Euler162.main, "3D58725572C62302", "Hexadecimal numbers"),
   (163,   0, Euler163.main, "343047", "Cross-hatched triangles"),
   (164,   0, Euler164.main, "378158756814587", ""),
-  (165,3096, Euler165.main, Euler165.answer, "Intersections"),
+  (165, 413, Euler165.main, Euler165.answer, "Intersections"),
   (166,  18, Euler166.main, "7130034", "Criss Cross"),
   (167,   4, Euler167.main, "3916160068885", "Investigating Ulam sequences"),
   (168,   0, Euler168.main, "59206", "Number Rotations"),

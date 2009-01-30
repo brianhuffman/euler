@@ -1,8 +1,6 @@
 module Euler165 where
-import Ratio
-import Data.List
-import qualified SortedList as S
-import Int
+import Data.Ratio
+import Data.List (sort)
 
 {-
 Problem 165
@@ -62,137 +60,97 @@ line segments?
 
 type Z = Integer
 type R = Ratio Z
-type Pt = (R,R)
--- type Seg = ((Z,Z),(Z,Z))
-type Seg = (Pt, Pt)
+type Pt = (R, R)
+
+--------------------------------------------------
+-- Lines
+
+data Line = Line Z Z Z
+
+-- Line a b c = { (x,y) | a*x + b*y = c }
+
+-- a*x1 + b*y1 = a*x2 + b*y2 = c
+make_line :: (Z, Z) -> (Z, Z) -> Line
+make_line (x1,y1) (x2,y2) = Line a b c
+  where
+    a = y1 - y2
+    b = x2 - x1
+    c = x2*y1 - x1*y2
+
+pt_compare :: Line -> Pt -> Ordering
+pt_compare (Line a b c) (x, y) =
+  compare (a*nx*dy + b*ny*dx) (c*dx*dy)
+  where
+    nx = numerator x
+    ny = numerator y
+    dx = denominator x
+    dy = denominator y
+
+line_intersection :: Line -> Line -> Pt
+line_intersection (Line a1 b1 c1) (Line a2 b2 c2) = (x%d, y%d)
+  where
+    x = b2*c1 - b1*c2
+    y = a1*c2 - a2*c1
+    d = a1*b2 - a2*b1
 
 --------------------------------------------------
 -- segments
 
-segments :: Int -> [Seg]
-segments n = take n $ tuple $ drop 1 $ map fromIntegral $ random 290797
+data Seg = Seg Pt Pt Line
+
+line_of_segment :: Seg -> Line
+line_of_segment (Seg _ _ line) = line
+
+make_segment :: (Z, Z) -> (Z, Z) -> Seg
+make_segment (x1,y1) (x2,y2) = Seg pt1 pt2 line
   where
-    tuple (a:b:c:d:xs) = ((a,b),(c,d)) : tuple xs
+    pt1 = (fromIntegral x1, fromIntegral y1)
+    pt2 = (fromIntegral x2, fromIntegral y2)
+    line = make_line (x1,y1) (x2,y2)
+
+--------------------------------------------------
+-- test segments
+
+segments :: Int -> [Seg]
+segments n = take n $ tuple $ drop 1 $ random 290797
+  where
+    tuple (a:b:c:d:xs) = make_segment (a,b) (c,d) : tuple xs
     random a = (a `mod` 500) : random (a * a `mod` 50515093)
 
 seg1, seg2, seg3 :: Seg
-seg1 = ((27,44),(12,32))
-seg2 = ((46,53),(17,62))
-seg3 = ((46,70),(22,40))
+seg1 = make_segment (27,44) (12,32)
+seg2 = make_segment (46,53) (17,62)
+seg3 = make_segment (46,70) (22,40)
 
 test_segs :: [Seg]
 test_segs = [seg1, seg2, seg3]
 
 --------------------------------------------------
--- comparing segments
-
--- GT means to the left, LT means to the right
-pt_compare :: Seg -> Pt -> Ordering
-pt_compare ((x1,y1),(x2,y2)) (x3,y3) =
-  compare ((x2-x1) * (y3-y1)) ((y2-y1) * (x3-x1))
-
-data SegOrdering = Above | Below | Across | OnTop
-
-seg_compare :: Seg -> Seg -> SegOrdering
-seg_compare ((x1,y1),(x2,y2)) ((x3,y3),(x4,y4)) =
-  case compare c3 0 of
-    LT -> if c4 > 0 then Across else Below
-    GT -> if c4 < 0 then Across else Above
-    EQ -> case compare c4 0 of
-      LT -> Below
-      EQ -> OnTop
-      GT -> Above
-  where
-    c3 = (x2-x1) * (y3-y1) - (y2-y1) * (x3-x1)
-    c4 = (x2-x1) * (y4-y1) - (y2-y1) * (x4-x1)
-
--- positive means to the left, negative means to the right
-{-
-seg_cross :: Seg -> Seg -> (R, R)
-seg_cross ((x1,y1),(x2,y2)) ((x3,y3),(x4,y4)) = (c3, c4)
-  where
-    c3 = (x2-x1) * (y3-y1) - (y2-y1) * (x3-x1)
-    c4 = (x2-x1) * (y4-y1) - (y2-y1) * (x4-x1)
--}
-
-seg_crosses :: Seg -> Seg -> Bool
-seg_crosses ((x1,y1),(x2,y2)) ((x3,y3),(x4,y4)) =
-  (a < 0 && 0 < b) || (b < 0 && 0 < a)
-  where
-    a = (x2-x1) * (y3-y1) - (y2-y1) * (x3-x1)
-    b = (x2-x1) * (y4-y1) - (y2-y1) * (x4-x1)
-
-seg_intersects :: Seg -> Seg -> Bool
-seg_intersects seg1 seg2 =
-  seg_crosses seg1 seg2 && seg_crosses seg2 seg1
-
---------------------------------------------------
--- finding intersections
-
-seg_intersection :: Seg -> Seg -> Pt
-seg_intersection seg1 seg2 = (x, y)
-  where
-    prep ((x1,y1),(x2,y2)) = (x1-x2, y1-y2, x1*y2 - x2*y1)
-    (dx1, dy1, cxy1) = prep seg1
-    (dx2, dy2, cxy2) = prep seg2
-    d = (dx2 * dy1 - dx1 * dy2)
-    x = (dx1 * cxy2 - dx2 * cxy1) / d
-    y = (dy1 * cxy2 - dy2 * cxy1) / d
-
-all_pairs :: [a] -> [(a,a)]
-all_pairs [] = []
-all_pairs (x:ys) = [ (x,y) | y <- ys ] ++ all_pairs ys
-
-{-
-intersection of segments ((x1,y1),(x2,y2)) and ((x3,y3),(x4,y4))
-
-(x,y) = (x1,y1) + u*(x2-x1, y2-y1)
-(x,y) = (x3,y3) + v*(x4-x3, y4-y3)
-
-x1 + u*(x2-x1) = x3 + v*(x4-x3) = x
-y1 + u*(y2-y1) = y3 + v*(y4-y3) = y
-
-x1(y4-y3) + u*(x2-x1)(y4-y3) = x3(y4-y3) + v*(x4-x3)(y4-y3)
-y1(x4-x3) + u*(y2-y1)(x4-x3) = y3(x4-x3) + v*(x4-x3)(y4-y3)
-
-x1(y4-y3) - y1(x4-x3) + u[(x2-x1)(y4-y3) - (y2-y1)(x4-x3)] =
-  x3(y4-y3) - y3(x4-x3)
-
-u*[(x2-x1)(y4-y3) - (y2-y1)(x4-x3)] = (x3-x1)(y4-y3) - (y3-y1)(x4-x3)
-
-u = [(x3-x4)(y1-y3) - (x1-x3)(y3-y4)] /
-    [(x3-x4)(y1-y2) - (x1-x2)(y3-y4)]
-
-v = [(x3-x1)(y1-y2) - (x1-x2)(y3-y1)] /
-    [(x3-x4)(y1-y2) - (x1-x2)(y3-y4)]
--}
-
---------------------------------------------------
 -- filtering and splitting
 
-filter_segs :: Seg -> [Seg] -> ([Seg], [Seg], [Seg], [Pt])
-filter_segs key segs = f segs [] [] [] []
+filter_segs :: Line -> [Seg] -> ([Seg], [Seg], [Seg], [Pt])
+filter_segs pivot segs = f segs [] [] [] []
   where
     f [] lt gt eq pts = (lt, gt, eq, pts)
-    f (seg@(a,b):segs) lt gt eq pts =
-      case (pt_compare key a, pt_compare key b) of
-        (LT, GT) -> f segs ((a,c):lt) ((c,b):gt) eq (c:pts)
+    f (seg@(Seg a b l):segs) lt gt eq pts =
+      case (pt_compare pivot a, pt_compare pivot b) of
+        (LT, GT) -> f segs ((Seg a c l):lt) ((Seg c b l):gt) eq (c:pts)
         (LT, _ ) -> f segs (seg:lt) gt eq pts
-        (GT, LT) -> f segs ((c,b):lt) ((a,c):gt) eq (c:pts)
+        (GT, LT) -> f segs ((Seg c b l):lt) ((Seg a c l):gt) eq (c:pts)
         (GT, _ ) -> f segs lt (seg:gt) eq pts
         (EQ, LT) -> f segs (seg:lt) gt eq pts
         (EQ, GT) -> f segs lt (seg:gt) eq pts
         (EQ, EQ) -> f segs lt gt (seg:eq) pts
-      where c = seg_intersection key (a,b)
+      where c = line_intersection pivot l
 
 unique_intersections :: [Seg] -> [Pt]
 unique_intersections [] = []
 unique_intersections [seg] = []
 unique_intersections segs = pts' ++ lt_pts ++ gt_pts
   where
-    key = head segs
-    (lt, gt, eq, pts) = filter_segs key segs
-    on c (a,b) = compare a c == compare c b
+    pivot = line_of_segment (head segs)
+    (lt, gt, eq, pts) = filter_segs pivot segs
+    on c (Seg a b _) = compare a c == compare c b
     pts' = [ c | (n,c) <- multiplicities (sort pts), n > 1 || any (on c) eq ]
     lt_pts = unique_intersections lt
     gt_pts = unique_intersections gt
@@ -202,126 +160,22 @@ count_intersections [] = 0
 count_intersections [seg] = 0
 count_intersections segs = length pts' + lt_pts + gt_pts
   where
-    key = head segs
-    (lt, gt, eq, pts) = filter_segs key segs
-    on c (a,b) = compare a c == compare c b
+    pivot = line_of_segment (head segs)
+    (lt, gt, eq, pts) = filter_segs pivot segs
+    on c (Seg a b _) = compare a c == compare c b
     pts' = [ c | (n,c) <- multiplicities (sort pts), n > 1 || any (on c) eq ]
     lt_pts = count_intersections lt
     gt_pts = count_intersections gt
 
-multiplicities :: [Pt] -> [(Int,Pt)]
+multiplicities :: [Pt] -> [(Int, Pt)]
 multiplicities [] = []
 multiplicities (x:xs) =
   case multiplicities xs of
     [] -> [(1,x)]
     ((n,y):ys) -> if x == y then (n+1,y):ys else (1,x):(n,y):ys
 
---------------------------------------------------
--- removing duplicates
-
-compare_pt :: Pt -> Pt -> Ordering
-compare_pt (a,b) (c,d) =
-  compare
-    (numerator a, denominator a, numerator b, denominator b)
-    (numerator c, denominator c, numerator d, denominator d)
-
-repeated :: [(Int,Pt)]
-repeated =
-  [ (2,(85826%269,64274%269)) -- 915
-  , (2,(1571%5,1683%5)) -- 943
-  --, (2,(237%1,121%1))
-  --, (2,(1317%4,1509%4))
-  --, (2,(128215%541,163141%541))
-  --, (2,(349%2,659%2))
-  --, (2,(36567%328,89419%328))
-  --, (2,(160%1,369%1))
-  --, (2,(4406%19,3596%19))
-  ]
-
-remove_all_duplicates :: [Pt] -> [Pt]
-remove_all_duplicates = f . sortBy compare_pt
-  where
-    f (x:y:zs) | x == y = let (zs1,zs2) = span (x ==) zs
-                              l = length zs1 + 2
-                          in {-if (l,x) `notElem` repeated
-                             then error (show (l,x)) else-}
-                             f zs2
-                          -- f (dropWhile (x ==) zs)
-               | otherwise = x : f (y:zs)
-    f (x:xs) = x : f xs
-    f [] = []
-
-num_distinct :: [Pt] -> Int
-num_distinct [] = 0
-num_distinct (x:xs) = 1 + num_distinct ls + num_distinct rs
-  where
-    (ls,rs) = split xs
-    split [] = ([], [])
-    split (y:ys) =
-      let (ls,rs) = split ys in
-      case compare_pt x y of
-        LT -> (y:ls, rs)
-        EQ -> (ls, rs)
-        GT -> (ls, y:rs)
-
---------------------------------------------------
--- putting it all together
-
--- partition_seg
-
-intersection_list :: [Seg] -> [[Pt]]
-intersection_list [] = []
-intersection_list (seg:segs) =
-  points : intersection_list segs
-  where
-    points = [ seg_intersection seg seg' |
-               seg' <- segs,
-               seg_intersects seg seg' ]
-
-prob165' p n =
-  -- length $
-  foldl1 S.union $
-  map (S.nub . sort . filter p) $
-  intersection_list (segments n)
-
-prob165'' p n =
-  --sum $ map length $
-  filter (not . null . snd) $
-  zip [1 ..] $
-  map (remove_all_duplicates . filter p) $
-  intersection_list (segments n)
-
--- (   -100) 187131
--- (100-200) 706963
--- (200-250) 496265
--- (250-300) 514258
--- (300-400) 776775
--- (400-   ) 187476
--- ( total ) 2868868
-
-{-
-3 extra: 450 <= a < 455
-1 extra: 455 <= a < 456, 53 <= b < 54
-2 extra: 456 <= a < 457
-3 extra: 457 <= a < 458
-2 extra: 458 <= a < 459
-2 extra: 459 <= a < 460
-
-segment 1264: ((453,51),(485,83))
-segment 2889: ((460,58),(402,0))
--}
-prob165w n =
-  num_distinct $
-  concat $
-  intersection_list $
-  segments n
-
-prob165 n =
-  sum $
-  map length $
-  map remove_all_duplicates $
-  intersection_list $
-  segments n
+prob165 :: Int -> Int
+prob165 n = count_intersections (segments n)
 -- prob165 1000 = 113849 (113853)
 -- prob165 2000 = 463866 (463882)
 -- prob165 3000 = 1027115 (1027166)
@@ -329,34 +183,7 @@ prob165 n =
 -- prob165 5000 = 2868868 (2868997)
 
 main :: IO String
-main = return $ show $ count_intersections (segments 5000)
+main = return $ show $ prob165 5000
 
 answer :: String
 answer = "2868868"
-
-
-{-
-remove_duplicates :: (Ord a) => [a] -> [a]
-remove_duplicates = f . sortBy compare_pt
-  where
-    f (x:y:zs) | x == y = f (dropWhile (x ==) zs)
-               | otherwise = x : f (y:zs)
-    f (x:xs) = x : f xs
-    f [] = []
--}
-
-{-
-num_intersections :: [Seg] -> Int
-num_intersections [] = 0
-num_intersections (seg:segs) =
-  num_intersections segs +
-  length (remove_duplicates rs)
-  where
-    rs = [ r |
-      seg' <- segs,
-      let (a,b) = seg_cross seg seg',
-      (a < 0 && 0 < b) || (b < 0 && 0 < a),
-      let (c,d) = seg_cross seg' seg,
-      (c < 0 && 0 < d) || (d < 0 && 0 < c),
-      let r = c % d ]
--}
