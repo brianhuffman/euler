@@ -1,9 +1,8 @@
 module Euler180 where
-import EulerLib
-import Ratio
-import List
+import Data.Ratio
 import qualified Data.Set as Set
 import qualified Data.Map as Map
+import Data.Maybe (maybeToList)
 
 {-
 Problem 180
@@ -112,7 +111,7 @@ golden_triples k = -- 6851 distinct
   where
     fracs = farey_sequence k
     sqrts = Map.fromList [ (n^2, n) | n <- [1 .. k^2] ]
-    is_square x = Map.lookup x sqrts
+    is_square x = maybeToList (Map.lookup x sqrts)
     f1 x y =
       let w = x^2 + y^2
       in [ a % b | a <- is_square (numerator w),
