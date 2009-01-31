@@ -87,7 +87,7 @@ pt_compare (Line a b c) (x, y) =
     dy = denominator y
 
 line_intersection :: Line -> Line -> Pt
-line_intersection (Line a1 b1 c1) (Line a2 b2 c2) = (x%d, y%d)
+line_intersection (Line a1 b1 c1) (Line a2 b2 c2) = (x % d, y % d)
   where
     x = b2*c1 - b1*c2
     y = a1*c2 - a2*c1
