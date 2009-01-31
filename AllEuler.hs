@@ -231,6 +231,7 @@ import qualified Euler226
 import qualified Euler227
 import qualified Euler228
 import qualified Euler229
+import qualified Euler230
 
 timeIO_ :: IO () -> IO TimeDiff
 timeIO_ action =
@@ -584,7 +585,8 @@ checks = [
   (226,   0, Euler226.main, "0.11316017", "A Scoop of Blancmange"),
   (227,   1, Euler227.main, Euler227.answer, "The Chase"),
   (228,   0, Euler228.main, "86226", "Minkowski Sums"),
-  (229, 113, Euler229.main, Euler229.answer, "Four Representations using Squares")
+  (229, 113, Euler229.main, Euler229.answer, "Four Representations using Squares"),
+  (230,   0, Euler230.main, Euler230.answer, "Fibonacci Words")
   ]
 
 total_time :: Int
