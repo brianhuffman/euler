@@ -1,5 +1,4 @@
 module Euler150 where
-import Data.List
 import Data.Int
 import Data.Array.Unboxed
 import Control.Monad.ST
@@ -114,19 +113,21 @@ prep_triangle = zipWith prep_row [1..]
   where
     prep_row n xs = listArray (0, n) (scanl (+) 0 xs)
 
-prob150 :: Int -> Z
-prob150 n = find 1 table
+find :: Int -> [UArray Int Z] -> Z
+find w [] = 0
+find w arrs = min z1 z2
   where
-    table = prep_triangle (random_triangle n)
-    find w [] = 0
-    find w arrs = min z1 z2
-      where
-        z1 = minimum [ find1 x arrs | x <- [1 .. w] ]
-        z2 = find (w+1) (tail arrs)
-    find1 x arrs = minimum sums
-      where
-        rows = zipWith (\y a -> a!y - a!(x-1)) [x..] arrs
-        sums = scanl (+) 0 rows
+    z1 = minimum [ find1 x arrs | x <- [1 .. w] ]
+    z2 = find (w+1) (tail arrs)
+
+find1 :: Int -> [UArray Int Z] -> Z
+find1 x arrs = minimum sums
+  where
+    rows = zipWith (\y a -> a!y - a!(x-1)) [x..] arrs
+    sums = scanl (+) 0 rows
+
+prob150 :: Int -> Z
+prob150 n = find 1 (prep_triangle (random_triangle n))
 
 main :: IO String
 main = return $ show $ prob150 1000
