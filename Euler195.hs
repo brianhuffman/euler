@@ -1,4 +1,5 @@
 module Euler195 where
+import TakeWhile
 
 {-
 Problem 195
