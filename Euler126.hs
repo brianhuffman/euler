@@ -1,6 +1,7 @@
 module Euler126 where
-import EulerLib
+import EulerLib (triangle)
 import Data.Array.Unboxed
+import TakeWhile
 
 ------------------------------------------------------------------------------
 -- 126. Exploring the number of cubes required to cover every visible face on a cuboid.
