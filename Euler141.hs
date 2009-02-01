@@ -2,6 +2,7 @@ module Euler141 where
 import SquareRoot
 import Data.Array.Unboxed
 import Data.List (nub)
+import TakeWhile
 
 {-
 Problem 141
