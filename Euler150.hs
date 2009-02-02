@@ -121,10 +121,20 @@ find w arrs = min z1 z2
     z2 = find (w+1) (tail arrs)
 
 find1 :: Int -> [UArray Int Z] -> Z
-find1 x arrs = minimum sums
+find1 x arrs = min_init_sum rows
+--find1 x arrs = minimum (scanl (+) 0 rows)
   where
     rows = zipWith (\y a -> a!y - a!(x-1)) [x..] arrs
-    sums = scanl (+) 0 rows
+
+-- min_init_sum xs = minimum (scanl (+) 0 xs)
+min_init_sum :: [Z] -> Z
+min_init_sum = f 0 0
+  where
+    f z t [] = z
+    f z t (x : xs) = f z' t' xs
+      where
+        t' = t + x
+        z' = min z t'
 
 prob150 :: Int -> Z
 prob150 n = find 1 (prep_triangle (random_triangle n))
