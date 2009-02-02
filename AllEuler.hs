@@ -292,7 +292,6 @@ Slow:
 155: (7 s) Counting Capacitor Circuits
 
 Productivity:
-208: (14%) Robot Walks
 221: (20%) Alexandrian Integers
 149: (27%) Searching for a maximum-sum subsequence
 201: (32%) Subsets with a unique sum
