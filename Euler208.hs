@@ -1,7 +1,6 @@
 module Euler208 where
 import Memoize
-import EulerLib (funArray)
-import Data.Array
+import Data.Int (Int64)
 
 {-
 Problem 208
@@ -84,28 +83,21 @@ Out of 32 possible combinations of parities, only 10 are reachable:
 
 -}
 
+type Z = Int64
+
 type State = (Int, Int, Int, Int, Int)
 
 -- a,b,c,d,e = how many previous moves in directions 1,2,3,4,5
-path_count_memo :: Int -> State -> Integer
+path_count_memo :: Int -> State -> Z
 path_count_memo l = p
   where
-    p = memoize ((0,0,0,0,0), (l,l,l,l,l)) f
+    p = memoizeU ((0,0,0,0,0), (l,l,l,l,l)) f
     f (0,0,0,0,0) = 1
     f (a,b,c,d,e) = (if e>0 then p (e-1,a,b,c,d) else 0) +
                     (if a>0 then p (b,c,d,e,a-1) else 0)
 
-path_count_array :: Int -> Array State Integer
-path_count_array l = p
-  where
-    p = funArray ((0,0,0,0,0), (l,l,l,l,l)) f
-    f (0,0,0,0,0) = 1
-    f (a,b,c,d,e) = (if e>0 then p!(e-1,a,b,c,d) else 0) +
-                    (if a>0 then p!(b,c,d,e,a-1) else 0)
-
-prob208 :: Int -> Integer
---prob208 l = path_count_memo l (l,l,l,l,l)
-prob208 l = path_count_array l ! (l,l,l,l,l)
+prob208 :: Int -> Z
+prob208 l = path_count_memo l (l,l,l,l,l)
 
 main :: IO String
 main = return $ show $ prob208 14
