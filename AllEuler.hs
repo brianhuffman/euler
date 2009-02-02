@@ -279,60 +279,59 @@ test _ _ = return ()
 {-
 Slow:
 154: (80 s) Exploring Pascal's pyramid
-196: (62 s) Prime triplets
-216: (61 s) Primality of 2n^2-1
-210: (50 s) Obtuse Angled Triangles
-165: (41 s) Intersections
-150: (32 s) Minimum-sum sub-triangles
-153: (17 s) Investigating Gaussian Integers
-155: (14 s) Counting Capacitor Circuits
-229: (12 s) Four Representations using Squares
+196: (60 s) Prime triplets
+216: (58 s) Primality of 2n^2-1
+210: (52 s) Obtuse Angled Triangles
+165: (48 s) Intersections
+150: (22 s) Minimum-sum sub-triangles
+153: (15 s) Investigating Gaussian Integers
 193: (11 s) Squarefree Numbers
-141: (10 s) Progressive perfect squares
-185: (9 s) Number Mind
+185: (10 s) Number Mind
+141: (9 s) Progressive perfect squares
+229: (9 s) Four Representations using Squares
+155: (7 s) Counting Capacitor Circuits
 
 Productivity:
-149: (17%) Searching for a maximum-sum subsequence
-208: (21%) Robot Walks
-221: (23%) Alexandrian Integers
-201: (29%) Subsets with a unique sum
-161: (40%) Triominoes
+208: (14%) Robot Walks
+221: (20%) Alexandrian Integers
+149: (27%) Searching for a maximum-sum subsequence
+201: (32%) Subsets with a unique sum
 181: (40%) Grouping objects of two different colours.
-155: (46%) Counting Capacitor Circuits
-143: (48%) Torricelli point of a triangle
-160: (52%) Factorial trailing digits
-195: (56%) Inscribed circles
-189: (60%) Tri-colouring a triangular grid
-126: (66%)
-159: (66%) Digital root sums of factorizations
-227: (70%) The Chase
-212: (73%) Combined Volume of Cuboids
-141: (77%) Progressive perfect squares
+161: (47%) Triominoes
+160: (53%) Factorial trailing digits
+143: (54%) Torricelli point of a triangle
+195: (63%) Inscribed circles
+189: (63%) Tri-colouring a triangular grid
+159: (70%) Digital root sums of factorizations
+212: (70%) Combined Volume of Cuboids
+126: (75%) Cubes Required to Cover a Cuboid
+141: (83%) Progressive perfect squares
+155: (85%) Counting Capacitor Circuits
 
 Memory:
-149: (175 Mb) Searching for a maximum-sum subsequence
-155: (156 Mb) Counting Capacitor Circuits
-179: (79 Mb) Consecutive positive divisors
-187: (76 Mb) Semiprimes
-195: (71 Mb) Inscribed circles
-181: (61 Mb) Grouping objects of two different colours
+149: (201 Mb) Searching for a maximum-sum subsequence
+187: (108 Mb) Semiprimes
+179: (80 Mb) Consecutive positive divisors
+195: (77 Mb) Inscribed circles
+155: (71 Mb) Counting Capacitor Circuits
+181: (68 Mb) Grouping objects of two different colours
 159: (60 Mb) Digital root sums of factorizations
-221: (56 Mb) Alexandrian Integers
+221: (47 Mb) Alexandrian Integers
 161: (44 Mb) Triominoes
-193: (26 Mb) Squarefree Numbers
+193: (28 Mb) Squarefree Numbers
 214: (25 Mb) Totient Chains
-216: (23 Mb) Primality of 2n^2-1
-141: (22 Mb) Progressive perfect squares
+216: (24 Mb) Primality of 2n^2-1
+141: (23 Mb) Progressive perfect squares
 189: (21 Mb) Tri-colouring a triangular grid
 212: (19 Mb) Combined Volume of Cuboids
-124: (18 Mb)
-75: (17 Mb)
-88: (16 Mb)
+124: (18 Mb) Sorted Radical Function
+ 75: (18 Mb) Lengths forming a unique right triangle
+ 88: (16 Mb) Minimal Product-Sum Numbers
 143: (16 Mb) Torricelli point of a triangle
 196: (15 Mb) Prime triplets
 229: (15 Mb) Four Representations using Squares
-127: (14 Mb)
-213: (10 Mb) Flea Circus
+127: (13 Mb) Counting abc-hits
+213: (11 Mb) Flea Circus
 
 
 
