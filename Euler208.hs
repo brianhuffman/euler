@@ -1,5 +1,7 @@
 module Euler208 where
 import Memoize
+import EulerLib (funArray)
+import Data.Array
 
 {-
 Problem 208
@@ -93,8 +95,17 @@ path_count_memo l = p
     f (a,b,c,d,e) = (if e>0 then p (e-1,a,b,c,d) else 0) +
                     (if a>0 then p (b,c,d,e,a-1) else 0)
 
+path_count_array :: Int -> Array State Integer
+path_count_array l = p
+  where
+    p = funArray ((0,0,0,0,0), (l,l,l,l,l)) f
+    f (0,0,0,0,0) = 1
+    f (a,b,c,d,e) = (if e>0 then p!(e-1,a,b,c,d) else 0) +
+                    (if a>0 then p!(b,c,d,e,a-1) else 0)
+
 prob208 :: Int -> Integer
-prob208 l = path_count_memo l (l,l,l,l,l)
+--prob208 l = path_count_memo l (l,l,l,l,l)
+prob208 l = path_count_array l ! (l,l,l,l,l)
 
 main :: IO String
 main = return $ show $ prob208 14
