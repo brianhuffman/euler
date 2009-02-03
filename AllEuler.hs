@@ -512,7 +512,7 @@ checks = [
   (155, 145, Euler155.main, Euler155.answer, "Counting Capacitor Circuits"),
   (156,  14, Euler156.main, "21295121502550", "Counting Digits"),
   (157,   0, Euler157.main, "53490", "Solving 1/a + 1/b = p/10^n"),
-  (158,   0, Euler158.main, "409511334375", "One Character Out of Order")
+  (158,   0, Euler158.main, "409511334375", "One Character Out of Order"),
   (159,  44, Euler159.main, "14489159", "Digital root sums of factorizations."),
   (160,  17, Euler160.main, "16576", "Factorial trailing digits"),
   (161,  10, Euler161.main, "20574308184277971", "Triominoes"),
