@@ -1,7 +1,7 @@
 all: AllEuler
 
 test: AllEuler
-	time ./AllEuler
+	time ./AllEuler | tee test
 
 stat: AllEuler
 	time ./AllEuler +RTS -s
