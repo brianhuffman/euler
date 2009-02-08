@@ -42,12 +42,12 @@ str = s '1'
      s c 0 = ""
      s c k = let cs = s (succ c) (k`div`2)
              in if odd k then c : cs else cs
-     
+
 -- count_key ! k = number of primes represented by key k
 count_key :: Array Key Int
 count_key = listArray (1, 511) (map (prime_perms . str) [1 .. 511])
   where
-    prime_perms [d] = if test_prime (digitToInt d) then 1 else 0
+    prime_perms [d] = if d `elem` "2357" then 1 else 0
     prime_perms ds
       | mult3 ds  = 0
       | otherwise = length (filter (test_prime . read) (perms ds))
@@ -63,7 +63,7 @@ perms ys = do
   return (x:xs')
 
 test_prime :: Int -> Bool
-test_prime n = miller_rabin (toInteger n)
+test_prime n = n > 1 && primeInt n
 
 prime_partitions :: String -> Int
 prime_partitions [] = 1
@@ -76,4 +76,6 @@ prime_partitions (d : ds) = sum
 main :: IO String
 main = return $ show $ prime_partitions "123456789"
 -- main = return $ show $ sum $ elems $ count_key
--- 44680
+
+answer :: String
+answer = "44680"
