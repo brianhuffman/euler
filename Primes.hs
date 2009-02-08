@@ -22,6 +22,8 @@ primesInt = [2,3,5,7,11,13,17,19,23,29] ++ filter primeInt ns
 primes :: (Num a) => [a]
 primes = map fromIntegral primesInt
 
+{-# RULES "primes/primesInt" primes = primesInt #-}
+
 least_prime_divisor n = f primes
   where
     f (p : ps)
