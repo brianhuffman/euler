@@ -4,25 +4,27 @@ import Memoize
 
 {-
 Problem 14
-Collatz Chains.
+Longest Collatz Sequence
 
 05 April 2002
 
-The following iterative sequence is defined for the set of positive integers:
+The following iterative sequence is defined for the set of positive
+integers:
 
 n -> n/2 (n is even)
 n -> 3n + 1 (n is odd)
 
-Using the rule above and starting with 13, we generate the following sequence:
-13 -> 40 -> 20 -> 10 -> 5 -> 16 -> 8 -> 4 -> 2 -> 1
+Using the rule above and starting with 13, we generate the following
+sequence: 13 -> 40 -> 20 -> 10 -> 5 -> 16 -> 8 -> 4 -> 2 -> 1
 
-It can be seen that this sequence (starting at 13 and finishing at 1) contains
-10 terms. Although it has not been proved yet (Collatz Problem), it is thought
-that all starting numbers finish at 1.
+It can be seen that this sequence (starting at 13 and finishing at 1)
+contains 10 terms. Although it has not been proved yet (Collatz
+Problem), it is thought that all starting numbers finish at 1.
 
 Which starting number, under one million, produces the longest chain?
 
-NOTE: Once the chain starts the terms are allowed to go above one million.
+NOTE: Once the chain starts the terms are allowed to go above one
+million.
 -}
 
 type Z = Int64
@@ -51,7 +53,9 @@ prob14 m = seq f $ snd $ maximum [ (f n, n) | n <- [1 .. m] ]
 
 main :: IO String
 main = return $ show $ prob14 (10^6)
--- 837799
+
+answer :: String
+answer = "837799"
 
 {-
 Transition A: n -> n/2 (n is even)
