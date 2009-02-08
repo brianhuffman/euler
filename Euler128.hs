@@ -102,8 +102,8 @@ l6: 3*n*(n+1) + 1
 three_prime_diffs :: [Integer]
 three_prime_diffs = 1 : S.union xs ys
   where
-    xs = [ 3*n*(n-1) + 2 | n <- [1 ..], all is_prime [6*n-1, 6*n+1, 12*n+5] ]
-    ys = [ 3*n*(n+1) + 1 | n <- [2 ..], all is_prime [6*n-1, 6*n+5, 12*n-7] ]
+    xs = [ 3*m*(m-1) + 2 | n <- [1 ..], all primeInt [6*n-1, 6*n+1, 12*n+5], let m = toInteger n ]
+    ys = [ 3*m*(m+1) + 1 | n <- [2 ..], all primeInt [6*n-1, 6*n+5, 12*n-7], let m = toInteger n ]
 
 prob128 :: Int -> Integer
 prob128 m = three_prime_diffs !! (m - 1)
