@@ -4,8 +4,11 @@ import Data.Array.Unboxed
 
 -- coprime m n = gcd m n == 1
 
-divides_none ps n =
-  all (\p -> n `mod` p /= 0) $ takeWhile (\p -> p*p <= n) ps
+divides_none [] n = True
+divides_none (p:ps) n
+  | n < p*p        = True
+  | n `mod` p == 0 = False
+  | otherwise      = divides_none ps n
 
 primesInt :: [Int]
 primesInt = [2,3,5,7,11,13,17,19,23,29] ++ filter p (f 30)
