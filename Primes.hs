@@ -2,7 +2,8 @@ module Primes where
 import qualified SortedList as S
 import Data.Array.Unboxed
 
--- coprime m n = gcd m n == 1
+----------------------------
+-- Primes by Trial Division
 
 divides_none [] n = True
 divides_none (p:ps) n
@@ -10,11 +11,13 @@ divides_none (p:ps) n
   | n `mod` p == 0 = False
   | otherwise      = divides_none ps n
 
+primeInt :: Int -> Bool
+primeInt = divides_none primesInt
+
 primesInt :: [Int]
-primesInt = [2,3,5,7,11,13,17,19,23,29] ++ filter p (f 30)
+primesInt = [2,3,5,7,11,13,17,19,23,29] ++ filter primeInt ns
   where
-    p n = divides_none primesInt n
-    f n = (n+1):(n+7):(n+11):(n+13):(n+17):(n+19):(n+23):(n+29):f(n+30)
+    ns = [ n+k | n <- [30, 60 ..], k <- [1,7,11,13,17,19,23,29] ]
 
 primes :: (Num a) => [a]
 primes = map fromIntegral primesInt
@@ -26,6 +29,7 @@ least_prime_divisor n = f primes
       | n `mod` p == 0 = p
       | otherwise      = f ps
 
+--is_prime :: Int -> Bool
 is_prime n
   | n < 2 = False
   | otherwise = divides_none primes n
