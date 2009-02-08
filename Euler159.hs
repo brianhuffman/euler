@@ -1,5 +1,4 @@
 module Euler159 where
-import EulerLib
 import Primes
 import Data.Array
 
