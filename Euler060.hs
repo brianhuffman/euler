@@ -1,8 +1,8 @@
 module Euler060 where
-import PrimeArray
+import PrimeArray (primes_upto)
+import Primes
 import qualified SortedList as S
 import Data.List (tails)
-import Data.Array.Unboxed
 
 {-
 Problem 60
@@ -70,12 +70,8 @@ prob60_upto m = map (map fst) (iterate nextset set0)
         let zss = inter yss ys ]
     inter :: State -> [Z] -> State
     inter = S.intersectBy (\(a,_) b -> compare a b)
-    table :: UArray Int Bool
-    table = PrimeArray.odd_prime_array (m^2 `div` 2)
     prime :: Z -> Bool
-    prime n
-      | even n = n == 2
-      | otherwise = table ! (n`div`2)
+    prime n = n > 1 && primeInt n
     compatible :: Z -> Z -> Bool
     compatible x y = prime (cat x y) && prime (cat y x)
 
