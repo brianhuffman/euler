@@ -7,7 +7,7 @@ import Data.Array.Unboxed
 
 divides_none [] n = True
 divides_none (p:ps) n
-  | n < p*p        = True
+  | n < p * p      = True
   | n `mod` p == 0 = False
   | otherwise      = divides_none ps n
 
