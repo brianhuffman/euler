@@ -1,7 +1,7 @@
 module Euler159 where
 import EulerLib
 import Primes
-import Array
+import Data.Array
 
 {-
 Problem 159
@@ -9,8 +9,10 @@ Digital root sums of factorisations.
 
 30 June 2007
 
-A composite number can be factored many different ways. For instance, not
-including multiplication by one, 24 can be factored in 7 distinct ways:
+A composite number can be factored many different ways. For instance,
+not including multiplication by one, 24 can be factored in 7 distinct
+ways:
+
 24 = 2x2x2x3
 24 = 2x3x4
 24 = 2x2x6
@@ -19,14 +21,16 @@ including multiplication by one, 24 can be factored in 7 distinct ways:
 24 = 2x12
 24 = 24
 
-Recall that the digital root of a number, in base 10, is found by adding
-together the digits of that number, and repeating that process until a number
-is arrived at that is less than 10. Thus the digital root of 467 is 8.
+Recall that the digital root of a number, in base 10, is found by
+adding together the digits of that number, and repeating that process
+until a number is arrived at that is less than 10. Thus the digital
+root of 467 is 8.
 
-We shall call a Digital Root Sum (DRS) the sum of the digital roots of the
-individual factors of our number.
+We shall call a Digital Root Sum (DRS) the sum of the digital roots of
+the individual factors of our number.
 
 The chart below demonstrates all of the DRS values for 24.
+
 Factorisation	Digital Root Sum
 2x2x2x3         9
 2x3x4           9
@@ -36,9 +40,10 @@ Factorisation	Digital Root Sum
 2x12            5
 24              6
 
-The maximum Digital Root Sum of 24 is 11.
-The function mdrs(n) gives the maximum Digital Root Sum of n. So mdrs(24)=11.
-Find SUM mdrs(n) for 1 < n < 1,000,000.
+The maximum Digital Root Sum of 24 is 11.  The function mdrs(n) gives
+the maximum Digital Root Sum of n. So mdrs(24)=11.  Find SUM mdrs(n)
+for 1 < n < 1,000,000.
+
 -}
 
 {-
@@ -74,21 +79,21 @@ equal to replace:
 droot :: Int -> Int
 droot x = let r = x `mod` 9 in if r == 0 then 9 else r
 
-pf_array :: Int -> Array Int [(Int,Int)]
+pf_array :: Int -> Array Int [Int]
 pf_array m = a
   where
     a = listArray (1, m) (map f [1 .. m])
     f 1 = []
-    f n = (p, e) : a!q
+    f n = p : a!q
       where
         p = least_prime_divisor n
-        (q, e) = divN n p
+        q = n `div` p
 
--- maximum digital root sum (argument given as prime factorization)
-mdrs_pf :: [(Int, Int)] -> Int
-mdrs_pf pf = sum [ p*e | (p,e) <- assocs arr ] + bonus
+-- maximum digital root sum (argument given as list of prime factors)
+mdrs_pf :: [Int] -> Int
+mdrs_pf ps = sum [ p*e | (p,e) <- assocs arr ] + bonus
   where
-    arr = accumArray (+) 0 (1,9) [ (droot p, e) | (p,e) <- pf ]
+    arr = accumArray (+) 0 (1,9) [ (droot p, 1) | p <- ps ]
     n2 = arr!2
     n3 = arr!3
     n4 = arr!4
@@ -100,11 +105,13 @@ mdrs_pf pf = sum [ p*e | (p,e) <- assocs arr ] + bonus
 
 -- maximum digital root sum
 mdrs :: Int -> Int
-mdrs n = mdrs_pf (prime_factorization n)
+mdrs n = mdrs_pf [ q | (p,e) <- prime_factorization n, q <- replicate e p ]
 
 prob159 :: Int -> Int
 prob159 n = sum $ map mdrs_pf $ elems $ pf_array (n-1)
 
 main :: IO String
 main = return $ show $ prob159 (10^6)
--- 14489159
+
+answer :: String
+answer = "14489159"
