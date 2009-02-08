@@ -84,16 +84,17 @@ pf_array m = a
   where
     a = listArray (1, m) (map f [1 .. m])
     f 1 = []
-    f n = p : a!q
+    f n = droot p : a!q
       where
         p = least_prime_divisor n
         q = n `div` p
 
--- maximum digital root sum (argument given as list of prime factors)
+-- maximum digital root sum
+-- (argument given as list of digital roots of prime factors)
 mdrs_pf :: [Int] -> Int
-mdrs_pf ps = sum [ p*e | (p,e) <- assocs arr ] + bonus
+mdrs_pf ds = sum ds + bonus
   where
-    arr = accumArray (+) 0 (1,9) [ (droot p, 1) | p <- ps ]
+    arr = accumArray (+) 0 (1,9) [ (d, 1) | d <- ds ]
     n2 = arr!2
     n3 = arr!3
     n4 = arr!4
@@ -105,7 +106,8 @@ mdrs_pf ps = sum [ p*e | (p,e) <- assocs arr ] + bonus
 
 -- maximum digital root sum
 mdrs :: Int -> Int
-mdrs n = mdrs_pf [ q | (p,e) <- prime_factorization n, q <- replicate e p ]
+mdrs n = mdrs_pf
+  [ d | (p,e) <- prime_factorization n, d <- replicate e (droot p) ]
 
 prob159 :: Int -> Int
 prob159 n = sum $ map mdrs_pf $ elems $ pf_array (n-1)
