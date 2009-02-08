@@ -14,7 +14,7 @@ change1 n = map read (f (show n))
       [ x:xs' | xs' <- f xs ]
 
 prime_proof :: Integer -> Bool
-prime_proof n = not $ any is_prime $ change1 n
+prime_proof n = not $ any miller_rabin $ change1 n
 
 contains200 :: Integer -> Bool
 contains200 n = f (show n)
