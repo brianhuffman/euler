@@ -114,6 +114,21 @@ prime_table (i,j) = accumArray (const id) True (i,j) xs
            let k = max p ((i+p-1) `div` p),
            n <- [p*k, p*k+p .. j] ]
 
+odd_prime_table :: (Z, Z) -> UArray Z Bool
+odd_prime_table (i,j) = accumArray (const id) True (a,b) updates
+  where
+    ps = map fromIntegral (primes_upto (fromIntegral (square_root j)))
+    (a, b) = (i`div`2, (j-1)`div`2)
+    updates =
+      [ (n, False) |
+         -- p ranges over odd primes
+         p <- tail ps,
+         let p2 = p`div`2,
+         -- n0 = least n>=a such that p divides 2n+1
+         let n0 = (a+p-1) - (a+p2)`mod`p,
+         let n1 = max n0 ((p^2)`div`2),
+         n <- [n1, n1+p .. b] ]
+
 n1, n2 :: Z
 n1 = 5678027
 n2 = 7208785
@@ -147,8 +162,8 @@ triplet_primes' n = filter (is_triplet_prime' prime n) (row n)
   where
     i = triangle (n-3) - 2
     j = triangle (n+2)
-    arr = prime_table (i,j)
-    prime k = arr ! k
+    arr = odd_prime_table (i,j)
+    prime k = odd k && arr ! (k`div`2)
 
 prob196 :: Z -> Z
 prob196 n = sum (triplet_primes' n)
@@ -177,80 +192,3 @@ triplet primes on row 5678027:
 Row(7208785) = [25983286983721 .. 25983294192505]
 9337 primes, sum 242605983970758409
 -}
-
-------------------------------------------------------------
-{-
-two_of x y z = (x && y) || (y && z) || (x && z)
-
-odd_row_triples k
-    as@(a1:a2:a3:a4:a5:_)
-    bs@(b1:b2:b3:b4:b5:_)
-    cs@(c1:c2:c3:c4:c5:_)
-    ds@(d1:d2:d3:d4:d5:_)
-    es@(e1:e2:e3:e4:e5:_)
-  = if is_triple then k : next else next
-  where
-    next = odd_row_triples (k+1)
-      (tail as) (tail bs) (tail cs) (tail ds) (tail es)
-    is_triple =
-      (c3 &&
-        (two_of b3 d2 d4
-          || (b3 && (a2 || a4))
-          || (d2 && (c1 || e2))
-          || (d4 && (c5 || e4))))
-odd_row_triples k _ _ _ _ _ = []
-
-odd_row_prime_triples n = odd_row_triples k0 as bs cs ds es
-  where
-    k0 = triangle (n-1) + 1
-    foo n = elems (prime_table (row_bnds n))
-    xx = False
-    as = [xx, xx] ++ foo (n-2) ++ [xx, xx, xx, xx]
-    bs = [xx, xx] ++ foo (n-1) ++ [xx, xx, xx]
-    cs = [xx, xx] ++ foo n ++ [xx, xx]
-    ds = [xx, xx] ++ foo (n+1) ++ [xx]
-    es = [xx, xx] ++ foo (n+2)
--}
-
-------------------------------------------------------------
-
-{-
-
-splitsAt :: [Int] -> [a] -> [[a]]
-splitsAt (n:ns) xs = ys : splitsAt ns zs
-  where (ys,zs) = splitAt n xs
-
-big_triangle = splitsAt [1 ..] [1 ..]
-
-
--- only works for odd rows!
-is_triplet_prime ps n k
-  | even n = error "even row"
-  | k > triangle n = []
-  | not (prime k) = is_triplet_prime ps n (k+2)
-  | is_triplet = k : is_triplet_prime ps n (k+2)
-  | otherwise = is_triplet_prime ps n (k+2)
-  where
-    prime = divides_none ps
-    a = prime k
-    b = prime (k-n+1)
-    c = prime (k+n-1)
-    d = prime (k+n+1)
-    e = prime (k-2*n+2) || prime (k-2*n+4)
-    f = prime (k-2) || prime (k+2*n)
-    g = prime (k+2) || prime (k+2*n+2)
-    is_triplet = case (b,c,d) of
-          (False, False, False) -> False
-          (True, False, False) -> e
-          (False, True, False) -> f
-          (False, False, True) -> g
-          _ -> True
-
-triplet_primes = maybe_triplet_primes primes
-
-maybe_triplet_primes ps n =
-  is_triplet_prime primes n (if even k0 then k0+1 else k0)
-  where k0 = head (row n)
--}
-
-
