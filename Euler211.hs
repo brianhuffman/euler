@@ -1,16 +1,9 @@
 module Euler211 where
-import PrimeArray
 import Primes
 import SquareRoot
 import ContinuedFraction
 import Permutation (subsets)
-import Control.Monad.ST
-import Data.Array.ST
-import Data.Array.Unboxed
-import Data.Int ( Int64 )
 import qualified Data.Map as Map
-import qualified Data.Set as Set
-import qualified SortedList as S
 
 {-
 
@@ -79,7 +72,29 @@ D = 90 = 2 3 3 5: none
 -}
 
 type Z = Integer
-type N = Int64
+
+-- integer logarithm
+-- ilog b n = greatest e such that b^e <= n
+ilog :: (Integral a) => a -> a -> Int
+ilog b n
+  | n < b = 0
+  | otherwise = 1 + ilog b (n `div` b)
+
+s2_prime_power :: (Z, Int) -> Z
+s2_prime_power (p, e) = f e
+  where
+    p2 = p^2
+    f 0 = 1
+    f e = 1 + p2 * f (e-1)
+
+-- prime factors of squarefree part of n
+-- post-condition: must be subset of qs
+sfree :: [Z] -> Z -> Maybe [Z]
+sfree [] n = if is_square n then Just [] else Nothing
+sfree (q:qs) n
+  | q > n = sfree [] n
+  | otherwise = fmap (\ds -> if odd e then q:ds else ds) (sfree qs n')
+  where (n', e) = divN n q
 
 ----------------------------------------------------
 -- Sigma2
@@ -144,8 +159,8 @@ find1 m x ((q,ys):rest) =
     fstSigma2 x' <= m,
     z <- find1 m x' rest ]
 
-s2_squares' :: Z -> ([Z], [Z], [Z])
-s2_squares' m = (case1, case2, case3)
+s2_squares :: Z -> ([Z], [Z], [Z])
+s2_squares m = (case1, case2, case3)
   where
     r :: Z
     r = square_root m
@@ -190,6 +205,7 @@ s2_squares' m = (case1, case2, case3)
     -- solutions with a single prime power factor larger than r
     case2 :: [Z]
     case2 = concat [ find1 m x table1 | x <- table2 ]
+
     -- solutions with a single prime factor larger than r
     case3 :: [Z]
     case3 =
@@ -205,185 +221,9 @@ s2_squares' m = (case1, case2, case3)
 
 ----------------------------------------------------
 
--- integer logarithm
--- ilog b n = greatest e such that b^e <= n
-ilog :: (Integral a) => a -> a -> Int
-ilog b n
-  | n < b = 0
-  | otherwise = 1 + ilog b (n `div` b)
-
-s2_prime_power :: (Z, Int) -> Z
-s2_prime_power (p, e) = f e
-  where
-    p2 = p^2
-    f 0 = 1
-    f e = 1 + p2 * f (e-1)
-
--- [(e, squarefree factors of s2(p^e))]
-table :: Z -> Z -> [(Int, [Z])]
-table r p =
-  [ (e, qs) |
-    e <- [0 .. ilog p r],
-    let s2 = s2_prime_power (p, e),
-    let qs = [ q | (q, k) <- prime_factorization s2, odd k ] ]
-
--- prime factors of squarefree part of n
--- post-condition: must be subset of qs
-sfree :: [Z] -> Z -> Maybe [Z]
-sfree [] n = if is_square n then Just [] else Nothing
-sfree (q:qs) n
-  | q > n = sfree [] n
-  | otherwise = fmap (\ds -> if odd e then q:ds else ds) (sfree qs n')
-  where (n', e) = divN n q
-
-s2_squares :: Z -> ([Z], [Z], [Z])
-s2_squares m = (case1, case2, case3)
-  where
-    r :: Z
-    r = square_root m
-
-    ps :: [Z]
-    ps = takeWhile (<=r) primes
-
-    table1 :: [(Z, [(Int, [Z])])]
-    table1 = reverse [ (p, table r p) | p <- ps ]
-
-    small_qs :: [Z]
-    qss :: [[Z]]
-    (small_qs : qss) = scanr S.union []
-      (map (foldl1 S.union . map snd . snd) table1)
-
-    find1 :: Z -> [Z] -> [((Z, [(Int, [Z])]), [Z])] -> [Z]
-    find1 x qs [] = [x]
-    find1 x qs (((p,eds),fs):rest) =
-      [ z |
-        (e, ds) <- eds,
-        x <= m `div` (p^e),
-        let x' = x * p^e,
-        let qs' = merge_factors qs ds,
-        subset qs' fs,
-        z <- find1 x' qs' rest ]
-
-    table2 :: [((Z, Int), [Z])]
-    table2 = [ ((p, e), qs) |
-      p <- ps,
-      e <- [ilog p r + 1 .. ilog p m],
-      let s2 = s2_prime_power (p, e),
-      Just qs <- [sfree small_qs s2] ]
-
-    find3 :: Z -> [Z] -> [(Z, [(Int, [Z])])] -> [(Z, Z)]
-    find3 x qs []
-      | take 1 qs /= [2] = []
-      | any (\p -> p `mod` 4 /= 1) (tail qs) = []
-      | otherwise = [(x, product qs)]
-    find3 x qs ((p,eds):rest) =
-      [ z |
-        (e, ds) <- eds,
-        x <= r `div` (p^e),
-        let x' = x * p^e,
-        let qs' = merge_factors qs ds,
-        z <- find3 x' qs' rest ]
-
-    table3 :: [(Z, Z)]
-    table3 = find3 1 [] table1
-
-    -- solutions with all prime power factors below r
-    case1 :: [Z]
-    case1 = find1 1 [] (zip table1 qss)
-
-    -- solutions with a single prime power factor larger than r
-    case2 :: [Z]
-    case2 = concat
-      [ find1 (p^e) fs (zip table1 qss) | ((p,e),fs) <- table2 ]
-
-    -- solutions with a single prime factor larger than r
-    case3 :: [Z]
-    case3 =
-      [ x * p |
-        (x, d) <- table3,
-        let amax = m `div` x,
-        let cs0 = convergents (sqrt_cfraction d),
-        let cs1 = dropWhile ((<=r) . fst) cs0,
-        let cs2 = takeWhile ((<=amax) . fst) cs1,
-        (p, k) <- cs2,
-        p^2 + 1 == d * k^2,
-        is_prime p ]
-
 prob211 :: Z -> Z
 prob211 m = sum xs + sum ys + sum zs
-  where (xs, ys, zs) = s2_squares' m
-
-subset :: [Z] -> [Z] -> Bool
-subset [] ys = True
-subset xs [] = False
-subset xs@(x:xs') ys@(y:ys') =
-  case compare x y of
-    LT -> False
-    GT -> subset xs ys'
-    EQ -> subset xs' ys'
-
-merge_factors' :: [Z] -> [Z] -> [Z]
-merge_factors' xs [] = xs
-merge_factors' [] ys = ys
-merge_factors' xs@(x:xs') ys@(y:ys') =
-  case compare x y of
-    GT -> x : merge_factors' xs' ys
-    LT -> y : merge_factors' xs ys'
-    EQ -> merge_factors' xs' ys'
-
-merge_factors :: [Z] -> [Z] -> [Z]
-merge_factors xs [] = xs
-merge_factors [] ys = ys
-merge_factors xs@(x:xs') ys@(y:ys') =
-  case compare x y of
-    LT -> x : merge_factors xs' ys
-    GT -> y : merge_factors xs ys'
-    EQ -> merge_factors xs' ys'
-
-
-{-
-sigma2_array :: N -> UArray N N
-sigma2_array m =
-  runSTUArray (do
-    a <- newArray (1, m) 0
-    -- a[n] <- a prime factor of n
-    mapM_ (check a) (takeWhile (\n -> n*n <= m) [2 ..])
-    -- multiplicative functions must map 1 to 1
-    writeArray a 1 1
-    -- a[n] <- function evaluated at n
-    mapM_ (eval a) [2 .. m]
-    return a
-  )
-  where
-    f :: (N, N) -> N
-    f (p, e) = g e
-      where
-        p2 = fromIntegral p ^ 2
-        g 0 = 1
-        g e = 1 + p2 * g (e-1)
-    check :: STUArray s N N -> N -> ST s ()
-    check a n = do
-      d <- readArray a n
-      if d /= 0 then return () else do
-      mapM_ (\k -> writeArray a k n) [n^2, n^2+n .. m]
-    eval a n = do
-      p <- readArray a n  -- get prime divisor of n
-      if p == 0 then writeArray a n (f (n, 1)) else do
-      let (r, e) = divN n p  -- n = r * p^e
-      if r == 1 then writeArray a n (f (p, e)) else do
-      x <- readArray a r
-      y <- readArray a (p^e)
-      writeArray a n (x*y)
-    divN :: N -> N -> (N, N)
-    divN x p
-      | r == 0 = let (z, n) = divN q p in (z, n+1)
-      | otherwise = (x, 0)
-      where (q, r) = divMod x p
-
-sigma2_squares :: N -> [N]
-sigma2_squares m = [ n | n <- [1 .. m], is_square (s2 ! n) ]
-  where s2 = sigma2_array m
--}
+  where (xs, ys, zs) = s2_squares m
 
 main :: IO String
 main = return $ show $ prob211 (64*10^6)
