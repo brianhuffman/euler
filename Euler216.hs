@@ -132,6 +132,7 @@ shanks_tonelli :: (Integral a) => a -> a -> a
 shanks_tonelli n p = loop r0
   where
     (q, s) = divN (p-1) 2
+    -- w is a quadratic non-residue (mod p)
     w = head [ w | w <- [2 ..], jacobi_symbol w p == -1 ]
     v = expMod w q p
     n' = invMod n p
@@ -161,8 +162,6 @@ and n a quadratic residue (mod p),
 -}
 
 ---------------------------------------------------
-
-type I = Int64
 
 prob216_list :: Int -> [Int]
 prob216_list m = xs ++ ys
@@ -203,6 +202,8 @@ prob216_list m = xs ++ ys
     xs = [ n | n <- [2 .. nmax], a!(n^2 - 1) ]
     ys = [ n | n <- [nmax+1 .. m], b!n ]
 
+prob216 :: Int -> Int
+prob216 = length . prob216_list
 -- prob216 (10^4) = 2202
 -- prob216 (10^5) = 17185
 -- prob216 (10^6) = 141444
@@ -210,7 +211,7 @@ prob216_list m = xs ++ ys
 -- prob216 (50*10^6) = 5437849
 
 main :: IO String
-main = return $ show $ length $ prob216_list (50*10^6)
--- main = return $ show $ prog216 (50*10^6)
--- 5437849
+main = return $ show $ prob216 (50*10^6)
 
+answer :: String
+answer = "5437849"
