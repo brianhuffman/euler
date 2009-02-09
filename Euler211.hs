@@ -3,10 +3,12 @@ import PrimeArray
 import Primes
 import SquareRoot
 import ContinuedFraction
+import Permutation (subsets)
 import Control.Monad.ST
 import Data.Array.ST
 import Data.Array.Unboxed
 import Data.Int ( Int64 )
+import qualified Data.Map as Map
 import qualified Data.Set as Set
 import qualified SortedList as S
 
@@ -78,6 +80,130 @@ D = 90 = 2 3 3 5: none
 
 type Z = Integer
 type N = Int64
+
+----------------------------------------------------
+-- Sigma2
+
+-- (n, descending prime factors of squarefree part of s2(n))
+data Sigma2 = Sigma2 Z [Z]
+
+mergeSigma2 :: Sigma2 -> Sigma2 -> Sigma2
+mergeSigma2 (Sigma2 x ps) (Sigma2 y qs) = Sigma2 (x*y) (merge ps qs)
+  where
+    merge xs [] = xs
+    merge [] ys = ys
+    merge xs@(x:xs') ys@(y:ys') =
+      case compare x y of
+        GT -> x : merge xs' ys
+        LT -> y : merge xs ys'
+        EQ -> merge xs' ys'
+
+mergeAllSigma2 :: [Sigma2] -> Sigma2
+mergeAllSigma2 = foldl mergeSigma2 (Sigma2 1 [])
+
+headSigma2 :: Sigma2 -> Z
+headSigma2 (Sigma2 _ (d:ds)) = d
+headSigma2 (Sigma2 _ []) = 1
+
+fstSigma2 :: Sigma2 -> Z
+fstSigma2 (Sigma2 x _) = x
+
+nullSigma2 :: Sigma2 -> Bool
+nullSigma2 (Sigma2 _ ps) = null ps
+
+coprimeSigma2 :: Sigma2 -> Sigma2 -> Bool
+coprimeSigma2 (Sigma2 x _) (Sigma2 y _) = gcd x y == 1
+
+makeSigma2 :: (Z, Int) -> Sigma2
+makeSigma2 (p, e) = Sigma2 (p^e) (reverse qs)
+  where
+    s2 = s2_prime_power (p, e)
+    qs = [ q | (q, k) <- prime_factorization s2, odd k ]
+
+emptySigma2 :: Sigma2
+emptySigma2 = Sigma2 1 []
+
+----------------------------------------------------
+
+s2_table1 :: Z -> [(Z, [Sigma2])]
+s2_table1 m = reverse (Map.toAscList map1)
+  where
+    r = square_root m
+    ps = takeWhile (<=r) primes
+    sigma2s = [ makeSigma2 (p, e) | p <- ps, e <- [1 .. ilog p r] ]
+    map1 = Map.fromListWith (++) [ (headSigma2 x, [x]) | x <- sigma2s ]
+
+find1 :: Z -> Sigma2 -> [(Z, [Sigma2])] -> [Z]
+find1 m x [] = if nullSigma2 x then [fstSigma2 x] else []
+find1 m x ((q,ys):rest) =
+  [ z |
+    headSigma2 x <= q,
+    y <- map mergeAllSigma2 (subsets ys),
+    coprimeSigma2 x y,
+    let x' = mergeSigma2 x y,
+    fstSigma2 x' <= m,
+    z <- find1 m x' rest ]
+
+s2_squares' :: Z -> ([Z], [Z], [Z])
+s2_squares' m = (case1, case2, case3)
+  where
+    r :: Z
+    r = square_root m
+
+    ps :: [Z]
+    ps = takeWhile (<=r) primes
+
+    table1 :: [(Z, [Sigma2])]
+    table1 = s2_table1 m
+
+    small_qs :: [Z]
+    small_qs = reverse (map fst table1)
+
+    table2 :: [Sigma2]
+    table2 = [ Sigma2 (p^e) (reverse qs) |
+      p <- ps,
+      e <- [ilog p r + 1 .. ilog p m],
+      let s2 = s2_prime_power (p, e),
+      Just qs <- [sfree small_qs s2] ]
+
+    find3 :: Sigma2 -> [(Z, [Sigma2])] -> [(Z, Z)]
+    find3 (Sigma2 x qs) []
+      | null qs = []
+      | last qs /= 2 = []
+      | any (\p -> p `mod` 4 /= 1) (init qs) = []
+      | otherwise = [(x, product qs)]
+    find3 x ((_,ys):rest) =
+      [ z |
+        y <- map mergeAllSigma2 (subsets ys),
+        coprimeSigma2 x y,
+        let x' = mergeSigma2 x y,
+        fstSigma2 x' <= r,
+        z <- find3 x' rest ]
+
+    table3 :: [(Z, Z)]
+    table3 = find3 emptySigma2 table1
+
+    -- solutions with all prime power factors below r
+    case1 :: [Z]
+    case1 = find1 m emptySigma2 table1
+
+    -- solutions with a single prime power factor larger than r
+    case2 :: [Z]
+    case2 = concat [ find1 m x table1 | x <- table2 ]
+    -- solutions with a single prime factor larger than r
+    case3 :: [Z]
+    case3 =
+      [ x * p |
+        (x, d) <- table3,
+        let amax = m `div` x,
+        let cs0 = convergents (sqrt_cfraction d),
+        let cs1 = dropWhile ((<=r) . fst) cs0,
+        let cs2 = takeWhile ((<=amax) . fst) cs1,
+        (p, k) <- cs2,
+        p^2 + 1 == d * k^2,
+        is_prime p ]
+
+----------------------------------------------------
 
 -- integer logarithm
 -- ilog b n = greatest e such that b^e <= n
@@ -185,7 +311,7 @@ s2_squares m = (case1, case2, case3)
 
 prob211 :: Z -> Z
 prob211 m = sum xs + sum ys + sum zs
-  where (xs, ys, zs) = s2_squares m
+  where (xs, ys, zs) = s2_squares' m
 
 subset :: [Z] -> [Z] -> Bool
 subset [] ys = True
@@ -195,6 +321,15 @@ subset xs@(x:xs') ys@(y:ys') =
     LT -> False
     GT -> subset xs ys'
     EQ -> subset xs' ys'
+
+merge_factors' :: [Z] -> [Z] -> [Z]
+merge_factors' xs [] = xs
+merge_factors' [] ys = ys
+merge_factors' xs@(x:xs') ys@(y:ys') =
+  case compare x y of
+    GT -> x : merge_factors' xs' ys
+    LT -> y : merge_factors' xs ys'
+    EQ -> merge_factors' xs' ys'
 
 merge_factors :: [Z] -> [Z] -> [Z]
 merge_factors xs [] = xs
