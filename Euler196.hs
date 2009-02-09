@@ -136,6 +136,13 @@ n2 = 7208785
 row :: Z -> [Z]
 row n = [triangle(n-1) + 1 .. triangle n]
 
+-- filter_odd_row n = filter odd (row n)
+filter_odd_row :: Z -> [Z]
+filter_odd_row n = [n1, n1+2 .. triangle n]
+  where
+    n0 = triangle (n-1)
+    n1 = if even n0 then n0+1 else n0+2
+
 row_bnds :: Z -> (Z, Z)
 row_bnds n = (triangle(n-1) + 1, triangle n)
 
@@ -158,7 +165,7 @@ is_triplet_prime' prime n k
           (False, False, True) -> g
           _ -> True
 
-triplet_primes' n = filter (is_triplet_prime' prime n) (row n)
+triplet_primes' n = filter (is_triplet_prime' prime n) (filter_odd_row n)
   where
     i = triangle (n-3) - 2
     j = triangle (n+2)
