@@ -25,9 +25,6 @@ perfect square.
 
 -}
 
-type Z = Integer
-type N = Int64
-
 {-
 Define m = 64 million.
 Define r = 8000 = sqrt(m).
@@ -79,6 +76,9 @@ D = 82 = 2 41: 9/1, 2943/325, 959409/105949, ...
 D = 90 = 2 3 3 5: none
 -}
 
+type Z = Integer
+type N = Int64
+
 -- integer logarithm
 -- ilog b n = greatest e such that b^e <= n
 ilog :: (Integral a) => a -> a -> Int
@@ -93,22 +93,41 @@ s2_prime_power (p, e) = f e
     f 0 = 1
     f e = 1 + p2 * f (e-1)
 
+-- [(e, squarefree factors of s2(p^e))]
+table :: Z -> Z -> [(Int, [Z])]
+table r p =
+  [ (e, qs) |
+    e <- [0 .. ilog p r],
+    let s2 = s2_prime_power (p, e),
+    let qs = [ q | (q, k) <- prime_factorization s2, odd k ] ]
+
+-- prime factors of squarefree part of n
+-- post-condition: must be subset of qs
+sfree :: [Z] -> Z -> Maybe [Z]
+sfree [] n = if is_square n then Just [] else Nothing
+sfree (q:qs) n
+  | q > n = sfree [] n
+  | otherwise = fmap (\ds -> if odd e then q:ds else ds) (sfree qs n')
+  where (n', e) = divN n q
+
 s2_squares :: Z -> ([Z], [Z], [Z])
 s2_squares m = (case1, case2, case3)
   where
     r :: Z
     r = square_root m
+
     ps :: [Z]
     ps = takeWhile (<=r) primes
-    table :: Z -> [(Int, [Z])]
-    table p = [ (e, qs) |
-      e <- [0 .. ilog p r],
-      let s2 = s2_prime_power (p, e),
-      let qs = [ q | (q, k) <- prime_factorization s2, odd k ] ]
+
     table1 :: [(Z, [(Int, [Z])])]
-    table1 = reverse [ (p, table p) | p <- ps ]
+    table1 = reverse [ (p, table r p) | p <- ps ]
+
+    small_qs :: [Z]
+    qss :: [[Z]]
     (small_qs : qss) = scanr S.union []
       (map (foldl1 S.union . map snd . snd) table1)
+
+    find1 :: Z -> [Z] -> [((Z, [(Int, [Z])]), [Z])] -> [Z]
     find1 x qs [] = [x]
     find1 x qs (((p,eds),fs):rest) =
       [ z |
@@ -118,18 +137,15 @@ s2_squares m = (case1, case2, case3)
         let qs' = merge_factors qs ds,
         subset qs' fs,
         z <- find1 x' qs' rest ]
+
     table2 :: [((Z, Int), [Z])]
     table2 = [ ((p, e), qs) |
-      p <- takeWhile (<=r) primes,
+      p <- ps,
       e <- [ilog p r + 1 .. ilog p m],
       let s2 = s2_prime_power (p, e),
       Just qs <- [sfree small_qs s2] ]
-    sfree :: [Z] -> Z -> Maybe [Z]
-    sfree [] n = if is_square n then Just [] else Nothing
-    sfree (q:qs) n
-      | q > n = sfree [] n
-      | otherwise = fmap (\ds -> if odd e then q:ds else ds) (sfree qs n')
-      where (n', e) = divN n q
+
+    find3 :: Z -> [Z] -> [(Z, [(Int, [Z])])] -> [(Z, Z)]
     find3 x qs []
       | take 1 qs /= [2] = []
       | any (\p -> p `mod` 4 /= 1) (tail qs) = []
@@ -141,13 +157,21 @@ s2_squares m = (case1, case2, case3)
         let x' = x * p^e,
         let qs' = merge_factors qs ds,
         z <- find3 x' qs' rest ]
+
+    table3 :: [(Z, Z)]
     table3 = find3 1 [] table1
+
     -- solutions with all prime power factors below r
+    case1 :: [Z]
     case1 = find1 1 [] (zip table1 qss)
+
     -- solutions with a single prime power factor larger than r
+    case2 :: [Z]
     case2 = concat
       [ find1 (p^e) fs (zip table1 qss) | ((p,e),fs) <- table2 ]
+
     -- solutions with a single prime factor larger than r
+    case3 :: [Z]
     case3 =
       [ x * p |
         (x, d) <- table3,
