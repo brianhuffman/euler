@@ -3,6 +3,7 @@ import SquareRoot
 import Primes
 import PrimeArray
 import Data.Int (Int64)
+import Data.STRef
 import Data.Array.ST
 import Data.Array.Unboxed
 import Control.Monad.ST
@@ -47,36 +48,43 @@ Forall m, p | t(m) <--> m == +/-n (mod p).
 
 -}
 
-type Z = Int64
-
-prob216' :: Z -> Int
+prob216' :: Int -> Int
 prob216' m =
   runST (do
     a <- newArray_ (2, m)
+    z <- newSTRef 0
     -- initialize array
     mapM_ (\n -> writeArray a n (t n)) [2 .. m]
-    foldM (check a) 0 [2 .. m]
+    mapM_ (check a z) [2 .. m]
+    readSTRef z
   )
   where
-    t :: Z -> Z
-    t n = 2*n^2 - 1
-    check :: STUArray s Z Z -> Int -> Z -> ST s Int
+    t :: Int -> Int64
+    t n = 2*(fromIntegral n)^2 - 1
+    check :: STUArray s Int Int64 -> STRef s Int -> Int -> ST s ()
     check a z n = do
       r <- readArray a n
       if r == 1
-        then return z
+        then return ()
         else do
-          mapM_ (reduce a r) (tail [n, n+r .. m])
-          mapM_ (reduce a r) [r-n, 2*r-n .. m]
+          if r <= fromIntegral (m + n)
+            then do
+              let s = fromIntegral r
+              mapM_ (reduce a r) [s+n, 2*s+n .. m]
+              mapM_ (reduce a r) [s-n, 2*s-n .. m]
+            else return ()
           if r == t n
-            then return (z+1)
-            else return z
-    reduce :: STUArray s Z Z -> Z -> Z -> ST s ()
+            then increment z
+            else return ()
+    increment :: STRef s Int -> ST s ()
+    increment z = do
+      x <- readSTRef z
+      writeSTRef z (x+1)
+    reduce :: STUArray s Int Int64 -> Int64 -> Int -> ST s ()
     reduce a p n = do
       x <- readArray a n
       let (y, _) = divN x p
       writeArray a n y
-
 
 {-
 If we have a way to calculate modular square roots,
