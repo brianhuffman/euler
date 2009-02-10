@@ -148,10 +148,11 @@ prime_sieve m = f a0 2
 -- Prime Factorizations --
 
 divN :: (Integral a) => a -> a -> (a, Int)
-divN x p
-  | r == 0 = let (z, n) = divN q p in (z, n+1)
-  | otherwise = (x, 0)
-  where (q, r) = divMod x p
+divN x p = go x 0
+  where
+    go x k
+      | x`mod`p == 0 = go (x`div`p) (k+1)
+      | otherwise    = (x, k)
 
 exponent_of :: (Integral a) => a -> a -> Int
 exponent_of p x = if r == 0 then exponent_of p q + 1 else 0
