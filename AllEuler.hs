@@ -278,19 +278,20 @@ test n@0 action =
 test _ _ = return ()
 
 {-
-Slow:
+Time:
 154: (80 s) Exploring Pascal's pyramid
-196: (60 s) Prime triplets
-216: (58 s) Primality of 2n^2-1
-210: (52 s) Obtuse Angled Triangles
+216: (59 s) Primality of 2n^2-1
 165: (48 s) Intersections
+196: (28 s) Prime triplets
 150: (22 s) Minimum-sum sub-triangles
+210: (17 s) Obtuse Angled Triangles
 153: (15 s) Investigating Gaussian Integers
 193: (11 s) Squarefree Numbers
-185: (10 s) Number Mind
-141: (9 s) Progressive perfect squares
+185: (11 s) Number Mind
+152: (10 s) Writing 1/2 as a sum of inverse squares
 229: (9 s) Four Representations using Squares
-155: (7 s) Counting Capacitor Circuits
+141: (9 s) Progressive perfect squares
+155: (8 s) Counting Capacitor Circuits
 
 Productivity:
 221: (20%) Alexandrian Integers
