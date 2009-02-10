@@ -66,43 +66,63 @@ Region O (32), region C (16), region B (2).
 N(x) ~ (3/2 + pi/32)(x^2)
 -}
 
-type Z = Int64
+square :: Int -> Int64
+square x = (fromIntegral x)^2
 
 near_answer :: (Floating a) => a -> a
 near_answer r = (3/2 + pi/32) * r^2
 -- near_answer (10^9) = 1.5981747704246812e18
 
-region_O :: Z -> Z
-region_O r = 8 * n^2
+region_O :: Int -> Int64
+region_O r = 8 * square n
   where n = r `div` 4
 
-region_C :: Z -> Z
-region_C r = 4 * n^2
+region_C :: Int -> Int64
+region_C r = 4 * square n
   where n = r `div` 4
 
 -- precondition: 8 divides r
-region_B :: Z -> Z
-region_B r = a + 2 * f m m d 0
+region_B :: Int -> Int64
+region_B r = a + 2 * f m m 0 0
   where
     -- point C is at (n, n)
     n = r `div` 4
     -- center of circle is at (m, m)
     m = r `div` 8
     -- radius squared of circle
-    d = 2*m^2
+    d = 2 * square m
     -- points in interior of 90-45-45 triangle with hypotenuse OC
-    a = (n-2)*(n-1)`div`2
+    a = fromIntegral (n-2) * fromIntegral (n-1) `div` 2
     -- points in interior of circle with radius-squared = d,
     -- with x-coordinate greater than x.
-    -- invariant: (x,y) within 1 of circle boundary.
-    -- invariant: r2 = x^2 + y^2
+    -- invariant: r2 = x^2 + y^2 - 2*m^2
+    -- invariant: 0 <= r2 + 2*y + 1 (i.e. (x,y+1) not inside circle)
     f x y r2 t
       | y < 0 = t
-      | r2 >= d = f x (y-1) (r2-2*y+1) t
-      | otherwise = f (x+1) (y-dy) (r2+2*x+1-2*y*dy+dy^2) $! (2*y+1+t)
+      | r2 >= 0 = f x (y-1) (r2-2*y+1) t
+      | otherwise = f (x+1) (y-dy) (r2+2*x+1-2*y*dy+dy^2) $! t'
           where dy = x `div` (y+1)
+                t' = t + fromIntegral (2*y+1)
 
-prob210 :: Z -> Z
+{-
+0 <= r2 + 2*y + 1
+dy = x `div` (y+1)
+ -->
+dy*(y+1) <= x
+ <-->
+0 <= x - dy*y - dy
+ <-->
+0 <= 2*x - 2*dy*y - 2*dy
+ -->
+0 <= (r2 + 2*y + 1) + (2*x - 2*dy*y - 2*dy)
+ -->
+0 <= (r2 + 2*y + 1) + (2*x - 2*dy*y - 2*dy) + (dy^2 + 1)
+ <-->
+0 <= (r2 + 2*x - 2*dy*y + dy^2 + 1) + 2*(y-dy) + 1
+-}
+
+
+prob210 :: Int -> Int64
 prob210 r =
   2 * region_O r +
   2 * region_C r +
