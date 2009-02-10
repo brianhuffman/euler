@@ -82,7 +82,7 @@ region_C r = 4 * n^2
 
 -- precondition: 8 divides r
 region_B :: Z -> Z
-region_B r = a + 2 * f m m 0 
+region_B r = a + 2 * f m (m^2) m 0
   where
     -- point C is at (n, n)
     n = r `div` 4
@@ -95,10 +95,11 @@ region_B r = a + 2 * f m m 0
     -- points in interior of circle with radius-squared = d,
     -- with x-coordinate greater than x.
     -- invariant: (x,y) within 1 of circle boundary.
-    f x y t
+    -- invariant: x2 = x^2
+    f x x2 y t
       | y < 0 = t
-      | x^2 + y^2 >= d = f x (y-1) t
-      | otherwise = f (x+1) (y-dy) $! (2*y + 1 + t)
+      | x2 + y^2 >= d = f x x2 (y-1) t
+      | otherwise = f (x+1) (x2+2*x+1) (y-dy) $! (2*y + 1 + t)
           where dy = x `div` (y+1)
 
 prob210 :: Z -> Z
