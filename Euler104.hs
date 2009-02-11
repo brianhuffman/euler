@@ -1,22 +1,24 @@
 module Euler104 where
-import EulerLib
-import List
+import List (sort)
 
-------------------------------------------------------------------------------
--- 104. Finding Fibonacci numbers for which the first and last nine digits are pandigital.
 {-
+Problem 104
+Pandigital Fibonacci Numbers
+
+09 September 2005
+
 The Fibonacci sequence is defined by the recurrence relation:
 
-    F(n) = F(n-1) + F(n-2), where F(1) = 1 and F(2) = 1.
+    F_(n) = F_(n−1) + F_(n−2), where F_(1) = 1 and F_(2) = 1.
 
-It turns out that F(541), which contains 113 digits, is the first Fibonacci
-number for which the last nine digits are 1-9 pandigital (contain all the
-digits 1 to 9, but not necessarily in order). And F(2749), which contains 575
-digits, is the first Fibonacci number for which the first nine digits are 1-9
-pandigital.
+It turns out that F_(541), which contains 113 digits, is the first
+Fibonacci number for which the last nine digits are 1-9 pandigital
+(contain all the digits 1 to 9, but not necessarily in order). And
+F_(2749), which contains 575 digits, is the first Fibonacci number for
+which the first nine digits are 1-9 pandigital.
 
-Given that F(k) is the first Fibonacci number for which the first nine digits
-AND the last nine digits are 1-9 pandigital, find k.
+Given that F_(k) is the first Fibonacci number for which the first
+nine digits AND the last nine digits are 1-9 pandigital, find k.
 -}
 
 -- fibonacci sequence is periodic (mod 10), with period 60.
@@ -46,16 +48,18 @@ fibs_msd n = fst (f n)
       | a < 10^(2*d+1) = (a `div` 10^(d+1), b `div` 10^(d+1))
       | otherwise = error "term got too big"
 
---prob104 :: [Int]
+prob104 :: [Int]
 prob104 =
   [ i |
     (n, i) <- zip (fibs_mod (10^9)) [0 ..],
     sort (show n) == "123456789",
     sort (take 9 (show (fibs_msd i))) == "123456789" ]
--- 329468
 
 main :: IO String
 main = return $ show $ head prob104
+
+answer :: String
+answer = "329468"
 
 -- old, simple versions:
 
