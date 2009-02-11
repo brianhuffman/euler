@@ -92,6 +92,7 @@ This means that we only need to have 8 nested loops;
 all other variables may be calculated from these.
 -}
 
+prob166 :: Int -> Int
 prob166 z = sum
   [ 2 |
     a <- [1 .. z`div`2],
@@ -117,4 +118,6 @@ prob166 z = sum
 
 main :: IO String
 main = return $ show $ prob166 10
--- 7130034
+
+answer :: String
+answer = "7130034"
