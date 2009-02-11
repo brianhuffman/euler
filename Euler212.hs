@@ -1,46 +1,44 @@
 module Euler212 where
+import Lagged (lagged_fibonacci)
+
 {-
-An axis-aligned cuboid, specified by parameters { (x0,y0,z0), (dx,dy,dz) },
-consists of all points (X,Y,Z) such that x0 <= X <= x0+dx, y0 <= Y <= y0+dy
-and z0 <= Z <= z0+dz. The volume of the cuboid is the product, dx * dy * dz.
-The combined volume of a collection of cuboids is the volume of their union
-and will be less than the sum of the individual volumes if any cuboids overlap.
+Problem 212
+11 October 2008
 
-Let C1,...,C50000 be a collection of 50000 axis-aligned cuboids such that Cn
-has parameters
+An axis-aligned cuboid, specified by parameters { (x_(0),y_(0),z_(0)),
+(dx,dy,dz) }, consists of all points (X,Y,Z) such that x_(0) ≤ X ≤
+x_(0)+dx, y_(0) ≤ Y ≤ y_(0)+dy and z_(0) ≤ Z ≤ z_(0)+dz. The volume of
+the cuboid is the product, dx × dy × dz. The combined volume of a
+collection of cuboids is the volume of their union and will be less
+than the sum of the individual volumes if any cuboids overlap.
 
-      x0 = S(6n-5) modulo 10000
-      y0 = S(6n-4) modulo 10000
-      z0 = S(6n-3) modulo 10000
-      dx = 1 + (S(6n-2) modulo 399)
-      dy = 1 + (S(6n-1) modulo 399)
-      dz = 1 + (S(6n) modulo 399)
+Let C_(1),...,C_(50000) be a collection of 50000 axis-aligned cuboids
+such that C_(n) has parameters
 
-where S1,...,S300000 come from the "Lagged Fibonacci Generator":
+      x_(0) = S_(6n-5) modulo 10000
+      y_(0) = S_(6n-4) modulo 10000
+      z_(0) = S_(6n-3) modulo 10000
+      dx = 1 + (S_(6n-2) modulo 399)
+      dy = 1 + (S_(6n-1) modulo 399)
+      dz = 1 + (S_(6n) modulo 399)
 
-      For 1 <= k <= 55, Sk = [100003 - 200003k + 300007k^3]   (modulo 1000000)
-      For 56<=  k, Sk = [S(k-24) + S(k-55)]   (modulo 1000000)
+where S_(1),...,S_(300000) come from the "Lagged Fibonacci Generator":
 
-Thus, C1 has parameters {(7,53,183),(94,369,56)}, C2 has parameters
-{(2383,3563,5079),(42,212,344)}, and so on.
+      For 1 ≤ k ≤ 55, S_(k) = [100003 - 200003k + 300007k^(3)]
+         (modulo 1000000)
 
-The combined volume of the first 100 cuboids, C1,...,C100, is 723581599.
+      For 56 ≤ k, S_(k) = [S_(k-24) + S_(k-55)]
+         (modulo 1000000)
 
-What is the combined volume of all 50000 cuboids, C1,...,C50000 ? 
+Thus, C_(1) has parameters {(7,53,183),(94,369,56)}, C_(2) has
+parameters {(2383,3563,5079),(42,212,344)}, and so on.
+
+The combined volume of the first 100 cuboids, C_(1),...,C_(100), is
+723581599.
+
+What is the combined volume of all 50000 cuboids, C_(1),...,C_(50000) ? 
+
 -}
-
--- Lagged Fibonacci Generator
-lagged_fibonacci :: [Int]
-lagged_fibonacci = xs
-  where
-    xs0 :: [Int]
-    xs0 = map (fromInteger . f) [1 .. 55]
-    xs :: [Int]
-    xs = xs0 ++ zipWith g xs (drop 31 xs)
-    f :: Integer -> Integer
-    f k = (100003 - 200003*k + 300007*k^3) `mod` 1000000
-    g :: Int -> Int -> Int
-    g x y = (x + y) `mod` 1000000
 
 type Cuboid = (Int, Int, Int, Int, Int, Int)
 
@@ -102,9 +100,9 @@ volume (x0,y0,z0,x1,y1,z1) = dx * dy * dz
     dy = toInteger (y1 - y0)
     dz = toInteger (z1 - z0)
 
-total_volume :: [Cuboid] -> Integer
-total_volume [] = 0
-total_volume (c@(x0,y0,z0,x1,y1,z1):cs0) =
+total_volume1 :: [Cuboid] -> Integer
+total_volume1 [] = 0
+total_volume1 (c@(x0,y0,z0,x1,y1,z1):cs0) =
     volume c + sum [v1,v2,v3,v4,v5,v6]
   where
     (ds1, cs1) = split_x x0 cs0
@@ -113,12 +111,51 @@ total_volume (c@(x0,y0,z0,x1,y1,z1):cs0) =
     (cs4, ds4) = split_x x1 cs3
     (cs5, ds5) = split_y y1 cs4
     (cs6, ds6) = split_z z1 cs5
-    v1 = total_volume ds1
-    v2 = total_volume ds2
-    v3 = total_volume ds3
-    v4 = total_volume ds4
-    v5 = total_volume ds5
-    v6 = total_volume ds6
+    v1 = total_volume2 ds1
+    v2 = total_volume3 ds2
+    v3 = total_volume1 ds3
+    v4 = total_volume2 ds4
+    v5 = total_volume3 ds5
+    v6 = total_volume1 ds6
+
+total_volume2 :: [Cuboid] -> Integer
+total_volume2 [] = 0
+total_volume2 (c@(x0,y0,z0,x1,y1,z1):cs0) =
+    volume c + sum [v1,v2,v3,v4,v5,v6]
+  where
+    (ds1, cs1) = split_y y0 cs0
+    (ds2, cs2) = split_z z0 cs1
+    (ds3, cs3) = split_x x0 cs2
+    (cs4, ds4) = split_y y1 cs3
+    (cs5, ds5) = split_z z1 cs4
+    (cs6, ds6) = split_x x1 cs5
+    v1 = total_volume3 ds1
+    v2 = total_volume1 ds2
+    v3 = total_volume2 ds3
+    v4 = total_volume3 ds4
+    v5 = total_volume1 ds5
+    v6 = total_volume2 ds6
+
+total_volume3 :: [Cuboid] -> Integer
+total_volume3 [] = 0
+total_volume3 (c@(x0,y0,z0,x1,y1,z1):cs0) =
+    volume c + sum [v1,v2,v3,v4,v5,v6]
+  where
+    (ds1, cs1) = split_z z0 cs0
+    (ds2, cs2) = split_x x0 cs1
+    (ds3, cs3) = split_y y0 cs2
+    (cs4, ds4) = split_z z1 cs3
+    (cs5, ds5) = split_x x1 cs4
+    (cs6, ds6) = split_y y1 cs5
+    v1 = total_volume1 ds1
+    v2 = total_volume2 ds2
+    v3 = total_volume3 ds3
+    v4 = total_volume1 ds4
+    v5 = total_volume2 ds5
+    v6 = total_volume3 ds6
 
 main :: IO String
-main = return $ show $ total_volume (cuboids 50000)
+main = return $ show $ total_volume1 (cuboids 50000)
+
+answer :: String
+answer = "328968937309"
