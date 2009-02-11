@@ -3,6 +3,7 @@ import EulerLib
 import Primes
 import Data.Array
 import Data.Int
+import TakeWhile
 
 {-
 Problem 146
@@ -10,9 +11,9 @@ Investigating a Prime Pattern
 
 24 March 2007
 
-The smallest positive integer n for which the numbers n^2+1, n^2+3, n^2+7,
-n^2+9, n^2+13, and n^2+27 are consecutive primes is 10. The sum of all such
-integers n below one-million is 1242490.
+The smallest positive integer n for which the numbers n^2+1, n^2+3,
+n^2+7, n^2+9, n^2+13, and n^2+27 are consecutive primes is 10. The sum
+of all such integers n below one-million is 1242490.
 
 What is the sum of all such integers n below 150 million?
 -}
@@ -58,11 +59,11 @@ n == +/- [10,220,290,430,550,620,640,920,1130,1180,1270,1340]  (mod 2730)
 type Z = Int64
 
 -- all possible values of n tested with all primes up to 40
-candidates40 :: Z -> [Z]
-candidates40 m = filter ok ns'
+candidates40 :: Int -> [Z]
+candidates40 m = map fromIntegral (takeWhile (< m) (filter ok ns))
   where
-    ns' = takeWhile (<m) ns
-    ns = [10,220,270,290,360,430,480,550,620,640,690,900] ++ map (910+) ns
+    ns = [ n+k | n <- [0, 910 ..],
+                 k <- [10,220,270,290,360,430,480,550,620,640,690,900] ]
     a11 = listArray (0,10) (map (=='1') "11001111001")
     a17 = listArray (0,16) (map (=='1') "11010011111100101")
     a19 = listArray (0,18) (map (=='1') "1111001011110100111")
@@ -82,20 +83,20 @@ candidates40 m = filter ok ns'
 -- about 1.6 sec to calculate candidates40 (150*10^6)
 -- 144524 remain
 
-candidates1000 :: Z -> [Z]
+candidates1000 :: Int -> [Z]
 candidates1000 m = 10 : filter ok (candidates40 m)
   where
-    ps = takeWhile (<1000) $ dropWhile (<40) primes
-    ok n = all (check n) ps
+    ps = takeWhile (< 1000) $ dropWhile (< 40) primes
+    ok n = all (check (n^2)) ps
     a = funArray (0, 27) (`notElem` [1,3,7,9,13,27])
-    check n p
+    check n2 p
       | r > 27 = True
       | otherwise = a ! r
-      where r = p - (n^2 `mod` p)
+      where r = p - (n2 `mod` p)
 -- about 2.4 sec to calculate candidates1000 (150*10^6)
 -- 4418 remain
 
-prob146 :: Z -> [Z]
+prob146 :: Int -> [Z]
 prob146 m = filter ok (candidates1000 m)
   where
     ok n = and [ test (n^2 + k) | k <- [1,3,7,9,13,27] ]
@@ -106,4 +107,6 @@ prob146 m = filter ok (candidates1000 m)
 
 main :: IO String
 main = return $ show $ sum $ prob146 (150*10^6)
--- 676333270
+
+answer :: String
+answer = "676333270"
