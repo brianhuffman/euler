@@ -1,20 +1,18 @@
 module Euler127 where
-import PrimeArray ( multiplicative_array )
-import EulerLib ( sortOf, thd3 )
-import Primes
+import PrimeArray (multiplicative_array)
+import Primes (prime_factorization)
+import EulerLib (sortOf, thd3)
 import Data.Array.Unboxed
-import Data.Array.ST
 
 {-
 Problem 127
-Investigating the number of abc-hits below a given limit.
-
 01 September 2006
 
-The radical of n, rad(n), is the product of distinct prime factors of n. For
-example, 504 = 2^3 * 3^2 * 7, so rad(504) = 2 * 3 * 7 = 42.
+The radical of n, rad(n), is the product of distinct prime factors of
+n. For example, 504 = 2^(3) × 3^(2) × 7, so rad(504) = 2 × 3 × 7 = 42.
 
-We shall define the triplet of positive integers (a, b, c) to be an abc-hit if:
+We shall define the triplet of positive integers (a, b, c) to be an
+abc-hit if:
 
    1. GCD(a, b) = GCD(a, c) = GCD(b, c) = 1
    2. a < b
@@ -28,10 +26,11 @@ For example, (5, 27, 32) is an abc-hit, because:
    3. 5 + 27 = 32
    4. rad(4320) = 30 < 32
 
-It turns out that abc-hits are quite rare and there are only thirty-one
-abc-hits for c < 1000, with SUM c = 12523.
+It turns out that abc-hits are quite rare and there are only
+thirty-one abc-hits for c < 1000, with ∑c = 12523.
 
-Find SUM c for c < 110000.
+Find ∑c for c < 110000.
+
 -}
 
 
@@ -82,7 +81,9 @@ prob127 m = sum $ map thd3 $ abc_hits m
 
 main :: IO String
 main = return $ show $ prob127 110000
--- 15377700
+
+answer :: String
+answer = "15377700"
 
 
 {-
