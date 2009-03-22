@@ -237,6 +237,7 @@ import qualified Euler232
 import qualified Euler233
 import qualified Euler234
 import qualified Euler236
+import qualified Euler237
 
 timeIO_ :: IO () -> IO TimeDiff
 timeIO_ action =
@@ -595,7 +596,8 @@ checks = [
   (232,   1, Euler232.main, Euler232.answer, "The Race"),
   (233, 999, Euler233.main, Euler233.answer, "Lattice Points on a Circle"),
   (234,  20, Euler234.main, Euler234.answer, "Semidivisible Numbers"),
-  (236, 250, Euler236.main, Euler236.answer, "Luxury Hampers")
+  (236, 250, Euler236.main, Euler236.answer, "Luxury Hampers"),
+  (237,   1, Euler237.main, Euler237.answer, "Tours on a 4xn Playing Board")
   ]
 
 total_time :: Int
