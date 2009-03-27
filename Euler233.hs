@@ -8,7 +8,7 @@ Problem 233
 20 February 2009
 
 Let f(N) be the number of points with integer coordinates that are on
-a circle passing through (0,0), (N,0),(0,N), and (N,N).
+a circle passing through (0,0), (N,0), (0,N), and (N,N).
 
 It can be shown that f(10000) = 36.
 
@@ -16,6 +16,41 @@ What is the sum of all positive integers N ≤ 10^(11) such that
 f(N) = 420 ?
 
 -}
+
+-- slow brute force implementation
+points :: Integer -> Int
+points n = f 1 (-1) 4
+  where
+    f x y t
+      | 2*x > n = t
+      | otherwise =
+        case compare (x*(x-n) + y*(y-n)) 0 of
+          LT -> f x (y-1) t
+          EQ -> f (x+1) (y-1) (t+8)
+          GT -> f (x+1) y t
+
+-- points_of_pf (prime_factorization n) = points n
+points_of_pf :: [(Integer, Int)] -> Int
+points_of_pf pf = 4 + 8 * f [ e | (p,e) <- pf, good p ]
+  where
+    f [] = 0
+    f (e : es) = (2*e+1) * f es + e
+
+{-
+
+points_of_pf n = 420
+f [e | (p,e) <- pf, good p] = 52
+
+To have 420 points, we must have the form
+
+p1^1 * p2^2 * p3^3
+OR
+p1^3 * p2^7
+OR
+p1^2 * p2^10
+
+-}
+
 
 good :: Integer -> Bool
 good p = p `mod` 4 == 1
@@ -29,19 +64,33 @@ ok_multiples =
 
 primitive_420s :: Integer -> [Integer]
 primitive_420s m =
-  [ 2 * p1 * p2^2 * p3^3 |
-    p3 <- takeWhile (\p -> p^3 <= m`div`2) good_primes,
-    let p2max = square_root (m`div`2`div`(p3^3)),
+  [ p1 * p2^2 * p3^3 |
+    p3 <- takeWhile (\p -> p^3 <= m) good_primes,
+    let p2max = square_root (m`div`(p3^3)),
     p2 <- takeWhile (<= p2max) good_primes,
     p2 /= p3,
-    let p1max = m`div`2`div`(p3^3)`div`(p2^2),
+    let p1max = m`div`(p3^3)`div`(p2^2),
     p1 <- takeWhile (<= p1max) good_primes,
     p1 /= p2, p1 /= p3 ]
+
+primitive_420s' :: Integer -> [Integer]
+primitive_420s' m =
+  [ p1^3 * p2^7 |
+    p2 <- takeWhile (\p -> p^7 <= m) good_primes,
+    p1 <- takeWhile (\p -> p^3 * p2^7 <= m) good_primes,
+    p1 /= p2 ]
+
+primitive_420s'' :: Integer -> [Integer]
+primitive_420s'' m =
+  [ p1^2 * p2^10 |
+    p2 <- takeWhile (\p -> p^10 <= m) good_primes,
+    p1 <- takeWhile (\p -> p^2 * p2^10 <= m) good_primes,
+    p1 /= p2 ]
 
 all_420s :: Integer -> [Integer]
 all_420s m =
   [ n*k |
-    n <- primitive_420s m,
+    n <- primitive_420s m ++ primitive_420s' m ++ primitive_420s'' m,
     let kmax = m `div` n,
     k <- takeWhile (<=kmax) ok_multiples ]
 
@@ -84,13 +133,41 @@ multiplicities' m =
     [ (n, 1) | (p,q,k,(x,y,n)) <- all_triples_upto m, n `mod` 50 == 0 ]
 
 {-
-Circle through points
+The circle through points [ (0,N)  (N,N)  (0,0)  (N,0) ]
+is centered at (N/2, N/2), with radius = N / sqrt(2).
 
-(0,N)  (N,N)
+Formula for the circle:
+x(x - N) + y(y - N) = 0
 
-(0,0)  (N,0)       
+Intersect circle with line through the origin: y = mx
+x(x - N) + mx(mx - N) = 0
+x^2 - xN + m^2x^2 - mxN = 0
+(m^2 + 1)x^2 - N(m + 1)x = 0
+(m^2 + 1)x - N(m + 1) = 0  -OR-  x = 0
+x = N(m + 1) / (m^2 + 1)
+y = N(m^2 + m) / (m^2 + 1)
 
-Is centered at (N/2, N/2), with radius = N / sqrt(2)
+Assume that the line has rational slope: m = p/q
+x = N(p/q + 1) / ((p/q)^2 + 1)
+y = N((p/q)^2 + p/q) / ((p/q)^2 + 1)
+(multiply top and bottom by q^2)
+x = N q(p + q) / (p^2 + q^2)
+y = N p(p + q) / (p^2 + q^2)
+
+For coprime p q, is p(p + q) / (p^2 + q^2) in lowest terms?
+If p and q are both odd, then a factor of 2 can be canceled.
+(No other common factors are possible.)
+Similarly for q(p + q) / (p^2 + q^2).
+
+For coprime p q, x and y are integers iff
+N is a multiple of (p^2 + q^2)  (for one of p, q even)
+N is a multiple of (p^2 + q^2)/2  (for p, q both odd)
+
+-}
+
+
+{-
+
 
 (N/2 + x/2, N/2 + y/2) is on the circle iff (x^2 + y^2) = 2*N^2
 
@@ -413,6 +490,9 @@ main :: IO String
 main = return $ show $ sum $ all_420s (10^11)
 
 answer :: String
-answer = "????"
+answer = "271204031455541309"
 
 -- 135780736563204140 WRONG!
+-- 250535661911140496 WRONG!
+-- 271176528227932684 WRONG!
+-- 271204031455541309
