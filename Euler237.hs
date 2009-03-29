@@ -70,6 +70,47 @@ ___  _    _    _    ___  ___    _    _    _
  |     _   |_   |     _   |   _    ___  _|
 _|   _|   ___  _|    |_   |_   |_  ___  ___
 
+D-F-D   D-G-D   D-E-D
+_   _   _   _   _____
+ |_|     | |      _
+  _      |_|     | |
+_| |_   _____   _| |_
+
+D-A-G-D   D-A-G-C-D   D-G-C-D
+___   _   ___   ___   _   ___
+  _| |      _| |_      | |_
+ |___|     |_____|     |___|
+_______   _________   _______
+
+D-A-E-D   D-A-E-B-D   D-E-B-D
+_______   _________   _______
+  ___       _____       ___
+ |_  |     |_   _|     |  _|
+___| |_   ___| |___   _| |___
+
+D-A-H   D-H
+___     _
+  _|     |
+ |_      |
+___|    _|
+
+
+Regular expression for possible sequences of transitions:
+D((A*GC* + A*EB* + F)D)*A*H
+
+Grammar productions:
+DH
+DH -> DAH
+Dx -> DEDx
+Dx -> DFDx
+Dx -> DGDx
+DAx -> DAAx
+DEx -> DEBx
+DEx -> DAEx
+DGx -> DGCx
+DGx -> DAGx
+DAx -> DAAx
+
 -}
 
 data Transition = A | B | C | D | E | F | G | H
