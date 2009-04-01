@@ -236,6 +236,7 @@ import qualified Euler231
 import qualified Euler232
 import qualified Euler233
 import qualified Euler234
+import qualified Euler235
 import qualified Euler236
 import qualified Euler237
 
@@ -594,8 +595,9 @@ checks = [
   (230,   0, Euler230.main, Euler230.answer, "Fibonacci Words"),
   (231,  13, Euler231.main, Euler231.answer, "Prime Factorisation of Binomial Coefficients"),
   (232,   1, Euler232.main, Euler232.answer, "The Race"),
-  (233, 999, Euler233.main, Euler233.answer, "Lattice Points on a Circle"),
+  (233,  84, Euler233.main, Euler233.answer, "Lattice Points on a Circle"),
   (234,  20, Euler234.main, Euler234.answer, "Semidivisible Numbers"),
+  (235,   0, Euler235.main, Euler235.answer, "An Arithmetic Geometric Sequence"),
   (236, 250, Euler236.main, Euler236.answer, "Luxury Hampers"),
   (237,   1, Euler237.main, Euler237.answer, "Tours on a 4xn Playing Board")
   ]
