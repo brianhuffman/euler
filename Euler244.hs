@@ -1,6 +1,6 @@
 module Euler244 where
 import Data.Bits
-import Data.Array.Unboxed
+import Data.Array
 import EulerLib (funArray)
 
 {-
@@ -66,9 +66,6 @@ length?
 
 -}
 
-data Dir = L | R | U | D
-  deriving (Eq, Show)
-
 {-
 
 How many states are there?
@@ -77,6 +74,18 @@ Represented as bits,
 10^19 = 524288
 
 -}
+
+data Dir = L | R | U | D
+  deriving (Eq, Show)
+
+checksum :: [Dir] -> Integer
+checksum = foldl f 0
+  where
+    f x d = (x * 243 + ascii d) `mod` 100000007
+    ascii L = 76
+    ascii R = 82
+    ascii U = 85
+    ascii D = 68
 
 type Pos = Int
 
@@ -103,10 +112,6 @@ moves 0xD = [(R, 0xC), (L, 0xE), (D, 0x9)          ]
 moves 0xE = [(R, 0xD), (L, 0xF), (D, 0xA)          ]
 moves 0xF = [(R, 0xE),           (D, 0xB)          ]
 
-transitions :: State -> [(Dir, State)]
-transitions (p, grid) =
-  [ (d, (p', swapBits p p' grid)) | (d, p') <- moves p ]
-
 type Grid = Int
 
 writeBit :: Bits a => a -> Int -> Bool -> a
@@ -121,10 +126,9 @@ swapBits i j x = writeBit (writeBit x i jBit) j iBit
 
 type State = (Pos, Grid)
 
-type Arr = UArray State Int
-
-bnds :: (State, State)
-bnds = ((0x0, 0x0000), (0xf, 0xffff))
+transitions :: State -> [(Dir, State)]
+transitions (p, grid) =
+  [ (d, (p', swapBits p p' grid)) | (d, p') <- moves p ]
 
 startState :: State
 startState = (0x0, 0x3333)
@@ -132,57 +136,60 @@ startState = (0x0, 0x3333)
 finalState :: State
 finalState = (0x0, 0xa5a5)
 
-initShortPath :: Arr
-initShortPath = accumArray (const id) 9999 bnds [(startState, 0)]
+bnds :: (State, State)
+bnds = ((0x0, 0x0000), (0xf, 0xffff))
 
-nextShortPath :: Arr -> Arr
-nextShortPath a = a'
+---------------------------------------------------
+
+data Nat = Z | S Nat
+  deriving (Eq, Show)
+
+meet :: Nat -> Nat -> Nat
+meet (S x) (S y) = S (meet x y)
+meet _ _ = Z
+
+meets :: [Nat] -> Nat
+meets [] = undefined -- let n = S n in n
+meets (x : []) = x
+meets (x : xs) = meet x (meets xs)
+
+less :: Nat -> Nat -> Bool
+less (S x) (S y) = less x y
+less Z (S _) = True
+less _ Z = False
+
+------------
+
+distances :: State -> Array State Nat
+distances end = a
   where
-    a' = listArray bnds (map f (range bnds)) 
-    f state = min (a ! state) $
-      1 + minimum [ a ! state' | (_, state') <- transitions state ]
+    a = funArray bnds f
+    f s
+      | s == end  = Z
+      | otherwise = S $ meets [ a ! s' | (d, s') <- transitions s ]
 
-shortPath :: Arr
-shortPath = iterate nextShortPath initShortPath !! 48
-
-shortest :: Int
-shortest = shortPath ! (0x0, 0xa5a5)
-
--- minimum path length is 32.
-
-initCountPath :: Arr
-initCountPath = accumArray (const id) 0 bnds [(startState, 1)]
-
-nextCountPath :: Arr -> Arr
-nextCountPath a = a'
+traces :: State -> State -> [[Dir]]
+traces s0 end = trace s0 n0
   where
-    a' = listArray bnds (map f (range bnds)) 
-    f (p, grid) =
-      sum [ a ! (p', swapBits p p' grid) | (_,p') <- moves p ]
+    dist = distances end
+    n0 = dist ! s0
+    trace s Z = [[]]
+    trace s n =
+      [ d : ds |
+        (d, s') <- transitions s,
+        let n' = dist ! s',
+        less n' n,
+        ds <- trace s' n'
+      ]
 
-countPath :: Arr
-countPath = iterate nextCountPath initCountPath !! 32
+distance :: State -> State -> Nat
+distance s1 s2 = distances s1 ! s2
 
-count :: Int
-count = countPath ! finalState
-
--- 1 path from startState to finalState in 32 moves.
-
-bestpath :: [Dir]
-bestpath =
-  [L,L,U,R,R,D,L,L,L,U,R,R,D,L,U,U,R,U,L,D,L,U,R,D,R,R,U,L,D,D,R,D]
-
-checksum :: [Dir] -> Integer
-checksum = foldl f 0
-  where
-    f x d = (x * 243 + ascii d) `mod` 100000007
-    ascii L = 76
-    ascii R = 82
-    ascii U = 85
-    ascii D = 68
+---------------------------------------------------
 
 main :: IO String
-main = return $ show $ checksum bestpath
+main = return $ show $
+  sum [ checksum ds | ds <- traces startState finalState ]
 
 answer :: String
 answer = "96356848"
@@ -190,9 +197,7 @@ answer = "96356848"
 -- 48077623 WRONG!
 
 {-
-0,1,2,6,5,4,0,1,2,3,7,6,5,1,2,6,a,9,d,e,a,b,f,e,a,9,8,c,d,9,5,4,0
 [L,L,U,R,R,D,L,L,L,U,R,R,D,L,U,U,R,U,L,D,L,U,R,D,R,R,U,L,D,D,R,D]
-
 
 0 1 2 3
 4 5 6 7
@@ -203,42 +208,42 @@ c d e f
 **OO
 **OO
 **OO
-----R,R,D,L
+
 *OOO
 *-*O
 **OO
 **OO
-----L,U,R,R
+
 OO-O
 ***O
 **OO
 **OO
-----R,D,L,L
+
 OOOO
 *-**
 **OO
 **OO
-----U,R,D,D
+
 OO*O
 *OO*
 **-O
 **OO
-----L,D,R,U
+
 OO*O
 *OO*
 **-O
 *O*O
-----R,D,L,U
+
 OO*O
 *OO*
 **-O
 *OO*
-----L,L,D,R
+
 OO*O
 *OO*
 ***O
 O-O*
-----U,U,L,U
+
 -O*O
 O*O*
 *O*O
