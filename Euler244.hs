@@ -1,7 +1,13 @@
 module Euler244 where
 import Data.Bits
-import Data.Array
+import Data.Array.IArray
+import Data.Array (Array)
+import Data.Array.Unboxed (UArray)
 import EulerLib (funArray)
+import Control.Monad.ST
+import Data.Array.ST
+import Data.Word
+import Control.Monad (filterM)
 
 {-
 Problem 244
@@ -141,48 +147,49 @@ bnds = ((0x0, 0x0000), (0xf, 0xffff))
 
 ---------------------------------------------------
 
-data Nat = Z | S Nat
-  deriving (Eq, Show)
+type Dist = Word8
 
-meet :: Nat -> Nat -> Nat
-meet (S x) (S y) = S (meet x y)
-meet _ _ = Z
-
-meets :: [Nat] -> Nat
-meets [] = undefined -- let n = S n in n
-meets (x : []) = x
-meets (x : xs) = meet x (meets xs)
-
-less :: Nat -> Nat -> Bool
-less (S x) (S y) = less x y
-less Z (S _) = True
-less _ Z = False
-
-------------
-
-distances :: State -> Array State Nat
-distances end = a
+distances :: State -> UArray State Dist
+distances s0 =
+  runSTUArray (do
+    dist <- newArray bnds (maxBound :: Dist)
+    writeArray dist s0 0
+    search dist 0 [s0]
+    return dist
+  )
   where
-    a = funArray bnds f
-    f s
-      | s == end  = Z
-      | otherwise = S $ meets [ a ! s' | (d, s') <- transitions s ]
+    neighbors :: [State] -> [State]
+    neighbors states = [ s' | s <- states, (d, s') <- transitions s ]
+
+    update :: STUArray s State Dist -> Dist -> State -> ST s Bool
+    update dist z' s = do
+      z <- readArray dist s
+      if z <= z' then return False else do
+      writeArray dist s z'
+      return True
+
+    search :: STUArray s State Dist -> Dist -> [State] -> ST s ()
+    search dist z [] = return ()
+    search dist z states = do
+      let z' = z + 1
+      states' <- filterM (update dist z') (neighbors states)
+      search dist z' states'
 
 traces :: State -> State -> [[Dir]]
 traces s0 end = trace s0 n0
   where
     dist = distances end
     n0 = dist ! s0
-    trace s Z = [[]]
+    trace s 0 = [[]]
     trace s n =
       [ d : ds |
         (d, s') <- transitions s,
         let n' = dist ! s',
-        less n' n,
+        n' < n,
         ds <- trace s' n'
       ]
 
-distance :: State -> State -> Nat
+distance :: State -> State -> Dist
 distance s1 s2 = distances s1 ! s2
 
 ---------------------------------------------------
