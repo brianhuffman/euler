@@ -105,9 +105,9 @@ test _ _ = return ()
 
 {-
 Time:
-249: (580 s) Prime Subset Sums
 260: (511 s) Stone Game
 251: (489 s) Cardano Triplets
+249: (428 s) Prime Subset Sums
 245: (402 s) Coresilience
 255: (267 s) Rounded Square Roots
 258: (99 s) A Lagged Fibonacci Sequence
@@ -133,8 +133,8 @@ Productivity:
 240: (18%) Top Dice
 221: (20%) Alexandrian Integers
 149: (27%) Searching for a maximum-sum subsequence
+249: (30%) Prime Subset Sums
 201: (32%) Subsets with a unique sum
-249: (37%) Prime Subset Sums
 248: (39%) Totient Equals 13!
 181: (40%) Grouping objects of two different colours.
 161: (47%) Triominoes
@@ -154,7 +154,7 @@ Productivity:
 Memory:
 260: (1101 Mb) Stone Game
 251: (565 Mb) Cardano Triplets
-249: (363 Mb) Prime Subset Sums
+249: (256 Mb) Prime Subset Sums
 149: (201 Mb) Searching for a maximum-sum subsequence
 187: (108 Mb) Semiprimes
 179: (80 Mb) Consecutive positive divisors
