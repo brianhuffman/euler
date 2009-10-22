@@ -2,206 +2,8 @@ module Main where
 import System (getArgs)
 import System.Time
 import Char (isDigit)
-import qualified Euler001
-import qualified Euler002
-import qualified Euler003
-import qualified Euler004
-import qualified Euler005
-import qualified Euler006
-import qualified Euler007
-import qualified Euler008
-import qualified Euler009
-import qualified Euler010
-import qualified Euler011
-import qualified Euler012
-import qualified Euler013
-import qualified Euler014
-import qualified Euler015
-import qualified Euler016
-import qualified Euler017
-import qualified Euler018
-import qualified Euler019
-import qualified Euler020
-import qualified Euler021
-import qualified Euler022
-import qualified Euler023
-import qualified Euler024
-import qualified Euler025
-import qualified Euler026
-import qualified Euler027
-import qualified Euler028
-import qualified Euler029
-import qualified Euler030
-import qualified Euler031
-import qualified Euler032
-import qualified Euler033
-import qualified Euler034
-import qualified Euler035
-import qualified Euler036
-import qualified Euler037
-import qualified Euler038
-import qualified Euler039
-import qualified Euler040
-import qualified Euler041
-import qualified Euler042
-import qualified Euler043
-import qualified Euler044
-import qualified Euler045
-import qualified Euler046
-import qualified Euler047
-import qualified Euler048
-import qualified Euler049
-import qualified Euler050
-import qualified Euler051
-import qualified Euler052
-import qualified Euler053
-import qualified Euler054
-import qualified Euler055
-import qualified Euler056
-import qualified Euler057
-import qualified Euler058
-import qualified Euler059
-import qualified Euler060
-import qualified Euler061
-import qualified Euler062
-import qualified Euler063
-import qualified Euler064
-import qualified Euler065
-import qualified Euler066
-import qualified Euler067
-import qualified Euler068
-import qualified Euler069
-import qualified Euler070
-import qualified Euler071
-import qualified Euler072
-import qualified Euler073
-import qualified Euler074
-import qualified Euler075
-import qualified Euler076
-import qualified Euler077
-import qualified Euler078
-import qualified Euler079
-import qualified Euler080
-import qualified Euler081
-import qualified Euler082
-import qualified Euler083
-import qualified Euler084
-import qualified Euler085
-import qualified Euler086
-import qualified Euler087
-import qualified Euler088
-import qualified Euler089
-import qualified Euler090
-import qualified Euler091
-import qualified Euler092
-import qualified Euler093
-import qualified Euler094
-import qualified Euler095
-import qualified Euler096
-import qualified Euler097
-import qualified Euler098
-import qualified Euler099
-import qualified Euler100
-import qualified Euler101
-import qualified Euler102
-import qualified Euler103
-import qualified Euler104
-import qualified Euler105
-import qualified Euler106
-import qualified Euler107
-import qualified Euler108
-import qualified Euler109
-import qualified Euler110
-import qualified Euler111
-import qualified Euler112
-import qualified Euler113
-import qualified Euler114
-import qualified Euler115
-import qualified Euler116
-import qualified Euler117
-import qualified Euler118
-import qualified Euler119
-import qualified Euler120
-import qualified Euler121
-import qualified Euler122
-import qualified Euler123
-import qualified Euler124
-import qualified Euler125
-import qualified Euler126
-import qualified Euler127
-import qualified Euler128
-import qualified Euler129
-import qualified Euler130
-import qualified Euler131
-import qualified Euler132
-import qualified Euler133
-import qualified Euler134
-import qualified Euler135
-import qualified Euler136
-import qualified Euler137
-import qualified Euler138
-import qualified Euler139
-import qualified Euler140
-import qualified Euler141
-import qualified Euler142
-import qualified Euler143
-import qualified Euler144
-import qualified Euler145
-import qualified Euler146
-import qualified Euler147
-import qualified Euler148
-import qualified Euler149
-import qualified Euler150
-import qualified Euler151
-import qualified Euler152
-import qualified Euler153
-import qualified Euler154
-import qualified Euler155
-import qualified Euler156
-import qualified Euler157
-import qualified Euler158
-import qualified Euler159
-import qualified Euler160
-import qualified Euler161
-import qualified Euler162
-import qualified Euler163
-import qualified Euler164
-import qualified Euler165
-import qualified Euler166
-import qualified Euler167
-import qualified Euler168
-import qualified Euler169
-import qualified Euler170
-import qualified Euler171
-import qualified Euler172
-import qualified Euler173
-import qualified Euler174
-import qualified Euler175
-import qualified Euler176
-import qualified Euler177
-import qualified Euler178
-import qualified Euler179
-import qualified Euler180
-import qualified Euler181
-import qualified Euler182
-import qualified Euler183
-import qualified Euler184
-import qualified Euler185
-import qualified Euler186
-import qualified Euler187
-import qualified Euler188
-import qualified Euler189
-import qualified Euler190
-import qualified Euler191
-import qualified Euler192
-import qualified Euler193
-import qualified Euler194
-import qualified Euler195
-import qualified Euler196
-import qualified Euler197
-import qualified Euler198
-import qualified Euler199
-import qualified Euler200
+import qualified Euler1
+import qualified Euler2
 import qualified Euler201
 import qualified Euler202
 import qualified Euler203
@@ -239,6 +41,24 @@ import qualified Euler234
 import qualified Euler235
 import qualified Euler236
 import qualified Euler237
+import qualified Euler238
+import qualified Euler239
+import qualified Euler240
+import qualified Euler241
+import qualified Euler242
+import qualified Euler244
+import qualified Euler245
+import qualified Euler246
+import qualified Euler247
+import qualified Euler248
+import qualified Euler249
+import qualified Euler250
+import qualified Euler251
+import qualified Euler252
+import qualified Euler255
+import qualified Euler258
+import qualified Euler259
+import qualified Euler260
 
 timeIO_ :: IO () -> IO TimeDiff
 timeIO_ action =
@@ -285,13 +105,23 @@ test _ _ = return ()
 
 {-
 Time:
+249: (580 s) Prime Subset Sums
+260: (511 s) Stone Game
+251: (489 s) Cardano Triplets
+245: (402 s) Coresilience
+255: (267 s) Rounded Square Roots
+258: (99 s) A Lagged Fibonacci Sequence
+248: (85 s) Totient Equals 13!
 154: (80 s) Exploring Pascal's pyramid
 216: (59 s) Primality of 2n^2-1
 165: (48 s) Intersections
+252: (35 s) Convex Holes
 196: (28 s) Prime triplets
+236: (25 s) Luxury Hampers
 150: (22 s) Minimum-sum sub-triangles
 210: (17 s) Obtuse Angled Triangles
 153: (15 s) Investigating Gaussian Integers
+250: (11 s) 250250
 193: (11 s) Squarefree Numbers
 185: (11 s) Number Mind
 152: (10 s) Writing 1/2 as a sum of inverse squares
@@ -300,22 +130,31 @@ Time:
 155: (8 s) Counting Capacitor Circuits
 
 Productivity:
+240: (18%) Top Dice
 221: (20%) Alexandrian Integers
 149: (27%) Searching for a maximum-sum subsequence
 201: (32%) Subsets with a unique sum
+249: (37%) Prime Subset Sums
+248: (39%) Totient Equals 13!
 181: (40%) Grouping objects of two different colours.
 161: (47%) Triominoes
 160: (53%) Factorial trailing digits
 143: (54%) Torricelli point of a triangle
 195: (63%) Inscribed circles
 189: (63%) Tri-colouring a triangular grid
+247: (65%) Squares Under a Hyperbola
 159: (70%) Digital root sums of factorizations
 212: (70%) Combined Volume of Cuboids
+244: (70%) Sliders
 126: (75%) Cubes Required to Cover a Cuboid
+258: (78%) A Lagged Fibonacci Sequence
 141: (83%) Progressive perfect squares
 155: (85%) Counting Capacitor Circuits
 
 Memory:
+260: (1101 Mb) Stone Game
+251: (565 Mb) Cardano Triplets
+249: (363 Mb) Prime Subset Sums
 149: (201 Mb) Searching for a maximum-sum subsequence
 187: (108 Mb) Semiprimes
 179: (80 Mb) Consecutive positive divisors
@@ -323,7 +162,10 @@ Memory:
 155: (71 Mb) Counting Capacitor Circuits
 181: (68 Mb) Grouping objects of two different colours
 159: (60 Mb) Digital root sums of factorizations
+233: (51 Mb) Lattice Points on a Circle
 221: (47 Mb) Alexandrian Integers
+247: (45 Mb) Squares Under a Hyperbola
+248: (44 Mb) Totient Equals 13!
 161: (44 Mb) Triominoes
 193: (28 Mb) Squarefree Numbers
 214: (25 Mb) Totient Chains
@@ -362,207 +204,10 @@ parseArgs xs n l = or [ parseArg x n | x <- xs ]
 -- it takes about 30s to run problems 1-100 (12 Nov 2008)
 
 checks :: [(Int, Int, IO String, String, String)]
-checks = [
-  (  1,   0, Euler001.main, "233168", "Add multiples of 3 or 5"),
-  (  2,   0, Euler002.main, "4613732", "Sum of even-valued Fibonacci numbers"),
-  (  3,   0, Euler003.main, "6857", "Find the largest prime factor"),
-  (  4,   0, Euler004.main, "906609", "Largest palindrome made from a product"),
-  (  5,   0, Euler005.main, "232792560", "Smallest number divisible by 1 to 20"),
-  (  6,   0, Euler006.main, "25164150", "Sum of squares - square of sums"),
-  (  7,   1, Euler007.main, "104743", "Find the 10001st prime"),
-  (  8,   0, Euler008.main, "40824", "Largest product of 5 consecutive digits"),
-  (  9,   0, Euler009.main, "31875000", "Pythagorean triplet with a+b+c=1000"),
-  ( 10,   1, Euler010.main, "142913828922", "Sum of primes below 2 million"),
-  ( 11,   0, Euler011.main, "70600674", "Greatest product of 4 numbers"),
-  ( 12,   2, Euler012.main, "76576500", "Triangle number with 500 divisors"),
-  ( 13,   0, Euler013.main, "5537376230", "Sum of one-hundred 50-digit numbers"),
-  ( 14,  12, Euler014.main, "837799", "Longest Collatz Sequence"),
-  ( 15,   0, Euler015.main, "137846528820", "How many routes to the bottom corner"),
-  ( 16,   0, Euler016.main, "1366", "Sum of the digits of 2^1000"),
-  ( 17,   0, Euler017.main, "21124", "How many letters to write 1 to 1000"),
-  ( 18,   0, Euler018.main, "1074", "Maximum sum travelling down the triangle"),
-  ( 19,   0, Euler019.main, "171", "Sundays on the first of the month"),
-  ( 20,   0, Euler020.main, "648", "Sum of the digits in 100 factorial"),
-  ( 21,   2, Euler021.main, "31626", "Sum of amicable pairs under 10000"),
-  ( 22,   2, Euler022.main, "871198282", "Total of all name scores in file"),
-  ( 23,   8, Euler023.main, "4179871", "Sums of two abundant numbers"),
-  ( 24,   0, Euler024.main, "2783915460", "Millionth lexicographic permutation"),
-  ( 25,   0, Euler025.main, "4782", "First Fibonacci number with 1000 digits"),
-  ( 26,   0, Euler026.main, "983", "1/d containing the longest cycle"),
-  ( 27,   4, Euler027.main, "-59231", "Quadratic formula that produces primes"),
-  ( 28,   0, Euler028.main, "669171001", "Sum of diagonals in a spiral"),
-  ( 29,   1, Euler029.main, "9183", "Distinct terms generated by a^b"),
-  ( 30,   1, Euler030.main, "443839", "Sums of fifth powers of digits"),
-  ( 31,   0, Euler031.main, "73682", "Combinations of currency denominations"),
-  ( 32,   1, Euler032.main, "45228", "Sum of pandigital products"),
-  ( 33,   0, Euler033.main, "100", "Fractions with unorthodox cancelling"),
-  ( 34,   1, Euler034.main, "40730", "Sums of factorials of digits"),
-  ( 35,   2, Euler035.main, "55", "Circular primes"),
-  ( 36,   0, Euler036.main, "872187", "Palindromes in base 10 and base 2"),
-  ( 37,   5, Euler037.main, "748317", "Truncatable primes"),
-  ( 38,   0, Euler038.main, "932718654", "Largest pandigital"),
-  ( 39,   0, Euler039.main, "840", "Perimeter with most right triangles"),
-  ( 40,   0, Euler040.main, Euler040.answer, "Finding the nth digit"),
-  ( 41,   0, Euler041.main, "7652413", "Largest pandigital prime"),
-  ( 42,   1, Euler042.main, "162", "Triangle words"),
-  ( 43,   0, Euler043.main, "16695334890", "Sub-string divisibility"),
-  ( 44,   1, Euler044.main, "5482660", "Pentagonal sum and difference"),
-  ( 45,   1, Euler045.main, "1533776805", "Pentagonal, hexagonal triangle number"),
-  ( 46,   0, Euler046.main, "5777", "Sum of a prime and twice a square"),
-  ( 47,   3, Euler047.main, "134043", "Consecutive integers with 4 prime factors"),
-  ( 48,   0, Euler048.main, "9110846700", "1^1 + 2^2 + ... + 1000^1000"),
-  ( 49,   3, Euler049.main, "296962999629", "Prime permutation arithmetic sequences"),
-  ( 50,   0, Euler050.main, "997651", "Prime as the sum of consecutive primes"),
-  ( 51,   4, Euler051.main, "121313", "Changing a part to form 8 primes"),
-  ( 52,   0, Euler052.main, "142857", "2x, 3x, 4x, 5x, 6x with the same digits"),
-  ( 53,   0, Euler053.main, "4075", "C(n,r) exceeding 1 million"),
-  ( 54,   1, Euler054.main, "376", "Poker Hands"),
-  ( 55,   4, Euler055.main, "249", "Lychrel Numbers"),
-  ( 56,   2, Euler056.main, "972", "Maximum digital sum of a^b"),
-  ( 57,   1, Euler057.main, "153", "Continued fraction for square root of 2"),
-  ( 58,   9, Euler058.main, "26241", "Primes on diagonals of spiral grid"),
-  ( 59,   0, Euler059.main, "107359" , "Decrypt XOR cipher"),
-  ( 60,  46, Euler060.main, Euler060.answer, "Concatenating a set of five primes"),
-  ( 61,   0, Euler061.main, "28684", "Figurate numbers with a cyclic property"),
-  ( 62,   3, Euler062.main, "127035954683", "Digit permutations are cubes"),
-  ( 63,   0, Euler063.main, "49", "n-digit integers which are nth powers"),
-  ( 64,   3, Euler064.main, "1322", "Continued fractions with odd period"),
-  ( 65,   0, Euler065.main, "272", "Convergents of continued fraction for e"),
-  ( 66,   1, Euler066.main, "661", "Diophantine equation x^2 - Dy^2 = 1"),
-  ( 67,   1, Euler067.main, "7273", "Maximal sum in the triangle"),
-  ( 68,   0, Euler068.main, "6531031914842725", "Magic 5-gon ring"),
-  ( 69,   0, Euler069.main, "510510", "Maximize n / phi(n)"),
-  ( 70,   2, Euler070.main, "8319823", "phi(n) as a permutation of n"),
-  ( 71,   0, Euler071.main, "428570", "Listing proper fractions in order"),
-  ( 72,   5, Euler072.main, "303963552391", "Counting proper fractions"),
-  ( 73,   2, Euler073.main, "5066251", "Proper fractions between 1/3 and 1/2"),
-  ( 74,   9, Euler074.main, "402", "Factorial Chains"),
-  ( 75,   9, Euler075.main, "214954", "Lengths forming a unique right triangle"),
-  ( 76,   0, Euler076.main, "190569291", "100 as sum of at least two integers"),
-  ( 77,   0, Euler077.main, "71", "Value as sum of primes in 5000 ways"),
-  ( 78,   9, Euler078.main, "55374", "Separating coins into piles"),
-  ( 79,   0, Euler079.main, "73162890", "Determine the secret passcode"),
-  ( 80,   1, Euler080.main, "40886", "Sum of digits of square roots"),
-  ( 81,   1, Euler081.main, "427337", "Minimal Path Sum I"),
-  ( 82,   1, Euler082.main, "260324", "Minimal Path Sum II"),
-  ( 83,   8, Euler083.main, "425185", "Minimal Path Sum III"),
-  ( 84,   0, Euler084.main, "101524", "Most Popular Monopoly Squares"),
-  ( 85,   0, Euler085.main, "2772", "Number of Rectangles in a Grid"),
-  ( 86,   0, Euler086.main, "1818", "Shortest Path between Corners of a Cuboid"),
-  ( 87,   9, Euler087.main, "1097343", "Sum of Prime Square, Cube, and 4th Power"),
-  ( 88,   9, Euler088.main, "7587457", "Minimal Product-Sum Numbers"),
-  ( 89,   0, Euler089.main, "743", "Minimizing Roman Numerals"),
-  ( 90,   0, Euler090.main, "1217", "Two Cubes to Make a Square"),
-  ( 91,   3, Euler091.main, "14234", "Right Angle Triangles in the Quadrant"),
-  ( 92,   0, Euler092.main, "8581146", "Square Digits Number Chain"),
-  ( 93,   8, Euler093.main, "1258", "Arithmetic with Four Digits"),
-  ( 94,   0, Euler094.main, "518408346", "Almost Equilateral Triangles"),
-  ( 95,   7, Euler095.main, Euler095.answer, "The longest amicable chain"),
-  ( 96,  15, Euler096.main, "24702", "Solving Su Doku puzzles"),
-  ( 97,   0, Euler097.main, "8739992577", "28433 * 2^7830457 + 1"),
-  ( 98,   1, Euler098.main, "18769", "Anagrams Representing Square Numbers"),
-  ( 99,   1, Euler099.main, "709", "Greatest Base/Exponent Pair"),
-  (100,   0, Euler100.main, "756872327473", "50% Chance of Two Blue Discs"),
-  (101,   0, Euler101.main, "37076114526", "Optimum Polynomial Function"),
-  (102,   1, Euler102.main, "228", "Triangles Containing the Origin"),
-  (103,   6, Euler103.main, "20313839404245", "Special Subset Sum Property"),
-  (104,   7, Euler104.main, "329468", "Pandigital Fibonacci Numbers"),
-  (105,   2, Euler105.main, "73702", "Sum of Special Sum Sets"),
-  (106,   0, Euler106.main, "21384", "Identifying Special Sum Sets"),
-  (107,   0, Euler107.main, "259679", "Connecting the Network"),
-  (108,   0, Euler108.main, "180180", "Solving 1/x + 1/y = 1/n"),
-  (109,   0, Euler109.main, "38182", "Ways to Checkout in Darts"),
-  (110,   4, Euler110.main, "9350130049860600", "Counting Solutions of 1/x + 1/y = 1/n"),
-  (111,   6, Euler111.main, "612407567715", "Primes with Repeated Digits"),
-  (112,   7, Euler112.main, "1587000", "Density of Bouncy Numbers"),
-  (113,   0, Euler113.main, "51161058134250", "Counting Bouncy Numbers"),
-  (114,   0, Euler114.main, "16475640049", "Rows of Separated Blocks I"),
-  (115,   0, Euler115.main, "168", "Rows of Separated Blocks II"),
-  (116,   0, Euler116.main, "20492570929", "Three Coloured Tiles"),
-  (117,   0, Euler117.main, "100808458960497", "Different Sized Tiles"),
-  (118,  43, Euler118.main, "44680", "Sets of Primes Using All Digits"),
-  (119,   0, Euler119.main, "248155780267521", "Sum of Digits Raised to Powers"),
-  (120,   0, Euler120.main, "333082500", "Find the Maximum Remainder"),
-  (121,   0, Euler121.main, "2269", "Game of Chance with Coloured Discs"),
-  (122,  17, Euler122.main, "1582", "Most Efficient Exponentiation Method"),
-  (123,   2, Euler123.main, "21035", "Determine the Remainder"),
-  (124,  15, Euler124.main, "21417", "Sorted Radical Function"),
-  (125,  45, Euler125.main, "2906969179", "Square sums that are palindromic"),
-  (126,  18, Euler126.main, "18522", "Cubes Required to Cover a Cuboid"),
-  (127,  21, Euler127.main, "15377700", "Counting abc-hits"),
-  (128,   9, Euler128.main, "14516824220", "Prime Differences of Hexagonal Tiles"),
-  (129,   0, Euler129.main, "1000023", "Minimal Repunits that Divide by n"),
-  (130,   2, Euler130.main, "149253", "Repunit Divisibility"),
-  (131,   0, Euler131.main, "173", "Primes where n^3 + n^2 p is a Cube"),
-  (132,   1, Euler132.main, "843296", "Factoring a Very Large Repunit"),
-  (133,   1, Euler133.main, "453647705", "Primes Never Dividing Repunit(10^n)"),
-  (134,  13, Euler134.main, "18613426663617118", "Pair of Consecutive Primes"),
-  (135,   3, Euler135.main, Euler135.answer, "Counting Solutions to x^2 - y^2 - z^2 = n"),
-  (136,  26, Euler136.main, "2544559", "Unique Solutions to x^2 - y^2 - z^2 = n"),
-  (137,   0, Euler137.main, "1120149658760", "Infinite Series with Fibonacci Coefficients"),
-  (138,   0, Euler138.main, "1118049290473932", "Isosceles Triangles with Height ~ Base"),
-  (139,   0, Euler139.main, "10057761", "Tiling Pythagorean Triangles"),
-  (140,   0, Euler140.main, "5673835352990", "Infinite Series with Linear-Recurrent Coefficients"),
-  (141,  98, Euler141.main, Euler141.answer, "Progressive perfect squares"),
-  (142,  59, Euler142.main, "1006193", "Perfect Square Collection"),
-  (143,   8, Euler143.main, "25587759", "Torricelli point of a triangle"),
-  (144,   0, Euler144.main, "354", "Reflections of a Laser Beam"),
-  (145,   0, Euler145.main, "608720", "Counting Reversible Numbers"),
-  (146,  42, Euler146.main, "676333270", "Investigating a Prime Pattern"),
-  (147,   0, Euler147.main, "846910284", "Rectangles in cross-hatched grids"),
-  (148,   0, Euler148.main, "2129970655314432", "Exploring Pascal's triangle."),
-  (149,  73, Euler149.main, Euler149.answer, "Searching for a maximum-sum subsequence"),
-  (150, 267, Euler150.main, Euler150.answer, "Minimum-sum sub-triangles"),
-  (151,   0, Euler151.main, "0.464398781601087", "Paper sheets of standard sizes"),
-  (152,  58, Euler152.main, Euler152.answer, "Writing 1/2 as a sum of inverse squares"),
-  (153, 167, Euler153.main, Euler153.answer, "Investigating Gaussian Integers"),
-  (154, 804, Euler154.main, "479742450", "Exploring Pascal's pyramid"),
-  (155, 145, Euler155.main, Euler155.answer, "Counting Capacitor Circuits"),
-  (156,  14, Euler156.main, "21295121502550", "Counting Digits"),
-  (157,   0, Euler157.main, "53490", "Solving 1/a + 1/b = p/10^n"),
-  (158,   0, Euler158.main, "409511334375", "One Character Out of Order"),
-  (159,  44, Euler159.main, "14489159", "Digital root sums of factorizations."),
-  (160,  17, Euler160.main, "16576", "Factorial trailing digits"),
-  (161,  10, Euler161.main, "20574308184277971", "Triominoes"),
-  (162,   0, Euler162.main, "3D58725572C62302", "Hexadecimal numbers"),
-  (163,   0, Euler163.main, "343047", "Cross-hatched triangles"),
-  (164,   0, Euler164.main, "378158756814587", "No 3 Consecutive Large Digits"),
-  (165, 413, Euler165.main, Euler165.answer, "Intersections"),
-  (166,  18, Euler166.main, "7130034", "Criss Cross"),
-  (167,   4, Euler167.main, "3916160068885", "Investigating Ulam sequences"),
-  (168,   0, Euler168.main, "59206", "Number Rotations"),
-  (169,   0, Euler169.main, "178653872807", "Numbers as Sums of Powers of 2"),
-  (170,   3, Euler170.main, "9857164023", "Pandigital Concatenated Products"),
-  (171,   2, Euler171.main, "142989277", "Sum of Squares of Digits is a Square"),
-  (172,   0, Euler172.main, "227485267000992000", "Numbers with Few Repeated Digits"),
-  (173,   0, Euler173.main, "1572729", "Counting Hollow Square Laminae"),
-  (174,   1, Euler174.main, "209566", "Arrangements of Hollow Square Laminae"),
-  (175,   0, Euler175.main, "1,13717420,8", "Numbers as Sums of Powers of 2"),
-  (176,   0, Euler176.main, "96818198400000", "Right Triangles Sharing a Cathetus"),
-  (177,  32, Euler177.main, "129325", "Integer Angled Quadrilaterals"),
-  (178,   0, Euler178.main, "126461847755", "Step Numbers"),
-  (179,  43, Euler179.main, "986262", "Consecutive positive divisors"),
-  (180,   7, Euler180.main, "285196020571078987", "Rational Zeros of a Function"),
-  (181,  10, Euler181.main, "83735848679360680", "Grouping objects of two different colours"),
-  (182,  10, Euler182.main, "399788195976", "RSA Encryption"),
-  (183,   0, Euler183.main, "48861552", "Maximum Product of Parts"),
-  (184,   0, Euler184.main, "1725323624056", "Triangles Containing the Origin"),
-  (185, 130, Euler185.main, "4640261571849533", "Number Mind"),
-  (186,  30, Euler186.main, "2325629", "Connectedness of a Network"),
-  (187,  85, Euler187.main, "17427258", "Semiprimes"),
-  (188,   0, Euler188.main, "95962097", "Hyperexponentiation"),
-  (189,   7, Euler189.main, "10834893628237824", "Tri-colouring a triangular grid"),
-  (190,   0, Euler190.main, "371048281", "Maximizing a Weighted Product"),
-  (191,   0, Euler191.main, "1918080160", "Prize Strings"),
-  (192,  17, Euler192.main, "57060635927998347", "Best Approximations"),
-  (193, 167, Euler193.main, "684465067343069", "Squarefree Numbers"),
-  (194,   0, Euler194.main, "61190912", "Coloured Configurations"),
-  (195,  41, Euler195.main, "75085391", "Inscribed Circles of Triangles"),
-  (196, 620, Euler196.main, Euler196.answer, "Prime triplets"),
-  (197,   0, Euler197.main, "1.710637717", "A Recursively Defined Sequence"),
-  (198,   4, Euler198.main, "52374425", "Ambiguous Numbers"),
-  (199,   0, Euler199.main, "0.00396087", "Iterative Circle Packing"),
-  (200,  80, Euler200.main, "229161792008", "200th prime-proof sqube"),
+checks =
+  Euler1.checks ++
+  Euler2.checks ++
+  [
   (201,  19, Euler201.main, "115039000", "Subsets with a unique sum"),
   (202,   0, Euler202.main, "1209002624", "Laserbeam"),
   (203,   0, Euler203.main, "34029210557338", "Squarefree Binomial Coefficients"),
@@ -599,7 +244,30 @@ checks = [
   (234,  20, Euler234.main, Euler234.answer, "Semidivisible Numbers"),
   (235,   0, Euler235.main, Euler235.answer, "An Arithmetic Geometric Sequence"),
   (236, 250, Euler236.main, Euler236.answer, "Luxury Hampers"),
-  (237,   1, Euler237.main, Euler237.answer, "Tours on a 4xn Playing Board")
+  (237,   1, Euler237.main, Euler237.answer, "Tours on a 4xn Playing Board"),
+  -- (238, 999, Euler238.main, Euler238.answer, "Infinite String Tour"),
+  -- 239 ?????????????????
+  (240,   3, Euler240.main, Euler240.answer, "Top Dice"),
+  -- 241  (unsolved)
+  (242,   0, Euler242.main, Euler242.answer, "Odd Triplets"),
+  -- 243  (found by trial and error)
+  (244,   5, Euler244.main, Euler244.answer, "Sliders"),
+  (245,4020, Euler245.main, Euler245.answer, "Coresilience"),
+  (246,   1, Euler246.main, Euler246.answer, "Tangents to an Ellipse"),
+  (247,  14, Euler247.main, Euler247.answer, "Squares Under a Hyperbola"),
+  (248, 850, Euler248.main, Euler248.answer, "Totient Equals 13!"),
+  (249,5800, Euler249.main, Euler249.answer, "Prime Subset Sums"),
+  (250, 110, Euler250.main, Euler250.answer, "250250"),
+  (251,4890, Euler251.main, Euler251.answer, "Cardano Triplets"),
+  (252, 350, Euler252.main, Euler252.answer, "Convex Holes"),
+  -- 253 (unsolved)
+  -- 254 (unsolved)
+  (255,2670, Euler255.main, Euler255.answer, "Rounded Square Roots"),
+  -- 256 (unsolved)
+  -- 257 (unsolved)
+  (258, 990, Euler258.main, Euler258.answer, "A Lagged Fibonacci Sequence"),
+  -- 259 (unsolved)
+  (260,5110, Euler260.main, Euler260.answer, "Stone Game")
   ]
 
 total_time :: Int
