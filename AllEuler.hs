@@ -55,6 +55,7 @@ import qualified Euler249
 import qualified Euler250
 import qualified Euler251
 import qualified Euler252
+import qualified Euler254
 import qualified Euler255
 import qualified Euler257
 import qualified Euler258
@@ -262,6 +263,7 @@ checks =
   (252, 350, Euler252.main, Euler252.answer, "Convex Holes"),
   -- 253 (unsolved)
   -- 254 (unsolved)
+  (254,9999, Euler254.main, Euler254.answer, "Sum of Digit Factorials"),
   (255,2670, Euler255.main, Euler255.answer, "Rounded Square Roots"),
   -- 256 (unsolved)
   (257, 124, Euler257.main, Euler257.answer, "Angular Bisectors"),
