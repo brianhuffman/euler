@@ -56,6 +56,7 @@ import qualified Euler250
 import qualified Euler251
 import qualified Euler252
 import qualified Euler255
+import qualified Euler257
 import qualified Euler258
 import qualified Euler259
 import qualified Euler260
@@ -121,6 +122,7 @@ Time:
 150: (22 s) Minimum-sum sub-triangles
 210: (17 s) Obtuse Angled Triangles
 153: (15 s) Investigating Gaussian Integers
+257: (15 s) Angular Bisectors
 250: (11 s) 250250
 193: (11 s) Squarefree Numbers
 185: (11 s) Number Mind
@@ -263,7 +265,7 @@ checks =
   -- 254 (unsolved)
   (255,2670, Euler255.main, Euler255.answer, "Rounded Square Roots"),
   -- 256 (unsolved)
-  -- 257 (unsolved)
+  (257, 146, Euler257.main, Euler257.answer, "Angular Bisectors"),
   (258, 990, Euler258.main, Euler258.answer, "A Lagged Fibonacci Sequence"),
   -- 259 (unsolved)
   (260,5110, Euler260.main, Euler260.answer, "Stone Game")
