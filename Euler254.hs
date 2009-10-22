@@ -1,6 +1,5 @@
 module Euler254 where
 import Data.Char (digitToInt)
-import Data.List (elemIndices)
 import Data.Array.Unboxed
 
 {-
@@ -45,16 +44,17 @@ type Digits = [(Int, Int)]
 f :: Digits -> Int
 f ds = sum [ n * fac d | (d, n) <- ds ]
 
-digitSum :: Int -> Int
-digitSum = sum . map digitToInt . show
-{-
-digitSum 0 = 0
-digitSum n = digitSum q + r
+digSum :: Int -> Int
+--digSum = sum . map digitToInt . show
+digSum 0 = 0
+digSum n = digSum q + r
   where (q, r) = n `divMod` 10
--}
 
 sf :: Digits -> Int
-sf = digitSum . f
+sf = digSum . f
+
+sumDigits :: Digits -> Int
+sumDigits ds = sum [ d * n | (d, n) <- ds ]
 
 
 ------------------------------------------------------------
@@ -135,6 +135,28 @@ all_ascending_mod r =
     xs <- ascending_mod r l 1
   ]
 
+type FS = (Int, Int)
+
+ascending_mod_fs :: Int -> Int -> Int -> [FS]
+ascending_mod_fs 0 l 9 = [(l * fac 9, l * 9)]
+ascending_mod_fs r l d
+  | d > 2 && r `mod` 3 /= 0 = []
+  | d > 5 && r `mod` 9 /= 0 = []
+  | otherwise =
+      [ (f' + n * fac d, s' + n * d) |
+        n <- reverse [0 .. min l d],
+        let r' = (r - n * fac d) `mod` 9,
+        let l' = l - n,
+        (f',s') <- ascending_mod_fs r' l' (d+1)
+      ]
+
+all_ascending_mod_fs :: Int -> [FS]
+all_ascending_mod_fs r =
+  [ xs |
+    l <- [1 ..],
+    xs <- ascending_mod_fs r l 1
+  ]
+
 short_ascending_mod :: Int -> [Digits]
 short_ascending_mod r =
   [ xs |
@@ -164,11 +186,10 @@ g :: Int -> Digits
 g i = head [ ds | ds <- all_ascending_mod r, sf ds == i ]
   where r = i `mod` 9
 
-sumDigits :: Digits -> Int
-sumDigits ds = sum [ d * n | (d, n) <- ds ]
-
 sg :: Int -> Int
-sg = sumDigits . g
+--sg = sumDigits . g
+sg i = head [ sn | (fn, sn) <- all_ascending_mod_fs r, digSum fn == i ]
+  where r = i `mod` 9
 
 sg' :: Int -> Int
 sg' i = head $
@@ -178,11 +199,54 @@ sg' i = head $
     (f_ds, s_ds) <- prefix_fs !! r,
     let f' = f_ds + n9 * fac 9,
     let s' = s_ds + n9 * 9,
-    digitSum f' == i
+    digSum f' == i
   ]
   where r = i `mod` 9
 
 ------------------------------------------------------------
+
+ascending_fs :: Int -> Int -> [FS]
+ascending_fs l 9 = [(l * fac 9, l * 9)]
+ascending_fs l d =
+  [ (f' + n * fac d, s' + n * d) |
+    let nmax = min l d,
+    n <- [nmax, nmax-1 .. 0],
+    (f',s') <- ascending_fs (l-n) (d+1)
+  ]
+
+-- sum_sg :: Int -> Int
+sum_sg' imax =
+    [ go b0 num fss |
+      r <- [1 .. 9],
+      let num = (imax + 9 - r) `div` 9,
+      let fss = all_ascending_mod_fs (r `mod` 9)
+    ]
+  where
+    b0 :: UArray Int Bool
+    b0 = accumArray (||) False (1,imax) []
+    go b 0 _ = []
+    go b r ((facs, s) : fss)
+      | i > imax  = go b r fss
+      | b ! i     = go b r fss
+      | otherwise = (i, s) : go (b // [(i, True)]) (r-1) fss
+      where i = digSum facs
+
+sum_sg imax = go b0 imax all_fss
+  where
+    b0 :: UArray Int Bool
+    b0 = accumArray (||) False (1,imax) []
+    all_fss =
+      [ (i, s) |
+        len <- [1..],
+        (facs, s) <- ascending_fs len 1,
+        let i = digSum facs,
+        i < imax
+      ]
+    go b 0 _ = []
+    go b r ((i, s) : fss)
+      | b ! i     = go b r fss
+      | otherwise = (i, s) : go (b // [(i, True)]) (r-1) fss
+
 
 test = [ (i, s) | i <- [1 ..], let s = sg i ]
 
@@ -190,7 +254,7 @@ test' = [ (i, s) | i <- [1 ..], let s = sg' i ]
 
 {-
 
-digitSum n == n (mod 9)
+digSum n == n (mod 9)
 
 
 sf n
@@ -271,7 +335,8 @@ i       g(i)   sg(i)
 -}
 
 main :: IO String
-main = return $ show $ sum [ sg' i | i <- [1 .. 70] ]
+main = return $ show $ sum $ map snd $ concat $ sum_sg' 70
+-- main = return $ show $ sum [ sg i | i <- [1 .. 70] ]
 
 answer :: String
 answer = "???"
