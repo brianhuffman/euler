@@ -222,20 +222,15 @@ prim_triangles2 =
     let c = a + t
   ]
 
-count_triangles2_upto :: Z -> [((Z, Z, Z), Z)]
-count_triangles2_upto pmax =
-  [ ((a, b, c), count) |
+count_triangles2_upto :: Z -> Z
+count_triangles2_upto pmax = sum
+  [ count |
     i <- [1 .. square_root (pmax `div` 12)],
     let n = 2*i + 1,
-    let t = n^2,
     m <- [i+1 .. n-1],
     gcd m n == 1,
-    let s = 2*m^2,
     let perim = (2*m + n)*(m + n),
-    let count = pmax `div` perim,
-    let a = m*n,
-    let b = a + s,
-    let c = a + t
+    let count = pmax `div` perim
   ]
 
 {-
@@ -251,7 +246,6 @@ a+b+c = mn + (mn + 2mm) + (mn + nn)
       12i^2 < pmax
 -}
 
-
 prim_triangles3 :: [(Z, Z, Z)]
 prim_triangles3 =
   [ triple |
@@ -264,19 +258,16 @@ prim_triangles3 =
           | otherwise      = (2*m*n, m*(3*m+n), n*(m+n))
   ]
 
-count_triangles3_upto :: Z -> [((Z, Z, Z), Z)]
-count_triangles3_upto pmax =
-  [ ((a,b,c), count) |
+count_triangles3_upto :: Z -> Z
+count_triangles3_upto pmax = sum
+  [ count |
     i <- [0 .. square_root (pmax `div` 12)],
     n <- [3*i+1, 3*i+2],
     m <- [i+1 .. n-1],
     gcd m n == 1,
-    let (a,b,c)
-          | odd m && odd n = (m*n, m*(3*m+n)`div`2, n*(m+n)`div`2)
-          | otherwise      = (2*m*n, m*(3*m+n), n*(m+n)),
-    let perim = a + b + c,
-    let count = pmax `div` perim,
-    count > 0
+    let perim' = (3*m + n)*(m + n),
+    let perim = if odd perim' then perim' else perim'`div`2,
+    let count = pmax `div` perim
   ]
 
 {-
@@ -291,14 +282,14 @@ count_triangles3_upto pmax =
 -}
 
 
-count_triangles4_upto :: Z -> [((Z, Z, Z), Z)]
-count_triangles4_upto pmax = [((1, 1, 1), pmax`div`3)]
+count_triangles4_upto :: Z -> Z
+count_triangles4_upto pmax = pmax `div` 3
 
 count_triangles_upto :: Z -> Z
 count_triangles_upto pmax =
-  sum (map snd (count_triangles2_upto pmax)) +
-  sum (map snd (count_triangles3_upto pmax)) +
-  sum (map snd (count_triangles4_upto pmax))
+  count_triangles2_upto pmax +
+  count_triangles3_upto pmax +
+  count_triangles4_upto pmax
 
 brute_force :: Z -> [((Z, Z, Z), Z)]
 brute_force m =
