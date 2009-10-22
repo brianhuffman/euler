@@ -50,9 +50,13 @@ squarePoly p = makePoly n upds
   where
     n = rangeSize (bounds p)
     upds =
-      [ (i+j, mul x y) |
-        (i, x) <- assocs p, x /= 0,
-        (j, y) <- assocs p, y /= 0
+      [ (i+j, xy') |
+        i <- [0 .. n-1],
+        let x = p!i, x /= 0,
+        j <- [i .. n-1],
+        let y = p!j, y /= 0,
+        let xy = mul x y,
+        let xy' = if i < j then add xy xy else xy
       ]
 
 startPoly :: Int -> Poly

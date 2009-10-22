@@ -110,12 +110,12 @@ Time:
 251: (489 s) Cardano Triplets
 245: (402 s) Coresilience
 255: (267 s) Rounded Square Roots
-258: (99 s) A Lagged Fibonacci Sequence
 248: (85 s) Totient Equals 13!
 154: (80 s) Exploring Pascal's pyramid
 249: (70 s) Prime Subset Sums
 216: (59 s) Primality of 2n^2-1
 165: (48 s) Intersections
+258: (42 s) A Lagged Fibonacci Sequence
 252: (35 s) Convex Holes
 196: (28 s) Prime triplets
 236: (25 s) Luxury Hampers
@@ -148,7 +148,6 @@ Productivity:
 212: (70%) Combined Volume of Cuboids
 244: (70%) Sliders
 126: (75%) Cubes Required to Cover a Cuboid
-258: (78%) A Lagged Fibonacci Sequence
 141: (83%) Progressive perfect squares
 155: (85%) Counting Capacitor Circuits
 
@@ -266,7 +265,7 @@ checks =
   (255,2670, Euler255.main, Euler255.answer, "Rounded Square Roots"),
   -- 256 (unsolved)
   (257, 124, Euler257.main, Euler257.answer, "Angular Bisectors"),
-  (258, 990, Euler258.main, Euler258.answer, "A Lagged Fibonacci Sequence"),
+  (258, 420, Euler258.main, Euler258.answer, "A Lagged Fibonacci Sequence"),
   -- 259 (unsolved)
   (260,5110, Euler260.main, Euler260.answer, "Stone Game")
   ]
