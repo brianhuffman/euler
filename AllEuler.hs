@@ -107,12 +107,12 @@ test _ _ = return ()
 Time:
 260: (511 s) Stone Game
 251: (489 s) Cardano Triplets
-249: (428 s) Prime Subset Sums
 245: (402 s) Coresilience
 255: (267 s) Rounded Square Roots
 258: (99 s) A Lagged Fibonacci Sequence
 248: (85 s) Totient Equals 13!
 154: (80 s) Exploring Pascal's pyramid
+249: (70 s) Prime Subset Sums
 216: (59 s) Primality of 2n^2-1
 165: (48 s) Intersections
 252: (35 s) Convex Holes
@@ -133,7 +133,6 @@ Productivity:
 240: (18%) Top Dice
 221: (20%) Alexandrian Integers
 149: (27%) Searching for a maximum-sum subsequence
-249: (30%) Prime Subset Sums
 201: (32%) Subsets with a unique sum
 248: (39%) Totient Equals 13!
 181: (40%) Grouping objects of two different colours.
@@ -154,11 +153,11 @@ Productivity:
 Memory:
 260: (1101 Mb) Stone Game
 251: (565 Mb) Cardano Triplets
-249: (256 Mb) Prime Subset Sums
 149: (201 Mb) Searching for a maximum-sum subsequence
 187: (108 Mb) Semiprimes
 179: (80 Mb) Consecutive positive divisors
 195: (77 Mb) Inscribed circles
+249: (73 Mb) Prime Subset Sums
 155: (71 Mb) Counting Capacitor Circuits
 181: (68 Mb) Grouping objects of two different colours
 159: (60 Mb) Digital root sums of factorizations
@@ -256,7 +255,7 @@ checks =
   (246,   1, Euler246.main, Euler246.answer, "Tangents to an Ellipse"),
   (247,  14, Euler247.main, Euler247.answer, "Squares Under a Hyperbola"),
   (248, 850, Euler248.main, Euler248.answer, "Totient Equals 13!"),
-  (249,5800, Euler249.main, Euler249.answer, "Prime Subset Sums"),
+  (249, 700, Euler249.main, Euler249.answer, "Prime Subset Sums"),
   (250, 110, Euler250.main, Euler250.answer, "250250"),
   (251,4890, Euler251.main, Euler251.answer, "Cardano Triplets"),
   (252, 350, Euler252.main, Euler252.answer, "Convex Holes"),

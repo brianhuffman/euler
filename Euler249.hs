@@ -4,6 +4,7 @@ import Primes
 import Permutation
 import EulerLib
 import Data.Int
+import Data.Array.Unboxed
 
 {-
 Problem 249
@@ -31,35 +32,27 @@ add :: Z -> Z -> Z
 add x y = if z < 10^16 then z else z - 10^16
   where z = x + y
 
--- sorted by first element
-type Counts = [(Int, Z)]
+type Counts = UArray Int Z
 
-merge :: Counts -> Counts -> Counts
-merge xs@((x,i):xs') ys@((y,j):ys') =
-  case compare x y of
-    LT -> (x,i) : merge xs' ys
-    GT -> (y,j) : merge xs ys'
-    EQ -> (x,add i j) : merge xs' ys'
-merge xs [] = xs
-merge [] ys = ys
+combine :: Counts -> Int -> Counts
+combine c n = array (l,u+n) [ (i, f i) | i <- [l .. u+n] ]
+  where
+    (l,u) = bounds c
+    f i
+      | i < l+n   = if i > u then 0 else c ! i
+      | i > u     = c ! (i-n)
+      | otherwise = add (c ! (i-n)) (c ! i)
 
-shift :: Int -> Counts -> Counts
-shift n = map (\(x,i) -> (x+n,i))
-
-combine :: Int -> Counts -> Counts
-combine p cs = merge cs (shift p cs)
-
-combine' :: Counts -> Int -> Counts
-combine' cs p = merge cs (shift p cs)
+empty :: Counts
+empty = array (0,0) [(0,1)]
 
 result :: Int -> Z
 result pmax = foldl' add 0 prime_totals
   where
     totals :: Counts
-    -- totals = foldr combine [(0,1)] (takeWhile (< pmax) primes)
-    totals = foldl combine' [(0,1)] (takeWhile (< pmax) primes)
+    totals = foldl combine empty (takeWhile (< pmax) primes)
     prime_totals :: [Z]
-    prime_totals = [ i | (n, i) <- totals, is_prime n ]
+    prime_totals = [ i | (n, i) <- assocs totals, is_prime n ]
 
 main :: IO String
 main = return $ show $ result 5000
