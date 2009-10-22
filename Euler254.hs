@@ -26,38 +26,46 @@ What is ∑ sg(i) for 1 ≤ i ≤ 150?
 
 -}
 
+{-
+
+g(150) = Least i such that sf(i) = 150.
+f(i) must have more than 150/9 = 16 digits.
+(i) must have at least 10^16 / 9! = 2.75e10 digits
+
+This is much too big for type Int!
+f(n) must be represented with a larger type.
+
+-}
+
+type Digit = Int
+
+type N = [(Digit, Z)]
+-- (digit, count) for representing (n).
+
+type S = Integer
+-- for representing sums of digits of n.
+
+type Z = Integer
+-- for representing sums of factorials of digits of n.
+
+type I = Int
+-- for sums of digits of type Z
+
 ------------------------------------------------------------
 -- factorial
 
-fact_arr :: UArray Int Int
+fact_arr :: UArray Digit Int
 fact_arr = listArray (0,9) (scanl (*) 1 [1 .. 9])
 
-fac :: Int -> Int
-fac n = fact_arr ! n
+fac :: Digit -> Z
+fac n = fromIntegral (fact_arr ! n)
 
 ------------------------------------------------------------
--- f and sf functions
+-- f and its inverse
 
-type Digits = [(Int, Int)]
--- (digit, count)
+f :: N -> Z
+f n = sum [ fromIntegral k * fac d | (d, k) <- n ]
 
-f :: Digits -> Int
-f ds = sum [ n * fac d | (d, n) <- ds ]
-
-digSum :: Int -> Int
---digSum = sum . map digitToInt . show
-digSum 0 = 0
-digSum n = digSum q + r
-  where (q, r) = n `divMod` 10
-
-sf :: Digits -> Int
-sf = digSum . f
-
-sumDigits :: Digits -> Int
-sumDigits ds = sum [ d * n | (d, n) <- ds ]
-
-
-------------------------------------------------------------
 {-
 
 Finding smaller n with the same f(n).
@@ -73,38 +81,64 @@ Finding smaller n with the same f(n).
 * f(77777777) = f(8). Can be at most seven 7s.
 * f(888888888) = f(9). Can be at most eight 8s.
 
-Possible g values can be fully described by:
-* How many 1s (0--1)
-* How many 2s (0--2)
-* How many 3s (0--3)
-* How many 4s (0--4)
-* How many 5s (0--5)
-* How many 6s (0--6)
-* How many 7s (0--7)
-* How many 8s (0--8)
-* How many 9s (unlimited)
-
-The largest possible number of non-9 digits is 1 + 2 + ... + 8 = 36.
-
-  0 -> 0
-  1 -> 1
-  2 -> 2
- 12 -> 3
- 22 -> 4
-122 -> 5
-
-fac' '3' = 6
-fac' '4' = 6
-fac' '5' = 3
-
-
 -}
+
+-- f_inv(i) = least n such that f(n) = i
+
+f_inv :: Z -> N
+f_inv i = reverse (go i 9)
+  where
+    go i 0 = []
+    go i d = (d, fromIntegral q) : go r (d-1)
+      where (q, r) = i `divMod` fac d
+
+------------------------------------------------------------
+-- sum of digits
+
+sum_of_digits_array :: UArray Int I
+sum_of_digits_array = listArray (0, 999)
+  [ sum (map digitToInt (show n)) | n <- [0 .. 999] ]
+
+sum_of_digits :: Z -> I
+sum_of_digits n | n < 1000 = sum_of_digits_array!(fromIntegral n)
+sum_of_digits n =
+  sum_of_digits q + sum_of_digits_array!(fromIntegral r)
+  where (q, r) = n `divMod` 10
+
+{-
+digSum :: Z -> I
+--digSum = sum . map digitToInt . show
+digSum 0 = 0
+digSum n = digSum q + r
+  where (q, r) = n `divMod` 10
+-}
+
+-- least z such that sum_of_digits z = i
+
+s_inv :: I -> Z
+s_inv i
+  | i < 10 = fromIntegral i
+  | otherwise = 9 + 10 * s_inv (i - 9)
+
+------------------------------------------------------------
+-- sf
+
+sf :: N -> I
+sf n = sum_of_digits (f n)
+
+sumN :: N -> S
+sumN n = sum [ fromIntegral d * k | (d, k) <- n ]
+
+------------------------------------------------------------
+
+------------------------------------------------------------
 
 ------------------------------------------------------------
 -- g(i) is always a number with digits in ascending order.
 -- sf preserves numbers modulo 9
 
-ascending :: Int -> Int -> [Digits]
+{-
+ascending :: Int -> Int -> [N]
 ascending l 9 = [[(9, l)]]
 ascending l d =
   [ (d, n) : xs |
@@ -113,9 +147,9 @@ ascending l d =
   ]
 
 -- ascending_mod r l d =
---   [ xs <- ascending l d | sumDigits xs `mod` 9 == r ] 
+--   [ xs <- ascending l d | sumN xs `mod` 9 == r ] 
 
-ascending_mod :: Int -> Int -> Int -> [Digits]
+ascending_mod :: Int -> Int -> Int -> [N]
 ascending_mod 0 l 9 = [[(9, l)]]
 ascending_mod r l d
   | d > 2 && r `mod` 3 /= 0 = []
@@ -123,220 +157,71 @@ ascending_mod r l d
   | otherwise =
       [ (d, n) : xs |
         n <- reverse [0 .. min l d],
-        let r' = (r - n * fac d) `mod` 9,
+        let r' = (r - n * fromIntegral (fac d)) `mod` 9,
         let l' = l - n,
         xs <- ascending_mod r' l' (d+1)
       ]
 
-all_ascending_mod :: Int -> [Digits]
+all_ascending_mod :: Int -> [N]
 all_ascending_mod r =
   [ xs |
     l <- [1 ..],
     xs <- ascending_mod r l 1
   ]
 
-type FS = (Int, Int)
+-}
 
-ascending_mod_fs :: Int -> Int -> Int -> [FS]
-ascending_mod_fs 0 l 9 = [(l * fac 9, l * 9)]
+ascending_mod_fs :: Int -> Int -> Int -> [(Z, S)]
+ascending_mod_fs 0 l 9 = [(fromIntegral l * fac 9, fromIntegral l * 9)]
 ascending_mod_fs r l d
   | d > 2 && r `mod` 3 /= 0 = []
   | d > 5 && r `mod` 9 /= 0 = []
   | otherwise =
-      [ (f' + n * fac d, s' + n * d) |
+      [ (f' + fromIntegral n * fac d, s' + fromIntegral (n * d)) |
         n <- reverse [0 .. min l d],
-        let r' = (r - n * fac d) `mod` 9,
+        let r' = (r - n * fromIntegral (fac d)) `mod` 9,
         let l' = l - n,
         (f',s') <- ascending_mod_fs r' l' (d+1)
       ]
 
-all_ascending_mod_fs :: Int -> [FS]
+all_ascending_mod_fs :: Int -> [(Z, S)]
 all_ascending_mod_fs r =
   [ xs |
     l <- [1 ..],
     xs <- ascending_mod_fs r l 1
   ]
 
-short_ascending_mod :: Int -> [Digits]
-short_ascending_mod r =
-  [ xs |
-    l <- [1 .. 35],
-    xs <- ascending_mod r l 1
-  ]
-
 ------------------------------------------------------------
 -- g and sg functions
 
-short_fs :: [[(Int, Int)]]
-short_fs =
-  [ [ (f ds, sumDigits ds) | ds <- short_ascending_mod r ] |
-    r <- [0 .. 8]
-  ]
-
-prefix_fs :: [[(Int, Int)]]
-prefix_fs =
-  [ [ (f ds, sumDigits ds) | ds <- ascending_mod r 36 1 ] |
-    r <- [0 .. 8]
-  ]
-
---sfs :: [[(Digits, Int)]]
---sfs = [ [ (ds, sf ds) | ds <- all_ascending_mod r ] | r <- [0..8] ]
-
-g :: Int -> Digits
+{-
+g :: I -> N
 g i = head [ ds | ds <- all_ascending_mod r, sf ds == i ]
   where r = i `mod` 9
+-}
 
-sg :: Int -> Int
---sg = sumDigits . g
-sg i = head [ sn | (fn, sn) <- all_ascending_mod_fs r, digSum fn == i ]
-  where r = i `mod` 9
-
-sg' :: Int -> Int
-sg' i = head $
-  [ sumDigits ds | ds <- all_ascending_mod r, sf ds == i ] ++
-  [ s' |
-    n9 <- [0 ..],
-    (f_ds, s_ds) <- prefix_fs !! r,
-    let f' = f_ds + n9 * fac 9,
-    let s' = s_ds + n9 * 9,
-    digSum f' == i
+sg :: I -> (Z, S)
+--sg = sumN . g
+sg i = head
+  [ (fn, sn) |
+    (fn, sn) <- all_ascending_mod_fs r,
+    sum_of_digits fn == i
   ]
   where r = i `mod` 9
-
-------------------------------------------------------------
-
-ascending_fs :: Int -> Int -> [FS]
-ascending_fs l 9 = [(l * fac 9, l * 9)]
-ascending_fs l d =
-  [ (f' + n * fac d, s' + n * d) |
-    let nmax = min l d,
-    n <- [nmax, nmax-1 .. 0],
-    (f',s') <- ascending_fs (l-n) (d+1)
-  ]
-
--- sum_sg :: Int -> Int
-sum_sg' imax =
-    [ go b0 num fss |
-      r <- [1 .. 9],
-      let num = (imax + 9 - r) `div` 9,
-      let fss = all_ascending_mod_fs (r `mod` 9)
-    ]
-  where
-    b0 :: UArray Int Bool
-    b0 = accumArray (||) False (1,imax) []
-    go b 0 _ = []
-    go b r ((facs, s) : fss)
-      | i > imax  = go b r fss
-      | b ! i     = go b r fss
-      | otherwise = (i, s) : go (b // [(i, True)]) (r-1) fss
-      where i = digSum facs
-
-sum_sg imax = go b0 imax all_fss
-  where
-    b0 :: UArray Int Bool
-    b0 = accumArray (||) False (1,imax) []
-    all_fss =
-      [ (i, s) |
-        len <- [1..],
-        (facs, s) <- ascending_fs len 1,
-        let i = digSum facs,
-        i < imax
-      ]
-    go b 0 _ = []
-    go b r ((i, s) : fss)
-      | b ! i     = go b r fss
-      | otherwise = (i, s) : go (b // [(i, True)]) (r-1) fss
-
 
 test = [ (i, s) | i <- [1 ..], let s = sg i ]
 
-test' = [ (i, s) | i <- [1 ..], let s = sg' i ]
+big_sg :: I -> S
+big_sg i = sumN (f_inv (s_inv i))
+-- correct for large i (> 62)
 
-{-
-
-digSum n == n (mod 9)
-
-
-sf n
-== f n
-== sum . map fac . show $ n
-== sum . map fac' . show $ n
-
-fac '0' = 1
-fac '1' = 1
-fac '2' = 2
-fac' '3' = 6
-fac' '4' = 6
-fac' '5' = 3
-fac' '6' = 9
-fac' '7' = 9
-fac' '8' = 9
-fac' '9' = 27
-
-
-i       g(i)   sg(i)
-====================
- 1         1     1
- 2         2     2
- 3         5     5
- 4        15     6
- 5        25     7
- 6         3     3
- 7        13     4
- 8        23     5
- 9         6     6
-10        16     7
-11        26     8
-12        44     8
-13       144     9
-14       256    13
-15        36     9
-16       136    10
-17       236    11
-18        67    13
-19       167    14
-20       267    15
-21       349    16
-22      1349    17
-23      2349    18
-24        49    13
-25       149    14
-26       249    15
-27         9     9
-28        19    10
-29        29    11
-30       129    12
-31       229    13
-32      1229    14
-33        39    12
-34       139    13
-35       239    14
-36      1239    15
-37     13339    19
-38     23599    28
-39      4479    24
-40     14479    25
-41   2355679    37
-42    344479    31
-43   1344479    32
-44   2378889    45
-45  12378889    46
-46  133378889   50
-47  2356888899   66
-48  12356888899   67
-49  133356888899   71
-50  12245677888899   84
-51  34446666888899   89
-52  134446666888899   90
-53  12245578899999999   114
-54  123345578899999999   118
-55  1333666799999999999   134
-
--}
+prob254 :: S
+prob254 =
+  sum [ snd (sg i) | i <- [1 .. 62] ] +
+  sum [ big_sg i | i <- [63 .. 150] ]
 
 main :: IO String
-main = return $ show $ sum $ map snd $ concat $ sum_sg' 70
--- main = return $ show $ sum [ sg i | i <- [1 .. 70] ]
+main = return $ show prob254
 
 answer :: String
-answer = "???"
+answer = "8184523820510"

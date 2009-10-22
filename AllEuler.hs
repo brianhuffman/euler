@@ -142,6 +142,7 @@ Productivity:
 161: (47%) Triominoes
 160: (53%) Factorial trailing digits
 143: (54%) Torricelli point of a triangle
+254: (62%) Sum of Digit Factorials
 195: (63%) Inscribed circles
 189: (63%) Tri-colouring a triangular grid
 247: (65%) Squares Under a Hyperbola
@@ -262,8 +263,7 @@ checks =
   (251,4890, Euler251.main, Euler251.answer, "Cardano Triplets"),
   (252, 350, Euler252.main, Euler252.answer, "Convex Holes"),
   -- 253 (unsolved)
-  -- 254 (unsolved)
-  (254,9999, Euler254.main, Euler254.answer, "Sum of Digit Factorials"),
+  (254,  61, Euler254.main, Euler254.answer, "Sum of Digit Factorials"),
   (255,2670, Euler255.main, Euler255.answer, "Rounded Square Roots"),
   -- 256 (unsolved)
   (257, 124, Euler257.main, Euler257.answer, "Angular Bisectors"),
