@@ -3,6 +3,7 @@ import Data.List
 import Primes
 import Permutation
 import EulerLib
+import Data.Int
 
 {-
 Problem 249
@@ -24,12 +25,14 @@ There 669 primes less than 5000; their sum is 1,548,136.
 
 -}
 
-add :: Integer -> Integer -> Integer
+type Z = Int64
+
+add :: Z -> Z -> Z
 add x y = if z < 10^16 then z else z - 10^16
   where z = x + y
 
 -- sorted by first element
-type Counts = [(Int, Integer)]
+type Counts = [(Int, Z)]
 
 merge :: Counts -> Counts -> Counts
 merge xs@((x,i):xs') ys@((y,j):ys') =
@@ -49,13 +52,13 @@ combine p cs = merge cs (shift p cs)
 combine' :: Counts -> Int -> Counts
 combine' cs p = merge cs (shift p cs)
 
-result :: Int -> Integer
+result :: Int -> Z
 result pmax = foldl' add 0 prime_totals
   where
     totals :: Counts
     -- totals = foldr combine [(0,1)] (takeWhile (< pmax) primes)
     totals = foldl combine' [(0,1)] (takeWhile (< pmax) primes)
-    prime_totals :: [Integer]
+    prime_totals :: [Z]
     prime_totals = [ i | (n, i) <- totals, is_prime n ]
 
 main :: IO String
