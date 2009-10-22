@@ -246,7 +246,7 @@ checks =
   (236, 250, Euler236.main, Euler236.answer, "Luxury Hampers"),
   (237,   1, Euler237.main, Euler237.answer, "Tours on a 4xn Playing Board"),
   -- (238, 999, Euler238.main, Euler238.answer, "Infinite String Tour"),
-  -- 239 ?????????????????
+  (239,   0, Euler239.main, Euler239.answer, "Twenty-two Foolish Primes"),
   (240,   3, Euler240.main, Euler240.answer, "Top Dice"),
   -- 241  (unsolved)
   (242,   0, Euler242.main, Euler242.answer, "Odd Triplets"),
