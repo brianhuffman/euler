@@ -55,6 +55,7 @@ import qualified Euler249
 import qualified Euler250
 import qualified Euler251
 import qualified Euler252
+import qualified Euler253
 import qualified Euler254
 import qualified Euler255
 import qualified Euler257
@@ -120,6 +121,7 @@ Time:
 252: (35 s) Convex Holes
 259: (31 s) Reachable Numbers
 196: (28 s) Prime triplets
+253: (27 s) Tidying Up
 236: (25 s) Luxury Hampers
 150: (22 s) Minimum-sum sub-triangles
 210: (17 s) Obtuse Angled Triangles
@@ -137,6 +139,7 @@ Productivity:
 240: (18%) Top Dice
 221: (20%) Alexandrian Integers
 149: (27%) Searching for a maximum-sum subsequence
+253: (32%) Tidying Up
 201: (32%) Subsets with a unique sum
 248: (39%) Totient Equals 13!
 181: (40%) Grouping objects of two different colours.
@@ -158,6 +161,7 @@ Productivity:
 Memory:
 260: (1101 Mb) Stone Game
 251: (565 Mb) Cardano Triplets
+253: (330 Mb) Tidying Up
 259: (222 Mb) Reachable Numbers
 149: (201 Mb) Searching for a maximum-sum subsequence
 187: (108 Mb) Semiprimes
@@ -270,7 +274,7 @@ checks =
   (250, 110, Euler250.main, Euler250.answer, "250250"),
   (251,4890, Euler251.main, Euler251.answer, "Cardano Triplets"),
   (252, 350, Euler252.main, Euler252.answer, "Convex Holes"),
-  -- 253 (unsolved)
+  (253, 270, Euler253.main, Euler253.answer, "Tidying Up"),
   (254,  61, Euler254.main, Euler254.answer, "Sum of Digit Factorials"),
   (255,2670, Euler255.main, Euler255.answer, "Rounded Square Roots"),
   -- 256 (unsolved)
