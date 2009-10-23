@@ -118,6 +118,7 @@ Time:
 165: (48 s) Intersections
 258: (42 s) A Lagged Fibonacci Sequence
 252: (35 s) Convex Holes
+259: (31 s) Reachable Numbers
 196: (28 s) Prime triplets
 236: (25 s) Luxury Hampers
 150: (22 s) Minimum-sum sub-triangles
@@ -143,6 +144,7 @@ Productivity:
 160: (53%) Factorial trailing digits
 143: (54%) Torricelli point of a triangle
 254: (62%) Sum of Digit Factorials
+259: (62%) Reachable Numbers
 195: (63%) Inscribed circles
 189: (63%) Tri-colouring a triangular grid
 247: (65%) Squares Under a Hyperbola
@@ -156,6 +158,7 @@ Productivity:
 Memory:
 260: (1101 Mb) Stone Game
 251: (565 Mb) Cardano Triplets
+259: (222 Mb) Reachable Numbers
 149: (201 Mb) Searching for a maximum-sum subsequence
 187: (108 Mb) Semiprimes
 179: (80 Mb) Consecutive positive divisors
@@ -204,6 +207,11 @@ parseArgs [] _ _ = True
 parseArgs xs n l = or [ parseArg x n | x <- xs ]
 
 -- it takes about 30s to run problems 1-100 (12 Nov 2008)
+
+-- it takes about 17 sec to run problems 1-100 (22 Oct 2009)
+-- it takes about 1 min to run problems 101-150 (22 Oct 2009)
+-- it takes about 4 min to run problems 151-200 (22 Oct 2009)
+
 
 checks :: [(Int, Int, IO String, String, String)]
 checks =
@@ -268,7 +276,7 @@ checks =
   -- 256 (unsolved)
   (257, 124, Euler257.main, Euler257.answer, "Angular Bisectors"),
   (258, 420, Euler258.main, Euler258.answer, "A Lagged Fibonacci Sequence"),
-  -- 259 (unsolved)
+  (259, 307, Euler259.main, Euler259.answer, "Reachable Numbers"),
   (260,5110, Euler260.main, Euler260.answer, "Stone Game")
   ]
 
