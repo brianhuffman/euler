@@ -3,6 +3,7 @@ import Permutation
 import Data.List (insert, sort, group)
 import EulerLib
 import Data.Ratio
+import Data.Array
 
 {-
 Problem 253
@@ -59,7 +60,8 @@ Give your answer rounded to six decimal places.
 
 -}
 
--- Brute force for small n:
+----------------------------------------------------------------------
+-- Brute force for small n
 
 type P = Char
 
@@ -81,6 +83,36 @@ max_pieces =
 
 -- hist :: Int -> [Int]
 hist = map (\x -> (length x, head x)) . group . sort . map max_pieces . shuffles
+
+----------------------------------------------------------------------
+
+table :: Int -> Int -> Array (Int, Int) Integer
+table nmax m = a
+  where
+    a = funArray ((1,0), (nmax, m+1)) f
+    f (1, 1) = 1
+    f (1, s) = 0
+    f (n, s)
+      | s > m = 0
+      | s < 1 = 0
+      | otherwise =
+          fromIntegral s *
+          ( a!(n-1, s-1) +
+            a!(n-1, s)*2 +
+            a!(n-1, s+1) )
+
+shuffles_upto :: Int -> Int -> Integer
+shuffles_upto n m = table n m ! (n, 1)
+
+shuffle_hist :: Int -> Histogram
+shuffle_hist n = zipWith (-) xs (0 : xs)
+  where
+    mmax = (n + 1) `div` 2
+    xs = [ shuffles_upto n m | m <- [1 .. mmax] ]
+
+shuffle_average :: Int -> Rational
+shuffle_average n = avgHist (shuffle_hist n)
+
 
 {-
 
@@ -190,7 +222,7 @@ bumpHist :: Int -> Histogram -> Histogram
 bumpHist = go 0
   where
     go a n [] = go a n [0]
-    go a 0 (x : xs) = x+a : xs
+    go a 1 (x : xs) = x+a : xs
     go a n (x : xs) = 0 : go (x+a) (n-1) xs
 
 memo :: MemoTree
@@ -204,10 +236,11 @@ memo = Node [1] [ go [x] | x <- [0 ..] ]
         h' = bumpHist (length l) (addHists hs)
 
 avgHist :: Histogram -> Rational
-avgHist h = sum (zipWith (*) [0 ..] h) % sum h
+avgHist h = sum (zipWith (*) [1 ..] h) % sum h
 
 main :: IO String
-main = return $ showFloat 6 $ avgHist $ look memo [40]
+--main = return $ showFloat 6 $ avgHist $ look memo [40]
+main = return $ showFloat 6 $ shuffle_average 40
 
 answer :: String
 answer = "11.492847"
@@ -218,5 +251,3 @@ showFloat n x = s
     y = floor x :: Integer
     z = round (x * 10^n) :: Integer
     s = show y ++ "." ++ reverse (take n (reverse (show z)))
-
--- TODO: much faster version with fewer DP states (on message board)
