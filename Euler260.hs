@@ -1,9 +1,5 @@
 module Euler260 where
-import Data.Word
-import Data.Bits
---import Data.Array
---import EulerLib (funArray)
-import UnboxedMemo
+import Data.Array.Unboxed
 
 {-
 
@@ -44,75 +40,53 @@ losing configurations with x_(i) ≤ y_(i) ≤ z_(i) ≤ 1000.
 
 -}
 
+----------------------------------------------------------------------
 
--- Each bit specifies whether a move in that direction
--- can result in a losing state for the other player.
+type Bitmap = UArray (Int, Int) Bool
 
---winning :: Int -> Array (Int, Int, Int) Word8
-winning :: Int -> UMemo (Int, Int, Int) Word8
-winning m = a
-  where
---    a = funArray ((0,0,0), (m,m,m)) f
---    f' = (a !)
-    a = newUMemo ((0,0,0), (m,m,m)) f
-    f' = readUMemo a
-    getbit b 0 = bit b
-    getbit b x = bit b .&. x
-    f (i,j,k) | j < i = flip12 (f' (j,i,k))
-    f (i,j,k) | k < j = flip23 (f' (i,k,j))
-    f (i,j,k) = foldl (.|.) 0 ds
-      where
-        d111 | 0 `elem` [i,j,k] = 0
-             | otherwise        = getbit 7 (f' (i-1, j-1, k-1))
-        d110 | 0 `elem` [i,j  ] = 0
-             | otherwise        = getbit 6 (f' (i-1, j-1, k  ))
-        d101 | 0 `elem` [i,  k] = 0
-             | otherwise        = getbit 5 (f' (i-1, j  , k-1))
-        d100 | 0 `elem` [i    ] = 0
-             | otherwise        = getbit 4 (f' (i-1, j  , k  ))
-        d011 | 0 `elem` [  j,k] = 0
-             | otherwise        = getbit 3 (f' (i  , j-1, k-1))
-        d010 | 0 `elem` [  j  ] = 0
-             | otherwise        = getbit 2 (f' (i  , j-1, k  ))
-        d001 | 0 `elem` [    k] = 0
-             | otherwise        = getbit 1 (f' (i  , j  , k-1))
-        ds = [d111, d110, d101, d100, d011, d010, d001]
+-- precondition on proj functions: x <= y <= z
 
-flip12 :: Word8 -> Word8
-flip12 w = foldl (.|.) 0 [d111, d110, d101, d100, d011, d010, d001]
-  where
-    d111 = if testBit w 7 then bit 7 else 0
-    d110 = if testBit w 6 then bit 6 else 0
-    d101 = if testBit w 3 then bit 5 else 0
-    d100 = if testBit w 2 then bit 4 else 0
-    d011 = if testBit w 5 then bit 3 else 0
-    d010 = if testBit w 4 then bit 2 else 0
-    d001 = if testBit w 1 then bit 1 else 0
+proj1 :: (Int, Int, Int) -> [(Int, Int)]
+proj1 (x,y,z) = [(x,y), (x,z), (y,z)]
 
-flip23 :: Word8 -> Word8
-flip23 w = foldl (.|.) 0 [d111, d110, d101, d100, d011, d010, d001]
-  where
-    d111 = if testBit w 7 then bit 7 else 0
-    d110 = if testBit w 5 then bit 6 else 0
-    d101 = if testBit w 6 then bit 5 else 0
-    d100 = if testBit w 4 then bit 4 else 0
-    d011 = if testBit w 3 then bit 3 else 0
-    d010 = if testBit w 1 then bit 2 else 0
-    d001 = if testBit w 2 then bit 1 else 0
+proj2 :: (Int, Int, Int) -> [(Int, Int)]
+proj2 (x,y,z) = [(x, z-y), (y, z-x), (z, y-x)]
 
-losings :: Int -> [(Int, Int, Int)]
-losings m =
-  [ (i, j, k) |
-    i <- [0 .. m],
-    j <- [i .. m],
-    k <- [j .. m],
-    readUMemo a (i, j, k) == 0
---    a ! (i, j, k) == 0
+proj3 :: (Int, Int, Int) -> [(Int, Int)]
+proj3 (x,y,z) = [(y-x, z-x)]
+
+points_sum :: Int -> Int -> [(Int, Int, Int)]
+points_sum m s =
+  [ (x,y,z) |
+    x <- [0 .. s`div`3],
+    y <- [x .. min m ((s - x)`div`2)],
+    let z = s - x - y,
+    z <= m
   ]
-  where a = winning m
+
+
+--losing :: Int -> [(Int, Int, Int)]
+losing m = go 0 b0 b0 b0
+  where
+    b0 :: Bitmap
+    b0 = accumArray (||) False ((0,0),(m,m)) []
+    go s b1 b2 b3
+      | s > 3*m = []
+      | otherwise = ps ++ go (s+1) b1' b2' b3'
+      where
+        ps = [ p | p <- points_sum m s,
+               not (any (b1 !) (proj1 p)),
+               not (any (b2 !) (proj2 p)),
+               not (any (b3 !) (proj3 p))
+             ]
+        set :: Bitmap -> [(Int, Int)]
+        set b = [ p | (p, True) <- assocs b ]
+        b1' = b1 // [ (i, True) | p <- ps, i <- proj1 p ]
+        b2' = b2 // [ (i, True) | p <- ps, i <- proj2 p ]
+        b3' = b3 // [ (i, True) | p <- ps, i <- proj3 p ]
 
 prob260 :: Int -> Int
-prob260 m = sum [ i+j+k | (i,j,k) <- losings m ]
+prob260 m = sum [ x + y + z | (x, y, z) <- losing m ]
 
 {-
 prob260 50 = 21750

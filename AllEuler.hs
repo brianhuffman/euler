@@ -108,7 +108,6 @@ test _ _ = return ()
 
 {-
 Time:
-260: (511 s) Stone Game
 251: (489 s) Cardano Triplets
 245: (402 s) Coresilience
 255: (267 s) Rounded Square Roots
@@ -116,6 +115,7 @@ Time:
 154: (80 s) Exploring Pascal's pyramid
 249: (70 s) Prime Subset Sums
 216: (59 s) Primality of 2n^2-1
+260: (58 s) Stone Game
 165: (48 s) Intersections
 258: (42 s) A Lagged Fibonacci Sequence
 252: (35 s) Convex Holes
@@ -157,7 +157,6 @@ Productivity:
 155: (85%) Counting Capacitor Circuits
 
 Memory:
-260: (1101 Mb) Stone Game
 251: (565 Mb) Cardano Triplets
 259: (222 Mb) Reachable Numbers
 149: (201 Mb) Searching for a maximum-sum subsequence
@@ -186,6 +185,7 @@ Memory:
 196: (15 Mb) Prime triplets
 229: (15 Mb) Four Representations using Squares
 127: (13 Mb) Counting abc-hits
+260: (11 Mb) Stone Game
 213: (11 Mb) Flea Circus
 
 
@@ -278,7 +278,7 @@ checks =
   (257, 124, Euler257.main, Euler257.answer, "Angular Bisectors"),
   (258, 420, Euler258.main, Euler258.answer, "A Lagged Fibonacci Sequence"),
   (259, 307, Euler259.main, Euler259.answer, "Reachable Numbers"),
-  (260,5110, Euler260.main, Euler260.answer, "Stone Game")
+  (260, 580, Euler260.main, Euler260.answer, "Stone Game")
   ]
 
 total_time :: Int
