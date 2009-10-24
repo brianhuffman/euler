@@ -42,30 +42,33 @@ losing configurations with x_(i) ≤ y_(i) ≤ z_(i) ≤ 1000.
 
 ----------------------------------------------------------------------
 
+type State = (Int, Int, Int)
+
 type Bitmap = UArray (Int, Int) Bool
 
 -- precondition on proj functions: x <= y <= z
 
-proj1 :: (Int, Int, Int) -> [(Int, Int)]
+proj1 :: State -> [(Int, Int)]
 proj1 (x,y,z) = [(x,y), (x,z), (y,z)]
 
-proj2 :: (Int, Int, Int) -> [(Int, Int)]
+proj2 :: State -> [(Int, Int)]
 proj2 (x,y,z) = [(x, z-y), (y, z-x), (z, y-x)]
 
-proj3 :: (Int, Int, Int) -> [(Int, Int)]
+proj3 :: State -> [(Int, Int)]
 proj3 (x,y,z) = [(y-x, z-x)]
 
-points_sum :: Int -> Int -> [(Int, Int, Int)]
-points_sum m s =
+layer :: Int -> Int -> [State]
+layer m s =
   [ (x,y,z) |
-    x <- [0 .. s`div`3],
+    let xmin = max 0 (s - 2*m),
+    let xmax = s`div`3,
+    x <- [xmin .. xmax],
     y <- [x .. min m ((s - x)`div`2)],
     let z = s - x - y,
     z <= m
   ]
 
-
---losing :: Int -> [(Int, Int, Int)]
+losing :: Int -> [State]
 losing m = go 0 b0 b0 b0
   where
     b0 :: Bitmap
@@ -74,7 +77,7 @@ losing m = go 0 b0 b0 b0
       | s > 3*m = []
       | otherwise = ps ++ go (s+1) b1' b2' b3'
       where
-        ps = [ p | p <- points_sum m s,
+        ps = [ p | p <- layer m s,
                not (any (b1 !) (proj1 p)),
                not (any (b2 !) (proj2 p)),
                not (any (b3 !) (proj3 p))
