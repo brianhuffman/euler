@@ -61,11 +61,12 @@ layer :: Int -> Int -> [State]
 layer m s =
   [ (x,y,z) |
     let xmin = max 0 (s - 2*m),
-    let xmax = s`div`3,
+    let xmax = s `div` 3,
     x <- [xmin .. xmax],
-    y <- [x .. min m ((s - x)`div`2)],
-    let z = s - x - y,
-    z <= m
+    let ymin = max x (s - x - m),
+    let ymax = (s - x) `div` 2,
+    y <- [ymin .. ymax],
+    let z = s - x - y
   ]
 
 losing :: Int -> [State]
@@ -100,6 +101,10 @@ prob260 250 = 2631659
 prob260 300 = 4520336
 prob260 400 = 10714131
 prob260 500 = 20999138
+prob260 600 = 
+prob260 700 =
+prob260 800 =
+prob260 900 =
 prob260 1000 = 167542057
 
 -}

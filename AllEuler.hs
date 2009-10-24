@@ -116,8 +116,8 @@ Time:
 249: (70 s) Prime Subset Sums
 216: (59 s) Primality of 2n^2-1
 165: (48 s) Intersections
-260: (46 s) Stone Game
 258: (42 s) A Lagged Fibonacci Sequence
+260: (41 s) Stone Game
 252: (35 s) Convex Holes
 259: (31 s) Reachable Numbers
 196: (28 s) Prime triplets
@@ -185,7 +185,7 @@ Memory:
 196: (15 Mb) Prime triplets
 229: (15 Mb) Four Representations using Squares
 127: (13 Mb) Counting abc-hits
-260: (11 Mb) Stone Game
+260: (13 Mb) Stone Game
 213: (11 Mb) Flea Circus
 
 
@@ -278,7 +278,7 @@ checks =
   (257, 124, Euler257.main, Euler257.answer, "Angular Bisectors"),
   (258, 420, Euler258.main, Euler258.answer, "A Lagged Fibonacci Sequence"),
   (259, 307, Euler259.main, Euler259.answer, "Reachable Numbers"),
-  (260, 460, Euler260.main, Euler260.answer, "Stone Game")
+  (260, 410, Euler260.main, Euler260.answer, "Stone Game")
   ]
 
 total_time :: Int
