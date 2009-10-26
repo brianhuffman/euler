@@ -1,4 +1,5 @@
 module Euler205 where
+import EulerLib (showFloat)
 
 {-
 Peter has nine four-sided (pyramidal) dice,
@@ -47,10 +48,3 @@ prob205 () = less_dist (colin 6) (peter 9)
 
 main :: IO String
 main = return $ showFloat 7 $ less_dist (colin 6) (peter 9)
-
-showFloat :: RealFrac a => Int -> a -> String
-showFloat n x = s
-  where
-    y = floor x :: Integer
-    z = round (x * 10^n) :: Integer
-    s = show y ++ "." ++ reverse (take n (reverse (show z)))

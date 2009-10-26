@@ -97,17 +97,11 @@ num3 = (25 `choose` 3) * n3
 
 -- num3 = 25 `choose` 3
 
-show_rounded :: RealFrac a => Int -> a -> String
-show_rounded d x =
-  show (floor x) ++ "." ++ replicate (d - length (show r)) '0' ++ show r
-  where
-    r = round (x * 10^d) `mod` (10^d)
-
 prob239 :: Rational
 prob239 = num3 % factorial 100
 
 main :: IO String
-main = return $ show_rounded 12 $ prob239
+main = return $ showFloat 12 $ prob239
 
 answer :: String
 answer = "0.001887854841"

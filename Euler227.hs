@@ -1,4 +1,5 @@
 module Euler227 where
+import EulerLib (showFloat)
 
 {-
 
@@ -101,14 +102,8 @@ constraints n = [ row k ++ [-1] | k <- [1 .. n] ]
           replicate (n-k-2) 0
 
 show_significant :: RealFrac a => Int -> a -> String
-show_significant d x = show_rounded (d - k) x
+show_significant d x = showFloat (d - k) x
   where k = length (show (floor x))
-
-show_rounded :: RealFrac a => Int -> a -> String
-show_rounded d x =
-  show (floor x) ++ "." ++ replicate (d - length (show r)) '0' ++ show r
-  where
-    r = round (x * 10^d) `mod` (10^d)
 
 prob227 :: Int -> Rational
 prob227 n = solver (constraints (n `div` 2))

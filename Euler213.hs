@@ -3,6 +3,7 @@ import Data.Array.Unboxed
 import Data.Array.IArray
 import System.Random
 import Data.List
+import EulerLib (showFloat)
 
 {-
 
@@ -68,14 +69,8 @@ prob213 n k = [ (p, empty p) | p <- positions n ]
     dists = elems (finalDists n k)
     empty p = product [ 1 - d!p | d <- dists ]
 
-show_rounded :: Int -> Double -> String
-show_rounded d x =
-  show (floor x) ++ "." ++ replicate (d - length (show r)) '0' ++ show r
-  where
-    r = round (x * 10^d) `mod` (10^d)
-
 main :: IO String
-main = return $ show_rounded 6 $ sum $ map snd $ prob213 30 50
+main = return $ showFloat 6 $ sum $ map snd $ prob213 30 50
 
 answer :: String
 answer = "330.721154"

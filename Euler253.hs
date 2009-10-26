@@ -244,10 +244,3 @@ main = return $ showFloat 6 $ shuffle_average 40
 
 answer :: String
 answer = "11.492847"
-
-showFloat :: RealFrac a => Int -> a -> String
-showFloat n x = s
-  where
-    y = floor x :: Integer
-    z = round (x * 10^n) :: Integer
-    s = show y ++ "." ++ reverse (take n (reverse (show z)))

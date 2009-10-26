@@ -1,4 +1,5 @@
 module Euler235 where
+import EulerLib (showFloat)
 
 {-
 Problem 235
@@ -71,14 +72,8 @@ search x z
 prob235 :: Double
 prob235 = search 1 1.01
 
-show_rounded :: RealFrac a => Int -> a -> String
-show_rounded d x =
-  show (floor x) ++ "." ++ replicate (d - length (show r)) '0' ++ show r
-  where
-    r = round (x * 10^d) `mod` (10^d)
-
 main :: IO String
-main = return $ show_rounded 12 prob235
+main = return $ showFloat 12 prob235
 
 answer :: String
 answer = "1.002322108633"

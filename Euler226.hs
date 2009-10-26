@@ -1,4 +1,5 @@
 module Euler226 where
+import EulerLib (showFloat)
 
 {-
 
@@ -92,10 +93,7 @@ prob226 x = a1 - a2
     a2 = circle_area 0.5 - circle_area x
 
 main :: IO String
-main = return $ show_rounded 8 $ prob226 crossing
--- 0.11316017
+main = return $ showFloat 8 $ prob226 crossing
 
-show_rounded d x =
-  show (floor x) ++ "." ++ replicate (d - length (show r)) '0' ++ show r
-  where
-    r = round (x * 10^d) `mod` (10^d)
+answer :: String
+answer = "0.11316017"

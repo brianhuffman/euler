@@ -111,3 +111,10 @@ spiral_seq = scanl (+) 1 $ concatMap (replicate 4) [2,4..]
 
 distinct [] = True
 distinct (x:xs) = x `notElem` xs && distinct xs
+
+showFloat :: RealFrac a => Int -> a -> String
+showFloat n x = s
+  where
+    y = floor x :: Integer
+    z = round (x * 10^n) :: Integer
+    s = show y ++ "." ++ reverse (take n (reverse (show z)))

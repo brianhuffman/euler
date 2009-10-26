@@ -1,5 +1,5 @@
 module Euler232 where
-import EulerLib (funArray)
+import EulerLib (funArray, showFloat)
 import Data.Array
 
 {-
@@ -90,14 +90,8 @@ prob232 :: Int -> R
 prob232 m = (fst (a!(m,m)) + fst (a!(m-1,m))) / 2
   where a = race_array m
 
-show_rounded :: RealFrac a => Int -> a -> String
-show_rounded d x =
-  show (floor x) ++ "." ++ replicate (d - length (show r)) '0' ++ show r
-  where
-    r = round (x * 10^d) `mod` (10^d)
-
 main :: IO String
-main = return $ show_rounded 8 $ prob232 100
+main = return $ showFloat 8 $ prob232 100
 
 answer :: String
 answer = "0.83648556"
