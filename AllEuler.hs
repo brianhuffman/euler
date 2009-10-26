@@ -117,9 +117,9 @@ Time:
 216: (59 s) Primality of 2n^2-1
 165: (48 s) Intersections
 258: (42 s) A Lagged Fibonacci Sequence
-260: (41 s) Stone Game
 252: (35 s) Convex Holes
 259: (31 s) Reachable Numbers
+260: (29 s) Stone Game
 196: (28 s) Prime triplets
 236: (25 s) Luxury Hampers
 150: (22 s) Minimum-sum sub-triangles
