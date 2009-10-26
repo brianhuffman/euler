@@ -70,7 +70,33 @@ p + q - 1 | p^2 - p + 1
 
 Let a(i) = i^2 - i + 1
 d | a(i) ==> d | a(d+i)
-d | a(i) ==> d | a(1-i)
+d | a(i) ==> d | a(1-i)    since a(1-i) = a(i)
+
+i < d
+odd d
+(d+1-i) is odd for odd i.
+
+Let b(i) = a(2i+1) = (2i+1)*2i + 1 = 4i^2 + 2i + 1
+d | b(i) ==> d | b(d+i)
+d | b(i) ==> d | a(2i+1) ==> d | a(2n+1-2i) = a(2(n-i)+1) = b(n-i)
+
+Let d = 2n+1
+
+
+
+
+
+ i  a(i)  b(i)
+--------------
+-3  13
+-2   7   13
+-1   3    3
+ 0   1    1
+ 1   1    7
+ 2   3   21
+ 3   7   43
+ 4  13
+
 
 -}
 
@@ -80,19 +106,22 @@ pf_array m =
     a <- (newArray_ (1, m) :: ST s (STArray s Integer Integer))
     b <- newArray (1, m) []
     -- a[i] <- f i
-    mapM_ (\i -> writeArray a i (f i)) [1 .. m]
+    mapM_ (\i -> writeArray a i (f i)) [1, 3 .. m]
     -- b[i] <- prime_factorization(f i)
-    mapM_ (reduce a b 3) [2, 5 .. m]
-    mapM_ (check a b) [3 .. m]
+    mapM_ (reduce a b 3) [5, 11 .. m]
+    mapM_ (check a b) [3, 5 .. m]
     return b
   )
   where
     f i = i * (i-1) + 1
+    -- invariant: odd i
     check a b i = do
       d <- readArray a i
       if d == 1 then return () else do
-        mapM_ (reduce a b d) [i, i+d .. m]
-        mapM_ (reduce a b d) [d+1-i, 2*d+1-i .. m]
+        mapM_ (reduce a b d) [i, i+2*d .. m]
+        mapM_ (reduce a b d) [d+1-i, 3*d+1-i .. m]
+    -- invariant: odd d, odd j
+    reduce a b d j | j < 1 = return ()
     reduce a b d j = do
       x <- readArray a j
       let (x', e) = x `divN` d
@@ -105,7 +134,7 @@ two_primes nmax =
   [ p * q |
     p <- takeWhile (<= pmax) (tail primes),
     -- q + (p-1) | p^2 - p + 1
-    x <- list_divisors_of_pf (a!p),
+    x <- list_divisors_of_pf (a ! p),
     let q = x - p + 1,
     p < q,
     p * q <= nmax,

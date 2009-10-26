@@ -110,7 +110,7 @@ test _ _ = return ()
 Time:
 251: (489 s) Cardano Triplets
 255: (267 s) Rounded Square Roots
-245: (254 s) Coresilience
+245: (215 s) Coresilience
 248: (85 s) Totient Equals 13!
 154: (80 s) Exploring Pascal's pyramid
 249: (70 s) Prime Subset Sums
@@ -153,16 +153,15 @@ Productivity:
 212: (70%) Combined Volume of Cuboids
 244: (70%) Sliders
 126: (75%) Cubes Required to Cover a Cuboid
-245: (76%) Coresilience
 141: (83%) Progressive perfect squares
 155: (85%) Counting Capacitor Circuits
 
 Memory:
 251: (565 Mb) Cardano Triplets
 259: (222 Mb) Reachable Numbers
-245: (209 Mb) Coresilience
 149: (201 Mb) Searching for a maximum-sum subsequence
 187: (108 Mb) Semiprimes
+245: (103 Mb) Coresilience
 179: (80 Mb) Consecutive positive divisors
 195: (77 Mb) Inscribed circles
 249: (73 Mb) Prime Subset Sums
@@ -265,7 +264,7 @@ checks =
   (242,   0, Euler242.main, Euler242.answer, "Odd Triplets"),
   -- 243  (found by trial and error)
   (244,   5, Euler244.main, Euler244.answer, "Sliders"),
-  (245,4020, Euler245.main, Euler245.answer, "Coresilience"),
+  (245,2150, Euler245.main, Euler245.answer, "Coresilience"),
   (246,   1, Euler246.main, Euler246.answer, "Tangents to an Ellipse"),
   (247,  14, Euler247.main, Euler247.answer, "Squares Under a Hyperbola"),
   (248, 850, Euler248.main, Euler248.answer, "Totient Equals 13!"),
