@@ -83,8 +83,6 @@ losing m = go 0 b0 b0 b0
                not (any (b2 !) (proj2 p)),
                not (any (b3 !) (proj3 p))
              ]
-        set :: Bitmap -> [(Int, Int)]
-        set b = [ p | (p, True) <- assocs b ]
         b1' = b1 // [ (i, True) | p <- ps, i <- proj1 p ]
         b2' = b2 // [ (i, True) | p <- ps, i <- proj2 p ]
         b3' = b3 // [ (i, True) | p <- ps, i <- proj3 p ]
