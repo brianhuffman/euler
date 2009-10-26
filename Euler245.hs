@@ -4,6 +4,9 @@ import SquareRoot (square_root)
 import Primes
 import Permutation
 import EulerLib
+import Control.Monad.ST
+import Data.Array.ST
+import Data.Array
 
 {-
 Problem 245
@@ -30,6 +33,90 @@ is a unit fraction.
 
 -}
 
+coresilience :: Integer -> Rational
+coresilience n = (n - totient n) % (n - 1)
+
+unit_fraction :: Rational -> Bool
+unit_fraction x = numerator x == 1
+
+-- up to 10^3: 6
+-- up to 10^4: 10
+-- up to 10^5: 22
+-- up to 10^6: 
+
+values =
+  [ (n, c, prime_factorization n) |
+    n <- [3,5..],
+    not (is_prime n),
+    let c = coresilience n,
+    unit_fraction c
+  ]
+
+{-
+
+Case n = pq.
+
+phi(n) = (p-1)(q-1)
+
+n - phi(n)            | n - 1
+pq - (p-1)(q-1)       | pq - 1
+pq - (pq - p - q + 1) | pq - 1
+p + q - 1             | pq - 1
+
+p + q - 1 | pq - 1
+p + q - 1 | p(p + q - 1) - (pq - 1)
+p + q - 1 | p^2 + pq - p - pq + 1
+p + q - 1 | p^2 - p + 1
+
+Let a(i) = i^2 - i + 1
+d | a(i) ==> d | a(d+i)
+d | a(i) ==> d | a(1-i)
+
+-}
+
+pf_array :: Integer -> Array Integer [(Integer, Int)]
+pf_array m =
+  runSTArray (do
+    a <- (newArray_ (1, m) :: ST s (STArray s Integer Integer))
+    b <- newArray (1, m) []
+    -- a[i] <- f i
+    mapM_ (\i -> writeArray a i (f i)) [1 .. m]
+    -- b[i] <- prime_factorization(f i)
+    mapM_ (reduce a b 3) [2, 5 .. m]
+    mapM_ (check a b) [3 .. m]
+    return b
+  )
+  where
+    f i = i * (i-1) + 1
+    check a b i = do
+      d <- readArray a i
+      if d == 1 then return () else do
+        mapM_ (reduce a b d) [i, i+d .. m]
+        mapM_ (reduce a b d) [d+1-i, 2*d+1-i .. m]
+    reduce a b d j = do
+      x <- readArray a j
+      let (x', e) = x `divN` d
+      pf <- readArray b j
+      writeArray a j x'
+      writeArray b j ((d,e) : pf)
+
+two_primes :: Integer -> [Integer]
+two_primes nmax =
+  [ p * q |
+    p <- takeWhile (<= pmax) (tail primes),
+    -- q + (p-1) | p^2 - p + 1
+    x <- list_divisors_of_pf (a!p),
+    let q = x - p + 1,
+    p < q,
+    p * q <= nmax,
+    is_prime q
+  ]
+  where
+    pmax = square_root nmax
+    a = pf_array pmax
+
+-- length (two_primes (10^11)) = 3581
+
 {-
 
 (n - phi(n)) divides (n - 1).
@@ -48,24 +135,9 @@ Must check that pi does not divide (pj-1) for all i<j.
 
 (Coprimality check leaves about 20% of all numbers as candidates.)
 
---------------------------------------
+-}
 
-Case n = p*q.
-
-phi(n) = (p-1)*(q-1)
-
-
-n - phi(n)            | n - 1
-pq - (p-1)(q-1)       | pq - 1
-pq - (pq - p - q + 1) | pq - 1
-p + q - 1             | pq - 1
-
-p + q - 1 | pq - 1
-p + q - 1 | p^2 + pq - p
-p + q - 1 | p^2 - p + 1
-q + (p-1) | p^2 - p + 1
-
--------------------
+{-
 
 How big can the largest prime factor be?
 
@@ -163,39 +235,6 @@ phi(n) = (p1-1)(p2-1)(p3-1)
 
 -}
 
-coresilience :: Integer -> Rational
-coresilience n = (n - totient n) % (n - 1)
-
-unit_fraction :: Rational -> Bool
-unit_fraction x = numerator x == 1
-
--- up to 10^3: 6
--- up to 10^4: 10
--- up to 10^5: 22
--- up to 10^6: 
-
-values =
-  [ (n, c, prime_factorization n) |
-    n <- [3,5..],
-    not (is_prime n),
-    let c = coresilience n,
-    unit_fraction c
-  ]
-
-two_primes :: Integer -> [Integer]
-two_primes nmax =
-  [ p*q |
-    p <- takeWhile (<= square_root nmax) (tail primes),
-    -- q + (p-1) | p^2 - p + 1
-    x <- list_divisors (p^2 - p + 1),
-    let q = x - p + 1,
-    p < q,
-    p * q <= nmax,
-    is_prime q
-  ]
-
--- length (two_primes (10^11)) = 3581
-
 {-
 
 p0 <= (k*phi+1) / (n - k*(n-phi))
@@ -227,6 +266,7 @@ k_primes k nmax = f k 1 1 (tail primes)
           f (k-1) (n*p) (phi*(p-1)) ps ++
           f k n phi ps
 
+all_primes :: Integer -> [Integer]
 all_primes nmax =
   two_primes nmax ++
   k_primes 7 nmax ++
@@ -235,84 +275,11 @@ all_primes nmax =
   k_primes 4 nmax ++
   k_primes 3 nmax
 
+prob245 :: [Integer]
 prob245 = all_primes (2*10^11)
-
--- 105788973228762 WRONG!
--- 288084712410001 RIGHT!
-
-
-------------------
 
 main :: IO String
 main = return $ show $ sum prob245
 
 answer :: String
 answer = "288084712410001"
-
-
-{-
-
-3624 total.
-Sum = 105788973228762
-
-Two primes (4830):
-         15 = 3 5
-         85 = 5 17
-        ...
-
-Three primes (34 + 4...):
-        255 = 3 5 17
-      21845 = 5 17 257
-     167743 = 43 47 83
-     335923 = 7 37 1297
-    3817309 = 19 31 6481
-    3902867 = 53 211 349
-    5574929 = 17 353 929
-   10093049 = 83 277 439
-   17632421 = 23 151 5077
-   29087939 = 23 641 1973
-   55762723 = 61 739 1237
-  108197489 = 191 317 1787
-  184912177 = 53 541 6449
-  286114253 = 167 569 3011
-  286331153 = 17 257 65537
- 3415005551 = 53 877 73471
- 3423145679 = 89 1061 36251
- 9153262967 = 373 2473 9923
-11936587651 = 293 307 132701
-14531904773 = 433 1103 30427
-15406265131 =
-17401399289 = 59 1087 271333
-17872005341 = 181 617 160033
-21348695663 =
-29709553147 = 79 6841 54973
-34222741129 = 73 5521 84913
-34659121499 = 47 2129 346373
-36415854091 =
-43072350809 = 181 947 251287
-49637370089 = 2963 3251 5153
-61453331837 = 179 4649 73847
-64232837453 =
-78160215977 = 541 6367 22691
-97566000451 = 257 359 1057477
-----------------------------
-108461832103 =
-117836861171 =
-132550268551 =
-143850557051 =
-
-
-Four primes (7):
-      65535 = 3 5 17 257
-   27874645 = 5 17 353 929
- 1431655765 = 5 17 257 65537
- 1601953369 = 37 83 467 1117
-23809671461 = 23 167 1879 3299
-37013386447 = 43 59 61 239171
-40955154631 = 17 23 4079 25679
-
-Five primes (2):
-   83623935 = 3 5 17 353 929
- 4294967295 =
-
--}

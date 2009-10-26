@@ -109,8 +109,8 @@ test _ _ = return ()
 {-
 Time:
 251: (489 s) Cardano Triplets
-245: (402 s) Coresilience
 255: (267 s) Rounded Square Roots
+245: (254 s) Coresilience
 248: (85 s) Totient Equals 13!
 154: (80 s) Exploring Pascal's pyramid
 249: (70 s) Prime Subset Sums
@@ -153,12 +153,14 @@ Productivity:
 212: (70%) Combined Volume of Cuboids
 244: (70%) Sliders
 126: (75%) Cubes Required to Cover a Cuboid
+245: (76%) Coresilience
 141: (83%) Progressive perfect squares
 155: (85%) Counting Capacitor Circuits
 
 Memory:
 251: (565 Mb) Cardano Triplets
 259: (222 Mb) Reachable Numbers
+245: (209 Mb) Coresilience
 149: (201 Mb) Searching for a maximum-sum subsequence
 187: (108 Mb) Semiprimes
 179: (80 Mb) Consecutive positive divisors
