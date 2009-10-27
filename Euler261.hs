@@ -247,16 +247,16 @@ kmds =
     let d = (t-2*k-m-1) `div` 2
   ]
 
-prune_tree :: Integer -> Triple -> [Integer]
-prune_tree z t@(k,_,_)
-  | k > z = []
-  | otherwise = k : S.union (prune_tree z (next t))
-                            (prune_tree z (next (conv t)))
-
 all_upto :: Integer -> [Integer]
-all_upto z =
-  foldr S.union []
-    (takeWhile (not . null) [ prune_tree z (basic m) | m <- [1 ..] ])
+all_upto kmax = go [ basic m | m <- [1 ..] ]
+  where
+    go [] = []
+    go ts = S.union ks0 (S.union ks1 ks2)
+      where
+        ts' = takeWhile (\(k,_,_) -> k <= kmax) ts
+        ks0 = map (\(k,_,_) -> k) ts'
+        ks1 = go (map next ts')
+        ks2 = go (map (next . conv) ts')
 
 main :: IO String
 main = return $ show $ sum $ all_upto (10^10)

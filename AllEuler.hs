@@ -281,7 +281,7 @@ checks =
   (258, 420, Euler258.main, Euler258.answer, "A Lagged Fibonacci Sequence"),
   (259, 307, Euler259.main, Euler259.answer, "Reachable Numbers"),
   (260, 410, Euler260.main, Euler260.answer, "Stone Game"),
-  (261,  23, Euler261.main, Euler261.answer, "Pivotal Square Sums")
+  (261,   2, Euler261.main, Euler261.answer, "Pivotal Square Sums")
   ]
 
 total_time :: Int
