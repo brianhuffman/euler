@@ -3,7 +3,7 @@ import SquareRoot
 import Primes
 import qualified SortedList as S
 
-{-
+{---------------------------------------------------------------------
 Problem 261
 Pivotal Square Sums
 
@@ -25,17 +25,74 @@ Some small square-pivots are
 
 Find the sum of all distinct square-pivots ≤ 10^(10).
 
--}
+---------------------------------------------------------------------}
 
-{-
+{---------------------------------------------------------------------
 
 (SUM i:[1..n]. i^2) = (2n^3 + 3n^2 + n) / 6
 
 Define s(x) = 2x^3 + 3x^2 + x
 
-A solution is a triple (k,m,n) such that
-m > 0, n >= k, and k^2 = m(n+k)(m+1+n-k)
+(k,m,n) is a solution if
+s(n+m) - s(n) = s(k) - s(k-m-1)
+km + mn + kmm + mmn + mnn = kk + kkm
+km + mn + kmm + mmn + mnn - kkm = kk
+m(k + n + km + mn + nn + kk) = kk
+m(n + k)(1 + m + n - k) = k^2
 
+A good solution is a triple (k,m,n) such that
+0 < m, 0 < k <= n, and k^2 = m(n+k)(1+m+n-k)
+
+A ok solution is a triple (k,m,n) such that
+0 < m, 0 < k, 0 < n, and k^2 = m(n+k)(1+m+n-k)
+
+----------------------------------------------------------------------
+Degenerate solutions (k = 0)
+
+m(n + k)(1 + m + n - k) = k^2
+mn(1 + m + n) = 0
+Either m = 0, or n = 0, or m+n+1 = 0.
+
+(0,0,n)
+(0,m,0)
+(0,m,-m-1)
+
+----------------------------------------------------------------------
+Solution transformations
+
+swap: (k,m,n) -> (n, m+n-k, k)
+
+next: (k,m,n) -> (k+m+2m(k+n), m, n+2k+2m(k+n))
+
+prev: (k,m,n) -> (k+m(2k-2m-2n-1), m, n-2k-2m(k-m-n-1))
+
+(k'+m'+2m'(k'+n'), m', n'+2k'+2m'(k'+n'))
+k' = n
+m' = (m+n-k)
+n' = k
+k'' = n+(m+n-k)+2(m+n-k)(n+k)
+    = 2n+m-k+2(m+n-k)n+2(m+n-k)k
+    = 2n+m-k+(2m+2n-2k)n+(2m+2n-2k)k
+    = 2n+m-k+2mn+2nn-2kn+2mk+2nk-2kk
+    = 2n+m-k+2mn+2nn+2mk-2kk
+    = 2n+(m-k)+2n(m+n)+2k(m-k)
+    = 2n(m+n+1)+(2k+1)(m-k)
+m'' = m+n-k
+n'' = k+2n+2(m+n-k)(n+k)
+
+
+* next maps a good solution to a larger good solution.
+
+* 
+
+
+
+next: (k,m,d) -> (k+m(4k+2d+1), m, d+2k-m)
+prev: (k,m,d) -> (k-m(2d+2m+1), m, d-2k+m(4d+4m+3))
+conv: (k,m,d) -> (k+d, m+d, -d)
+turn: (k,m,d) -> (k, -(m+d+1), d)
+
+k
 Either (k and m both even) OR (m odd and n even)
 
 For n >= k:
@@ -333,8 +390,7 @@ prev (k,m,d) = (k-m*(2*d+2*m+1), m, d-2*k+m*(4*d+4*m+3))
 conv :: Triple -> Triple
 conv (k,m,d) = (k+d, m+d, -d)
 
-no_prev (k,m,d) = d-2*k+m*(4*d+4*m+3) < 0
-
+-- brute force search
 kmds :: [Triple]
 kmds =
   [ (k, m, d) |
@@ -350,32 +406,17 @@ kmds =
     let d = (t-2*k-m-1) `div` 2
   ]
 
-kmds2 :: Integer -> [Triple]
-kmds2 m =
-  [ (k, m, -d) |
-    d <- [1 .. m-1],
-    let e = m*(m+1-d),
-    let (r,s) = square_root_aux (e*(e-d)),
-    s == 0,
-    let k = e + r
-  ]
-
--- infinite tree of solutions
-data Tree = Tree Triple Tree Tree
-
-tree :: Triple -> Tree
-tree t = Tree t (tree (next t)) (tree (next (conv t)))
-
-trees :: [Tree]
-trees = [tree (basic n) | n <- [1 ..] ]
-
-prune :: Integer -> Tree -> [Integer]
-prune z (Tree (k,_,_) l r)
+-- prune_tree z t = prune z (tree t)
+prune_tree :: Integer -> Triple -> [Integer]
+prune_tree z t@(k,_,_)
   | k > z = []
-  | otherwise = k : S.union (prune z l) (prune z r)
+  | otherwise = k : S.union (prune_tree z (next t))
+                            (prune_tree z (next (conv t)))
 
 all_upto :: Integer -> [Integer]
-all_upto z = foldr S.union [] (takeWhile (not . null) (map (prune z) trees))
+all_upto z =
+  foldr S.union []
+    (takeWhile (not . null) [ prune_tree z (basic m) | m <- [1 ..] ])
 
 {-
 Case m=1:
