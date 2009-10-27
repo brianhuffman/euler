@@ -62,6 +62,7 @@ import qualified Euler257
 import qualified Euler258
 import qualified Euler259
 import qualified Euler260
+import qualified Euler261
 
 timeIO_ :: IO () -> IO TimeDiff
 timeIO_ action =
@@ -279,7 +280,8 @@ checks =
   (257, 124, Euler257.main, Euler257.answer, "Angular Bisectors"),
   (258, 420, Euler258.main, Euler258.answer, "A Lagged Fibonacci Sequence"),
   (259, 307, Euler259.main, Euler259.answer, "Reachable Numbers"),
-  (260, 410, Euler260.main, Euler260.answer, "Stone Game")
+  (260, 410, Euler260.main, Euler260.answer, "Stone Game"),
+  (261,  23, Euler261.main, Euler261.answer, "Pivotal Square Sums")
   ]
 
 total_time :: Int
