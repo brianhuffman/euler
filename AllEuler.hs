@@ -58,6 +58,7 @@ import qualified Euler252
 import qualified Euler253
 import qualified Euler254
 import qualified Euler255
+import qualified Euler256
 import qualified Euler257
 import qualified Euler258
 import qualified Euler259
@@ -276,7 +277,7 @@ checks =
   (253,   0, Euler253.main, Euler253.answer, "Tidying Up"),
   (254,  61, Euler254.main, Euler254.answer, "Sum of Digit Factorials"),
   (255,2670, Euler255.main, Euler255.answer, "Rounded Square Roots"),
-  -- 256 (unsolved)
+  (256,   8, Euler256.main, Euler256.answer, "Tatami-Free Rooms"),
   (257, 124, Euler257.main, Euler257.answer, "Angular Bisectors"),
   (258, 420, Euler258.main, Euler258.answer, "A Lagged Fibonacci Sequence"),
   (259, 307, Euler259.main, Euler259.answer, "Reachable Numbers"),
