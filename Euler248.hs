@@ -65,6 +65,15 @@ diffPF :: PF -> PF -> PF
 diffPF ((x2,x3,x5),(x7,x11,x13)) ((y2,y3,y5),(y7,y11,y13)) =
   ((x2-y2, x3-y3, x5-y5), (x7-y7, x11-y11, x13-y13))
 
+almostPF :: PF -> PF -> Bool
+almostPF ((x2,x3,x5),(x7,x11,x13)) ((y2,y3,y5),(y7,y11,y13))
+  | y13 > 0 = x13 > 0
+  | y11 > 0 = x11 > 0
+  | y7 > 0 = x7 > 0
+  | y5 > 0 = x5 > 0
+  | y3 > 0 = x3 > 0
+  | y2 > 0 = x2 > 0
+
 pfToZ :: PF -> Integer
 pfToZ ((n2, n3, n5), (n7, n11, n13)) =
   2^n2 * 3^n3 * 5^n5 * 7^n7 * 11^n11 * 13^n13
@@ -133,8 +142,8 @@ array3 = a
       foldl S.union []
         [ ns |
           (pfp, ps) <- totients3,
-          pfp /= pf0,
           pfp `lePF` pfn,
+          pfp `almostPF` pfn,
           let pfm = pfn `diffPF` pfp,
           let ms = a ! pfm,
           let ns = foldl S.union []
@@ -148,7 +157,10 @@ answer :: String
 answer = "23507044290"
 
 space :: Int
-space = 44 --MB
+space = 3 --MB
 
 time :: Double
-time = 59 --sec
+time = 2.3 --sec
+
+gctime :: Double
+gctime = 0.6 --sec

@@ -113,7 +113,6 @@ Time:
 251: (489 s) Cardano Triplets
 255: (267 s) Rounded Square Roots
 245: (215 s) Coresilience
-248: (85 s) Totient Equals 13!
 154: (80 s) Exploring Pascal's pyramid
 249: (70 s) Prime Subset Sums
 216: (59 s) Primality of 2n^2-1
@@ -141,7 +140,6 @@ Productivity:
 221: (20%) Alexandrian Integers
 149: (27%) Searching for a maximum-sum subsequence
 201: (32%) Subsets with a unique sum
-248: (39%) Totient Equals 13!
 181: (40%) Grouping objects of two different colours.
 161: (47%) Triominoes
 160: (53%) Factorial trailing digits
@@ -173,7 +171,6 @@ Memory:
 233: (51 Mb) Lattice Points on a Circle
 221: (47 Mb) Alexandrian Integers
 247: (45 Mb) Squares Under a Hyperbola
-248: (44 Mb) Totient Equals 13!
 161: (44 Mb) Triominoes
 193: (28 Mb) Squarefree Numbers
 214: (25 Mb) Totient Chains
@@ -269,7 +266,7 @@ checks =
   (245,2150, Euler245.main, Euler245.answer, "Coresilience"),
   (246,   1, Euler246.main, Euler246.answer, "Tangents to an Ellipse"),
   (247,  14, Euler247.main, Euler247.answer, "Squares Under a Hyperbola"),
-  (248, 850, Euler248.main, Euler248.answer, "Totient Equals 13!"),
+  (248,  23, Euler248.main, Euler248.answer, "Totient Equals 13!"),
   (249, 700, Euler249.main, Euler249.answer, "Prime Subset Sums"),
   (250, 110, Euler250.main, Euler250.answer, "250250"),
   (251,4890, Euler251.main, Euler251.answer, "Cardano Triplets"),
