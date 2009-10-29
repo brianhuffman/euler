@@ -6,17 +6,18 @@ import qualified SortedList as S
 import Data.Array
 import Data.List (insert, sort)
 
-{-
-Problem 248
-Numbers whose totient equals 13!
+title :: String
+title = "Totient Equals 13!"
 
+{---------------------------------------------------------------------
+Problem 248
 06 June 2009
 
 The first number n for which φ(n)=13! is 6227180929.
 
-Find the 100,000^(th) such number.
+Find the 150,000^(th) such number.
 
--}
+---------------------------------------------------------------------}
 
 {-
 6227180929 = 66529 * 93601
@@ -25,20 +26,6 @@ phi(66529) = 2^5 * 3^3 * 7 * 11
 phi(93601) = 2^5 * 3^2 * 5^2 * 13
 
 13! = 2^10 * 3^5 * 5^2 * 7 * 11 * 13
-
-How many different ways are there to factorize 13!?
-Factorization into at most 2 numbers:
-13! = m * n
-WLOG, 13 divides m.
-11 -> 2 possibilities.
-7 -> 2 possibilities.
-5 -> 3 possibilities.
-3 -> 6 possibilities.
-2 -> 11 possibilities.
-
-792 ways to factor into 2 numbers.
-
-How many total ways to factorize 13!?
 
 13! has 1584 factors.
 
@@ -54,6 +41,11 @@ phi(7^2) = 2 * 3 * 7
 phi(5^2) = 2^2 * 5
 phi(5^3) = 2^2 * 5^2
 phi(3^2) = 2 * 3
+...
+phi(3^6) = 2 * 3^5
+phi(2^2) = 2
+...
+phi(2^11) = 2^10
 
 -}
 
@@ -64,6 +56,14 @@ pf13 = ((10, 5, 2), (1, 1, 1))
 
 pf0 :: PF
 pf0 = ((0, 0, 0), (0, 0, 0))
+
+lePF :: PF -> PF -> Bool
+lePF ((x2,x3,x5),(x7,x11,x13)) ((y2,y3,y5),(y7,y11,y13)) =
+  and [x2 <= y2, x3 <= y3, x5 <= y5, x7 <= y7, x11 <= y11, x13 <= y13]
+
+diffPF :: PF -> PF -> PF
+diffPF ((x2,x3,x5),(x7,x11,x13)) ((y2,y3,y5),(y7,y11,y13)) =
+  ((x2-y2, x3-y3, x5-y5), (x7-y7, x11-y11, x13-y13))
 
 pfToZ :: PF -> Integer
 pfToZ ((n2, n3, n5), (n7, n11, n13)) =
@@ -129,13 +129,13 @@ array3 = a
   where
     a = funArray (pf0, pf13) f
     f ((0, 0, 0), (0, 0, 0)) = [1, 2]
-    f pfn@((n2,n3,n5),(n7,n11,n13)) =
+    f pfn =
       foldl S.union []
         [ ns |
-          (pfp@((p2, p3, p5), (p7, p11, p13)), ps) <- totients3,
+          (pfp, ps) <- totients3,
           pfp /= pf0,
-          p2 <= n2, p3 <= n3, p5 <= n5, p7 <= n7, p11 <= n11, p13 <= n13,
-          let pfm = ((n2-p2, n3-p3, n5-p5), (n7-p7, n11-p11, n13-p13)),
+          pfp `lePF` pfn,
+          let pfm = pfn `diffPF` pfp,
           let ms = a ! pfm,
           let ns = foldl S.union []
                 [ [ p * m | m <- ms, gcd p m == 1 ] | p <- ps ]
@@ -146,3 +146,9 @@ main = return $ show $ (array3 ! pf13) !! (150000 - 1)
 
 answer :: String
 answer = "23507044290"
+
+space :: Int
+space = 44 --MB
+
+time :: Double
+time = 59 --sec
