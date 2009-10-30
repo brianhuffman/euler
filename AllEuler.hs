@@ -123,8 +123,8 @@ Time:
 260: (29 s) Stone Game
 196: (28 s) Prime triplets
 236: (25 s) Luxury Hampers
+210: (23 s) Obtuse Angled Triangles
 150: (22 s) Minimum-sum sub-triangles
-210: (17 s) Obtuse Angled Triangles
 153: (15 s) Investigating Gaussian Integers
 257: (12 s) Angular Bisectors
 250: (11 s) 250250
@@ -228,7 +228,7 @@ checks =
   (207,   0, Euler207.main, "44043947822", "Integer partition equations"),
   (208,   7, Euler208.main, Euler208.answer, "Robot Walks"),
   (209,   0, Euler209.main, "15964587728784", "Circular Logic"),
-  (210, 532, Euler210.main, Euler210.answer, "Obtuse Angled Triangles"),
+  (210, 233, Euler210.main, Euler210.answer, "Obtuse Angled Triangles"),
   (211,  60, Euler211.main, Euler211.answer, "Divisor Square Sum"),
   (212,  25, Euler212.main, "328968937309", "Combined Volume of Cuboids"),
   (213,  28, Euler213.main, Euler213.answer, "Flea Circus"),

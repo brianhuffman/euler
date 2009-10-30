@@ -1,7 +1,12 @@
+{-# LANGUAGE BangPatterns #-}
+
 module Euler210 where
 import Data.Int ( Int64 )
 
-{-
+title :: String
+title = "Obtuse Angled Triangles"
+
+{---------------------------------------------------------------------
 Problem 210
 26 September 2008
 
@@ -17,10 +22,10 @@ So, for example, N(4)=24 and N(8)=100.
 
 What is N(1,000,000,000)?
 
--}
+---------------------------------------------------------------------}
 
 
-{-
+{---------------------------------------------------------------------
 
 If point B lies in the left or lower quadrants, then angle O will be
 obtuse. We will call these areas "region O".
@@ -31,7 +36,7 @@ then angle C will be obtuse. We will call these areas "region C".
 If point B lies in the interior of the circle with diameter O-C, then
 angle B will be obtuse. We will call these areas "region B".
 
------------------------------------------
+----------------------------------------------------------------------
 r = 4:  *
       \ * *
     \ - \ * /
@@ -42,7 +47,8 @@ r = 4:  *
       * * *
         *
 Region O (8), region C (4), region B (0).
------------------------------------------
+
+----------------------------------------------------------------------
 r = 8:          *
               * * *
             \ * * * *
@@ -61,7 +67,8 @@ r = 8:          *
               * * *
                 *
 Region O (32), region C (16), region B (2).
------------------------------------------
+
+----------------------------------------------------------------------
 
 N(x) ~ (3/2 + pi/32)(x^2)
 -}
@@ -97,10 +104,10 @@ region_B r = a + 2 * f m m 0 0
     -- with x-coordinate greater than x.
     -- invariant: r2 = x^2 + y^2 - 2*m^2
     -- invariant: 0 <= r2 + 2*y + 1 (i.e. (x,y+1) not inside circle)
-    f x y r2 t
+    f !x !y !r2 !t
       | y < 0 = t
       | r2 >= 0 = f x (y-1) (r2-2*y+1) t
-      | otherwise = f (x+1) (y-dy) (r2+2*x+1-2*y*dy+dy^2) $! t'
+      | otherwise = f (x+1) (y-dy) (r2+2*x+1-2*y*dy+dy^2) t'
           where dy = x `div` (y+1)
                 t' = t + fromIntegral (2*y+1)
 
@@ -144,6 +151,15 @@ main = return $ show $ prob210 (10^9)
 
 answer :: String
 answer = "1598174770174689458"
+
+space :: Int
+space = 1 --MB
+
+time :: Double
+time = 23.3 --sec
+
+gctime :: Double
+gctime = 0.09 --sec
 
 ---------------------------------------------
 -- slow version used as a check
