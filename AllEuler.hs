@@ -1,7 +1,8 @@
 module Main where
 import System (getArgs)
 import System.Time
-import Char (isDigit)
+import Data.Char (isDigit)
+import Data.List (sort)
 import qualified Euler1
 import qualified Euler2
 import qualified Euler201
@@ -109,32 +110,6 @@ test n@0 action =
 test _ _ = return ()
 
 {-
-Time:
-251: (489 s) Cardano Triplets
-255: (267 s) Rounded Square Roots
-245: (215 s) Coresilience
-154: (80 s) Exploring Pascal's pyramid
-249: (70 s) Prime Subset Sums
-216: (59 s) Primality of 2n^2-1
-165: (48 s) Intersections
-258: (42 s) A Lagged Fibonacci Sequence
-252: (35 s) Convex Holes
-259: (31 s) Reachable Numbers
-260: (29 s) Stone Game
-196: (28 s) Prime triplets
-236: (25 s) Luxury Hampers
-210: (23 s) Obtuse Angled Triangles
-150: (22 s) Minimum-sum sub-triangles
-153: (15 s) Investigating Gaussian Integers
-257: (12 s) Angular Bisectors
-250: (11 s) 250250
-193: (11 s) Squarefree Numbers
-185: (11 s) Number Mind
-152: (10 s) Writing 1/2 as a sum of inverse squares
-229: (9 s) Four Representations using Squares
-141: (9 s) Progressive perfect squares
-155: (8 s) Counting Capacitor Circuits
-
 Productivity:
 240: (18%) Top Dice
 221: (20%) Alexandrian Integers
@@ -156,40 +131,6 @@ Productivity:
 141: (83%) Progressive perfect squares
 155: (85%) Counting Capacitor Circuits
 
-Memory:
-251: (565 Mb) Cardano Triplets
-259: (222 Mb) Reachable Numbers
-149: (201 Mb) Searching for a maximum-sum subsequence
-187: (108 Mb) Semiprimes
-245: (103 Mb) Coresilience
-179: (80 Mb) Consecutive positive divisors
-195: (77 Mb) Inscribed circles
-249: (73 Mb) Prime Subset Sums
-155: (71 Mb) Counting Capacitor Circuits
-181: (68 Mb) Grouping objects of two different colours
-159: (60 Mb) Digital root sums of factorizations
-233: (51 Mb) Lattice Points on a Circle
-221: (47 Mb) Alexandrian Integers
-247: (45 Mb) Squares Under a Hyperbola
-161: (44 Mb) Triominoes
-193: (28 Mb) Squarefree Numbers
-214: (25 Mb) Totient Chains
-216: (24 Mb) Primality of 2n^2-1
-141: (23 Mb) Progressive perfect squares
-189: (21 Mb) Tri-colouring a triangular grid
-212: (19 Mb) Combined Volume of Cuboids
-124: (18 Mb) Sorted Radical Function
- 75: (18 Mb) Lengths forming a unique right triangle
- 88: (16 Mb) Minimal Product-Sum Numbers
-143: (16 Mb) Torricelli point of a triangle
-196: (15 Mb) Prime triplets
-229: (15 Mb) Four Representations using Squares
-127: (13 Mb) Counting abc-hits
-260: (13 Mb) Stone Game
-213: (11 Mb) Flea Circus
-
-
-
 -}
 
 parseArg :: String -> Int -> Bool
@@ -201,7 +142,7 @@ parseArg s n
       read (takeWhile isDigit s) <= n && parseArg (dropWhile isDigit s) n
   | otherwise = False
 
-parseArgs :: [String] -> (Int -> Int -> Bool)
+parseArgs :: [String] -> (Int -> Double -> Bool)
 parseArgs (('l':w):ws) n l = l <= read w && parseArgs ws n l
 parseArgs (('g':w):ws) n l = l >= read w && parseArgs ws n l
 parseArgs [] _ _ = True
@@ -214,79 +155,89 @@ parseArgs xs n l = or [ parseArg x n | x <- xs ]
 -- it takes about 4 min to run problems 151-200 (22 Oct 2009)
 
 
-checks :: [(Int, Int, IO String, String, String)]
+checks :: [(Int, Double, Int, IO String, String, String)]
 checks =
   Euler1.checks ++
   Euler2.checks ++
   [
-  (201,  19, Euler201.main, "115039000", "Subsets with a unique sum"),
-  (202,   0, Euler202.main, "1209002624", "Laserbeam"),
-  (203,   0, Euler203.main, "34029210557338", "Squarefree Binomial Coefficients"),
-  (204,   6, Euler204.main, "2944730", "Generalised Hamming Numbers"),
-  (205,   0, Euler205.main, "0.5731441", "Dice Game"),
-  (206,   1, Euler206.main, "1389019170", "Concealed Square"),
-  (207,   0, Euler207.main, "44043947822", "Integer partition equations"),
-  (208,   7, Euler208.main, Euler208.answer, "Robot Walks"),
-  (209,   0, Euler209.main, "15964587728784", "Circular Logic"),
-  (210, 233, Euler210.main, Euler210.answer, "Obtuse Angled Triangles"),
-  (211,  60, Euler211.main, Euler211.answer, "Divisor Square Sum"),
-  (212,  25, Euler212.main, "328968937309", "Combined Volume of Cuboids"),
-  (213,  28, Euler213.main, Euler213.answer, "Flea Circus"),
-  (214,  59, Euler214.main, Euler214.answer, "Totient Chains"),
-  (215,   4, Euler215.main, "806844323190414", "Crack-free Walls"),
-  (216, 618, Euler216.main, "5437849", "Primality of 2n^2-1"),
-  (217,   3, Euler217.main, "6273134", "Balanced Numbers"),
-  (218,   0, Euler218.main, "0", "Perfect right-angled triangles"),
-  (219,   0, Euler219.main, "64564225042", "Skew-cost coding"),
-  (220,   0, Euler220.main, "139776,963904", "Heighway Dragon"),
-  (221,  62, Euler221.main, Euler221.answer, "Alexandrian Integers"),
-  (222,   0, Euler222.main, "1590933", "Sphere Packing"),
-  (223,  63, Euler223.main, Euler223.answer, "Almost right-angled triangles I"),
-  (224,   5, Euler224.main, Euler224.answer, "Almost right-angled triangles II"),
-  (225,   1, Euler225.main, Euler225.answer, "Tribonacci non-divisors"),
-  (226,   0, Euler226.main, "0.11316017", "A Scoop of Blancmange"),
-  (227,   1, Euler227.main, Euler227.answer, "The Chase"),
-  (228,   0, Euler228.main, "86226", "Minkowski Sums"),
-  (229, 113, Euler229.main, Euler229.answer, "Four Representations using Squares"),
-  (230,   0, Euler230.main, Euler230.answer, "Fibonacci Words"),
-  (231,  13, Euler231.main, Euler231.answer, "Prime Factorisation of Binomial Coefficients"),
-  (232,   1, Euler232.main, Euler232.answer, "The Race"),
-  (233,  84, Euler233.main, Euler233.answer, "Lattice Points on a Circle"),
-  (234,  20, Euler234.main, Euler234.answer, "Semidivisible Numbers"),
-  (235,   0, Euler235.main, Euler235.answer, "An Arithmetic Geometric Sequence"),
-  (236, 250, Euler236.main, Euler236.answer, "Luxury Hampers"),
-  (237,   1, Euler237.main, Euler237.answer, "Tours on a 4xn Playing Board"),
+  (201, 2.0,  6, Euler201.main, "115039000", "Subsets with a unique sum"),
+  (202, 0.0,  1, Euler202.main, "1209002624", "Laserbeam"),
+  (203, 0.0,  3, Euler203.main, "34029210557338", "Squarefree Binomial Coefficients"),
+  (204, 0.6,  1, Euler204.main, "2944730", "Generalised Hamming Numbers"),
+  (205, 0.0,  1, Euler205.main, "0.5731441", "Dice Game"),
+  (206, 0.1,  1, Euler206.main, "1389019170", "Concealed Square"),
+  (207, 0.0,  0, Euler207.main, "44043947822", "Integer partition equations"),
+  (208, 0.6,  7, Euler208.main, Euler208.answer, "Robot Walks"),
+  (209, 0.0,  1, Euler209.main, "15964587728784", "Circular Logic"),
+  (210,  23,  1, Euler210.main, Euler210.answer, "Obtuse Angled Triangles"),
+  (211, 2.6,  2, Euler211.main, Euler211.answer, "Divisor Square Sum"),
+  (212, 1.6, 20, Euler212.main, "328968937309", "Combined Volume of Cuboids"),
+  (213, 6.2, 11, Euler213.main, Euler213.answer, "Flea Circus"),
+  (214, 9.1, 25, Euler214.main, Euler214.answer, "Totient Chains"),
+  (215, 0.6,  5, Euler215.main, "806844323190414", "Crack-free Walls"),
+  (216,  84, 25, Euler216.main, "5437849", "Primality of 2n^2-1"),
+  (217, 0.3,  1, Euler217.main, "6273134", "Balanced Numbers"),
+  (218, 0.0,  1, Euler218.main, "0", "Perfect right-angled triangles"),
+  (219, 0.0,  1, Euler219.main, "64564225042", "Skew-cost coding"),
+  (220, 0.0,  1, Euler220.main, "139776,963904", "Heighway Dragon"),
+  (221,  10, 47, Euler221.main, Euler221.answer, "Alexandrian Integers"),
+  (222, 0.0,  1, Euler222.main, "1590933", "Sphere Packing"),
+  (223, 9.4,  1, Euler223.main, Euler223.answer, "Almost right-angled triangles I"),
+  (224, 0.7,  1, Euler224.main, Euler224.answer, "Almost right-angled triangles II"),
+  (225, 0.2,  1, Euler225.main, Euler225.answer, "Tribonacci non-divisors"),
+  (226, 0.0,  1, Euler226.main, "0.11316017", "A Scoop of Blancmange"),
+  (227, 0.2,  3, Euler227.main, Euler227.answer, "The Chase"),
+  (228, 0.0,  1, Euler228.main, "86226", "Minkowski Sums"),
+  (229,  15, 15, Euler229.main, Euler229.answer, "Four Representations using Squares"),
+  (230, 0.0,  1, Euler230.main, Euler230.answer, "Fibonacci Words"),
+  (231, 1.3,  3, Euler231.main, Euler231.answer, "Prime Factorisation of Binomial Coefficients"),
+  (232, 0.1,  2, Euler232.main, Euler232.answer, "The Race"),
+  (233,  13, 51, Euler233.main, Euler233.answer, "Lattice Points on a Circle"),
+  (234, 3.0,  7, Euler234.main, Euler234.answer, "Semidivisible Numbers"),
+  (235, 0.0,  1, Euler235.main, Euler235.answer, "An Arithmetic Geometric Sequence"),
+  (236,  37,  2, Euler236.main, Euler236.answer, "Luxury Hampers"),
+  (237, 0.1,  1, Euler237.main, Euler237.answer, "Tours on a 4xn Playing Board"),
   -- (238, 999, Euler238.main, Euler238.answer, "Infinite String Tour"),
-  (239,   0, Euler239.main, Euler239.answer, "Twenty-two Foolish Primes"),
-  (240,   3, Euler240.main, Euler240.answer, "Top Dice"),
+  (239, 0.0,  1, Euler239.main, Euler239.answer, "Twenty-two Foolish Primes"),
+  (240, 0.3, 10, Euler240.main, Euler240.answer, "Top Dice"),
   -- 241  (unsolved)
-  (242,   0, Euler242.main, Euler242.answer, "Odd Triplets"),
+  (242, 0.0,  1, Euler242.main, Euler242.answer, "Odd Triplets"),
   -- 243  (found by trial and error)
-  (244,   5, Euler244.main, Euler244.answer, "Sliders"),
-  (245,2150, Euler245.main, Euler245.answer, "Coresilience"),
-  (246,   1, Euler246.main, Euler246.answer, "Tangents to an Ellipse"),
-  (247,  14, Euler247.main, Euler247.answer, "Squares Under a Hyperbola"),
-  (248,  23, Euler248.main, Euler248.answer, "Totient Equals 13!"),
-  (249, 700, Euler249.main, Euler249.answer, "Prime Subset Sums"),
-  (250, 110, Euler250.main, Euler250.answer, "250250"),
-  (251,4890, Euler251.main, Euler251.answer, "Cardano Triplets"),
-  (252, 350, Euler252.main, Euler252.answer, "Convex Holes"),
-  (253,   0, Euler253.main, Euler253.answer, "Tidying Up"),
-  (254,  61, Euler254.main, Euler254.answer, "Sum of Digit Factorials"),
-  (255,2670, Euler255.main, Euler255.answer, "Rounded Square Roots"),
-  (256,   8, Euler256.main, Euler256.answer, "Tatami-Free Rooms"),
-  (257, 124, Euler257.main, Euler257.answer, "Angular Bisectors"),
-  (258, 420, Euler258.main, Euler258.answer, "A Lagged Fibonacci Sequence"),
-  (259, 307, Euler259.main, Euler259.answer, "Reachable Numbers"),
-  (260, 410, Euler260.main, Euler260.answer, "Stone Game"),
-  (261,   2, Euler261.main, Euler261.answer, "Pivotal Square Sums")
+  (244, 0.6,  8, Euler244.main, Euler244.answer, "Sliders"),
+  (245, 316,103, Euler245.main, Euler245.answer, "Coresilience"),
+  (246, 0.2,  1, Euler246.main, Euler246.answer, "Tangents to an Ellipse"),
+  (247, 1.5, 45, Euler247.main, Euler247.answer, "Squares Under a Hyperbola"),
+  (248, 3.4,  3, Euler248.main, Euler248.answer, "Totient Equals 13!"),
+  (249, 104, 73, Euler249.main, Euler249.answer, "Prime Subset Sums"),
+  (250,  11,  2, Euler250.main, Euler250.answer, "250250"),
+  (251, 547,565, Euler251.main, Euler251.answer, "Cardano Triplets"),
+  (252,  35,  2, Euler252.main, Euler252.answer, "Convex Holes"),
+  (253, 0.0,  1, Euler253.main, Euler253.answer, "Tidying Up"),
+  (254, 8.9,  2, Euler254.main, Euler254.answer, "Sum of Digit Factorials"),
+  (255, 391,  1, Euler255.main, Euler255.answer, "Rounded Square Roots"),
+  (256, 1.2,  2, Euler256.main, Euler256.answer, "Tatami-Free Rooms"),
+  (257,  18,  2, Euler257.main, Euler257.answer, "Angular Bisectors"),
+  (258,  62,  2, Euler258.main, Euler258.answer, "A Lagged Fibonacci Sequence"),
+  (259,  45,221, Euler259.main, Euler259.answer, "Reachable Numbers"),
+  (260,  43, 13, Euler260.main, Euler260.answer, "Stone Game"),
+  (261, 0.2,  7, Euler261.main, Euler261.answer, "Pivotal Square Sums")
   ]
 
-total_time :: Int
-total_time = sum [ t | (_, t, _, _, _) <- checks ]
+total_time :: Double
+total_time = sum [ t | (_, t, _, _, _, _) <- checks ]
+
+most_time :: IO ()
+most_time = mapM_ go (take 30 (reverse ts))
+  where ts = sort [ (l, n, d) | (n, l, _, _, _, d) <- checks ]
+        go (l, n, d) = putStrLn (show n ++ ": (" ++ show l ++ " s) " ++ d)
+
+most_space :: IO ()
+most_space = mapM_ go (take 30 (reverse ts))
+  where ts = sort [ (s, n, d) | (n, _, s, _, _, d) <- checks ]
+        go (s, n, d) = putStrLn (show n ++ ": (" ++ show s ++ " MB) " ++ d)
 
 main :: IO ()
 main = do
   args <- System.getArgs
   let p = parseArgs args
-  sequence_ [ check n m s d | (n, l, m, s, d) <- checks, p n l ]
+  sequence_ [ check n m s d | (n, l, _, m, s, d) <- checks, p n l ]
