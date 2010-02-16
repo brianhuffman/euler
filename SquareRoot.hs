@@ -58,6 +58,7 @@ qr1001 = qr_array 1001
 
 is_square :: Integral a => a -> Bool
 is_square n =
+  n >= 0 &&
   qr256 ! (fromIntegral (n `mod` 256)) &&
   qr255 ! (fromIntegral (n `mod` 255)) &&
   qr1001 ! (fromIntegral (n `mod` 1001)) &&
