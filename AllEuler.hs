@@ -45,7 +45,6 @@ import qualified Euler237
 import qualified Euler238
 import qualified Euler239
 import qualified Euler240
-import qualified Euler241
 import qualified Euler242
 import qualified Euler244
 import qualified Euler245
@@ -65,6 +64,14 @@ import qualified Euler258
 import qualified Euler259
 import qualified Euler260
 import qualified Euler261
+import qualified Euler267
+import qualified Euler270
+import qualified Euler271
+import qualified Euler272
+import qualified Euler273
+import qualified Euler274
+import qualified Euler277
+import qualified Euler278
 
 timeIO_ :: IO () -> IO TimeDiff
 timeIO_ action =
@@ -220,7 +227,24 @@ checks =
   (258,  62,  2, Euler258.main, Euler258.answer, "A Lagged Fibonacci Sequence"),
   (259,  45,221, Euler259.main, Euler259.answer, "Reachable Numbers"),
   (260,  43, 13, Euler260.main, Euler260.answer, "Stone Game"),
-  (261, 0.2,  7, Euler261.main, Euler261.answer, "Pivotal Square Sums")
+  (261, 0.2,  7, Euler261.main, Euler261.answer, "Pivotal Square Sums"),
+  -- 262
+  -- 263
+  -- 264
+  -- 265
+  -- 266
+  (267, 0.3, 14, Euler267.main, Euler267.answer, "Billionaire"),
+  -- 268
+  -- 269
+  (270, 0.0,  1, Euler270.main, Euler270.answer, "Cutting Squares"),
+  (271, 0.0,  1, Euler271.main, Euler271.answer, "Modular Cubes, Part 1"),
+  (272, 330, 68, Euler272.main, Euler272.answer, "Modular Cubes, Part 2"),
+  (273,  19,606, Euler273.main, Euler273.answer, "Sum of Squares"),
+  (274, 7.0, 24, Euler274.main, Euler274.answer, "Divisibility Multipliers"),
+  -- 275
+  -- 276
+  (277, 0.0,  1, Euler277.main, Euler277.answer, "A Modified Collatz Sequence"),
+  (278,  53,  2, Euler278.main, Euler278.answer, "Linear Combinations of Semiprimes")
   ]
 
 total_time :: Double
