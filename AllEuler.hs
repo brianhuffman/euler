@@ -64,6 +64,7 @@ import qualified Euler258
 import qualified Euler259
 import qualified Euler260
 import qualified Euler261
+import qualified Euler265
 import qualified Euler266
 import qualified Euler267
 import qualified Euler268
@@ -233,7 +234,7 @@ checks =
   -- 262
   -- 263
   -- 264
-  -- 265
+  (265, 0.1,  1, Euler265.main, Euler265.answer, "Binary Circles"),
   (266, 6.0, 40, Euler266.main, Euler266.answer, "Pseudo Square Root"),
   (267, 0.3, 14, Euler267.main, Euler267.answer, "Billionaire"),
   (268, 9.9,  1, Euler268.main, Euler268.answer, "Four divisors below 100"),
