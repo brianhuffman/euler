@@ -65,6 +65,7 @@ import qualified Euler259
 import qualified Euler260
 import qualified Euler261
 import qualified Euler267
+import qualified Euler268
 import qualified Euler270
 import qualified Euler271
 import qualified Euler272
@@ -234,7 +235,7 @@ checks =
   -- 265
   -- 266
   (267, 0.3, 14, Euler267.main, Euler267.answer, "Billionaire"),
-  -- 268
+  (268, 9.9,  1, Euler268.main, Euler268.answer, "Four divisors below 100"),
   -- 269
   (270, 0.0,  1, Euler270.main, Euler270.answer, "Cutting Squares"),
   (271, 0.0,  1, Euler271.main, Euler271.answer, "Modular Cubes, Part 1"),
