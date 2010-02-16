@@ -244,7 +244,7 @@ checks =
   -- 275
   -- 276
   (277, 0.0,  1, Euler277.main, Euler277.answer, "A Modified Collatz Sequence"),
-  (278,  53,  2, Euler278.main, Euler278.answer, "Linear Combinations of Semiprimes")
+  (278,  36,  2, Euler278.main, Euler278.answer, "Linear Combinations of Semiprimes")
   ]
 
 total_time :: Double

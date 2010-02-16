@@ -78,7 +78,8 @@ gap2 :: Z -> Z -> Z
 gap2 a b = a*b - a - b + 1
 
 gap3 :: Z -> Z -> Z -> Z
-gap3 a b c = (c-1)*a*b + (b-1)*a*c + (a-1)*b*c - a*b*c
+gap3 a b c = 2*a*b*c - a*b - a*c - b*c
+-- (c-1)*a*b + (b-1)*a*c + (a-1)*b*c - a*b*c
 
 pairs :: [a] -> [(a, a)]
 pairs [] = []
