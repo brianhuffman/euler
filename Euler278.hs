@@ -81,6 +81,10 @@ gap3 :: Z -> Z -> Z -> Z
 gap3 a b c = 2*a*b*c - a*b - a*c - b*c
 -- (c-1)*a*b + (b-1)*a*c + (a-1)*b*c - a*b*c
 
+sum_gap3 :: Z -> Z -> [Z] -> Z
+sum_gap3 a b cs = (a*b*2 - a - b) * sum cs - a*b * toInteger (length cs)
+-- sum [ gap3 a b c | c <- cs ]
+
 pairs :: [a] -> [(a, a)]
 pairs [] = []
 pairs (x : xs) = map (\y -> (x,y)) xs ++ pairs xs
@@ -92,8 +96,16 @@ triples (x : xs) = map (\(y,z) -> (x,y,z)) (pairs xs) ++ triples xs
 prob278 :: [Z] -> Z
 prob278 xs = sum [ gap3 a b c | (a,b,c) <- triples xs ]
 
+prob278' :: [Z] -> Z
+prob278' xs = f xs
+  where
+    f [] = 0
+    f (x : xs) = g x xs + f xs
+    g x [] = 0
+    g x (y : ys) = sum_gap3 x y ys + g x ys
+
 main :: IO String
-main = return $ show $ prob278 $ takeWhile (<5000) primes
+main = return $ show $ prob278' $ takeWhile (<5000) primes
 
 answer :: String
 answer = "1228215747273908452"
