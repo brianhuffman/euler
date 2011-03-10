@@ -71,6 +71,7 @@ import qualified Euler273
 import qualified Euler274
 import qualified Euler277
 import qualified Euler278
+import qualified Euler297
 
 checks :: [(Int, Double, Int, IO String, String, String)]
 checks =
@@ -152,5 +153,6 @@ checks =
   -- 275
   -- 276
   (277, 0.0,  1, Euler277.main, Euler277.answer, "A Modified Collatz Sequence"),
-  (278, 1.2,  2, Euler278.main, Euler278.answer, "Linear Combinations of Semiprimes")
+  (278, 1.2,  2, Euler278.main, Euler278.answer, "Linear Combinations of Semiprimes"),
+  (297, 0.0,  1, Euler297.main, Euler297.answer, "Zeckendorf Representation")
   ]
