@@ -1,5 +1,6 @@
 module Euler285 where
 import Primes
+import EulerLib (showFloat)
 
 {---------------------------------------------------------------------
 Problem 285
@@ -54,8 +55,11 @@ area2 k = area' (k+0.5) - area' (k-0.5)
 expected :: R -> R
 expected k = area2 k / k
 
-prob285 :: R
-prob285 = sum (map expected [1..10^5])
+prob285 :: R -> R
+prob285 m = sum (map expected [1..m])
+
+main :: IO String
+main = return $ showFloat 5 $ prob285 (10^5)
 
 answer :: String
 answer = "157055.80999"
