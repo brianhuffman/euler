@@ -9,6 +9,7 @@ import qualified Euler317
 import qualified Euler321
 import qualified Euler325
 import qualified Euler327
+import qualified Euler328
 
 checks :: [(Int, Double, Int, IO String, String, String)]
 checks = [
@@ -20,5 +21,6 @@ checks = [
   (317, 0.0,  1, Euler317.main, Euler317.answer, "Firecracker"),
   (321, 0.0,  1, Euler321.main, Euler321.answer, "Swapping Counters"),
   (325, 0.0,  1, Euler325.main, Euler325.answer, "Stone Game II"),
-  (327, 0.0,  1, Euler327.main, Euler327.answer, "Rooms of Doom")
+  (327, 0.0,  1, Euler327.main, Euler327.answer, "Rooms of Doom"),
+  (328, 999,999, Euler328.main, Euler328.answer, "Lowest-cost Search")
   ]
