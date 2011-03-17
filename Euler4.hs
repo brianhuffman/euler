@@ -4,6 +4,7 @@ import qualified Euler301
 import qualified Euler303
 import qualified Euler306
 import qualified Euler307
+import qualified Euler310
 import qualified Euler313
 import qualified Euler314
 import qualified Euler317
@@ -19,6 +20,7 @@ checks = [
   (303, 9.9,  3, Euler303.main, Euler303.answer, "Multiples with small digits"),
   (306, 0.0,  1, Euler306.main, Euler306.answer, "Paper-strip Game"),
   (307, 2.4,  4, Euler307.main, Euler307.answer, "Chip Defects"),
+  (310, 4.6,  6, Euler310.main, Euler310.answer, "Nim Square"),
   (313, 0.3,  4, Euler313.main, Euler313.answer, "Sliding game"),
   (314, 184,324, Euler314.main, Euler314.answer, "The Mouse on the Moon"),
   (317, 0.0,  1, Euler317.main, Euler317.answer, "Firecracker"),
