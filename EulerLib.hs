@@ -117,4 +117,4 @@ showFloat n x = s
   where
     y = floor x :: Integer
     z = round (x * 10^n) :: Integer
-    s = show y ++ "." ++ reverse (take n (reverse (show z)))
+    s = show y ++ "." ++ reverse (take n (reverse (show z) ++ repeat '0'))
