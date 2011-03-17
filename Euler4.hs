@@ -10,6 +10,7 @@ import qualified Euler314
 import qualified Euler317
 import qualified Euler318
 import qualified Euler321
+import qualified Euler322
 import qualified Euler325
 import qualified Euler327
 import qualified Euler328
@@ -26,6 +27,7 @@ checks = [
   (317, 0.0,  1, Euler317.main, Euler317.answer, "Firecracker"),
   (318, 0.0,  1, Euler318.main, Euler318.answer, "2011 nines"),
   (321, 0.0,  1, Euler321.main, Euler321.answer, "Swapping Counters"),
+  (322, 0.0,  0, Euler322.main, Euler322.answer, "Binomial coefficients divisible by 10"),
   (325, 0.0,  1, Euler325.main, Euler325.answer, "Stone Game II"),
   (327, 0.0,  1, Euler327.main, Euler327.answer, "Rooms of Doom"),
   (328, 999,999, Euler328.main, Euler328.answer, "Lowest-cost Search")
