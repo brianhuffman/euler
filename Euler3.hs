@@ -72,6 +72,7 @@ import qualified Euler274
 import qualified Euler277
 import qualified Euler278
 import qualified Euler285
+import qualified Euler293
 import qualified Euler294
 import qualified Euler297
 
@@ -158,6 +159,7 @@ checks =
   (278, 1.2,  2, Euler278.main, Euler278.answer, "Linear Combinations of Semiprimes"),
   (285, 0.2, 11, Euler285.main, Euler285.answer, "Pythagorean odds"),
   -- 286
+  (293, 0.2,  2, Euler293.main, Euler293.answer, "Pseudo-Fortunate Numbers"),
   (294, 0.2, 14, Euler294.main, Euler294.answer, "Sum of digits - experience #23"),
   (297, 0.0,  1, Euler297.main, Euler297.answer, "Zeckendorf Representation")
   ]
