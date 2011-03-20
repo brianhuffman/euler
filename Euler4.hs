@@ -2,6 +2,7 @@ module Euler4 where
 
 import qualified Euler301
 import qualified Euler303
+import qualified Euler304
 import qualified Euler306
 import qualified Euler307
 import qualified Euler310
@@ -22,6 +23,7 @@ checks :: [(Int, Double, Int, IO String, String, String)]
 checks = [
   (301, 0.0,  1, Euler301.main, Euler301.answer, "Nim"),
   (303, 9.9,  3, Euler303.main, Euler303.answer, "Multiples with small digits"),
+  (304,  51,  2, Euler304.main, Euler304.answer, "Primonacci"),
   (306, 0.0,  1, Euler306.main, Euler306.answer, "Paper-strip Game"),
   (307, 2.4,  4, Euler307.main, Euler307.answer, "Chip Defects"),
   (310, 4.6,  6, Euler310.main, Euler310.answer, "Nim Square"),
