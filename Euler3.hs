@@ -121,9 +121,9 @@ checks =
   -- (238, 999, Euler238.main, Euler238.answer, "Infinite String Tour"),
   (239, 0.0,  1, Euler239.main, Euler239.answer, "Twenty-two Foolish Primes"),
   (240, 0.3, 10, Euler240.main, Euler240.answer, "Top Dice"),
-  -- 241  (unsolved)
+  -- 241  "Perfection Quotients"
   (242, 0.0,  1, Euler242.main, Euler242.answer, "Odd Triplets"),
-  -- 243  (found by trial and error)
+  -- 243  (found by trial and error) "Resilience"
   (244, 0.6,  8, Euler244.main, Euler244.answer, "Sliders"),
   (245, 316,103, Euler245.main, Euler245.answer, "Coresilience"),
   (246, 0.2,  1, Euler246.main, Euler246.answer, "Tangents to an Ellipse"),
@@ -142,28 +142,43 @@ checks =
   (259,  45,221, Euler259.main, Euler259.answer, "Reachable Numbers"),
   (260,  43, 13, Euler260.main, Euler260.answer, "Stone Game"),
   (261, 0.2,  7, Euler261.main, Euler261.answer, "Pivotal Square Sums"),
-  -- 262
-  -- 263
-  -- 264
+  -- 262 "Mountain Range"
+  -- 263 "An engineer's dream come true"
+  -- 264 "Triangle Centres"
   (265, 0.1,  1, Euler265.main, Euler265.answer, "Binary Circles"),
   (266, 6.0, 40, Euler266.main, Euler266.answer, "Pseudo Square Root"),
   (267, 0.3, 14, Euler267.main, Euler267.answer, "Billionaire"),
   (268, 9.9,  1, Euler268.main, Euler268.answer, "Four divisors below 100"),
-  -- 269
+  -- 269 "Polynomials with at least one integer root"
   (270, 0.0,  1, Euler270.main, Euler270.answer, "Cutting Squares"),
   (271, 0.0,  1, Euler271.main, Euler271.answer, "Modular Cubes, Part 1"),
   (272, 330, 68, Euler272.main, Euler272.answer, "Modular Cubes, Part 2"),
   (273,  19,606, Euler273.main, Euler273.answer, "Sum of Squares"),
   (274, 7.0, 24, Euler274.main, Euler274.answer, "Divisibility Multipliers"),
-  -- 275
-  -- 276
+  -- 275 "Balanced Sculptures"
+  -- 276 "Primitive Triangles"
   (277, 0.0,  1, Euler277.main, Euler277.answer, "A Modified Collatz Sequence"),
   (278, 1.2,  2, Euler278.main, Euler278.answer, "Linear Combinations of Semiprimes"),
+  -- 279 "Triangles with integral sides and an integral angle"
+  -- 280 "Ant and seeds"
+  -- 281 "Pizza Toppings"
+  -- 282 "The Ackermann function"
+  -- 283 "Integer sided triangles for which the area/perimeter ratio is integral"
   (284, 505,  3, Euler284.main, Euler284.answer, "Steady Squares"),
   (285, 0.2, 11, Euler285.main, Euler285.answer, "Pythagorean odds"),
-  -- 286
+  -- 286 "Scoring probabilities" (solved)
   (287, 122,  2, Euler287.main, Euler287.answer, "Quadtree encoding"),
+  -- 288 "An enormous factorial"
+  -- 289 "Eulerian Cycles"
+  -- 290 "Digital Signature"
+  -- 291 "Panaitopol Primes"
+  -- 292 "Pythagorean Polygons"
   (293, 0.2,  2, Euler293.main, Euler293.answer, "Pseudo-Fortunate Numbers"),
   (294, 0.2, 14, Euler294.main, Euler294.answer, "Sum of digits - experience #23"),
+  -- 295 "Lenticular Holes"
+  -- 296 "Angular Bisector and Tangent"
   (297, 0.0,  1, Euler297.main, Euler297.answer, "Zeckendorf Representation")
+  -- 298 "Selective Amnesia"
+  -- 299 "Three similar triangles"
+  -- 300 "Protein folding"
   ]
