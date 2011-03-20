@@ -71,6 +71,7 @@ import qualified Euler273
 import qualified Euler274
 import qualified Euler277
 import qualified Euler278
+import qualified Euler284
 import qualified Euler285
 import qualified Euler287
 import qualified Euler293
@@ -158,6 +159,7 @@ checks =
   -- 276
   (277, 0.0,  1, Euler277.main, Euler277.answer, "A Modified Collatz Sequence"),
   (278, 1.2,  2, Euler278.main, Euler278.answer, "Linear Combinations of Semiprimes"),
+  (284, 505,  3, Euler284.main, Euler284.answer, "Steady Squares"),
   (285, 0.2, 11, Euler285.main, Euler285.answer, "Pythagorean odds"),
   -- 286
   (287, 122,  2, Euler287.main, Euler287.answer, "Quadtree encoding"),
