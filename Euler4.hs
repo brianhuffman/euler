@@ -15,6 +15,7 @@ import qualified Euler322
 import qualified Euler325
 import qualified Euler327
 import qualified Euler328
+import qualified Euler329
 
 checks :: [(Int, Double, Int, IO String, String, String)]
 checks = [
@@ -32,5 +33,6 @@ checks = [
   (322, 0.0,  0, Euler322.main, Euler322.answer, "Binomial coefficients divisible by 10"),
   (325, 0.0,  1, Euler325.main, Euler325.answer, "Stone Game II"),
   (327, 0.0,  1, Euler327.main, Euler327.answer, "Rooms of Doom"),
-  (328, 999,999, Euler328.main, Euler328.answer, "Lowest-cost Search")
+  (328, 999,999, Euler328.main, Euler328.answer, "Lowest-cost Search"),
+  (329, 0.0,  2, Euler329.main, Euler329.answer, "Prime Frog")
   ]
