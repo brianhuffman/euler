@@ -1,5 +1,6 @@
 module Euler326 where
 import Data.Array
+import Data.Int
 
 {-
 Modulo Summations
@@ -107,23 +108,26 @@ When does SUM i=[1..n] a[i] == r (mod m)?
 -}
 
 -- for how many n <= nmax does sum_a n `mod` m == r?
+count_remainder :: Int64 -> Int -> Array Int Int
 count_remainder nmax m =
   accumArray (+) 0 (0, m-1)
     [ (r, x) |
-      k <- [0..m-1],
+      k <- [0..m'-1],
       (d, s) <- [(0, 9*k^2 - k),
                  (1, 9*k^2 + 3*k + 1),
                  (2, 9*k^2 + 6*k + 2),
                  (3, 9*k^2 + 7*k + 2),
                  (4, 9*k^2 + 13*k + 5),
                  (5, 9*k^2 + 14*k + 5)],
-      let r = s`mod`m,
+      let r = fromIntegral (s `mod` m'),
       -- for how many i is (6*(k+i*m)+d) <= nmax?
       -- for how many i is 6*k+6*i*m+d <= nmax?
       -- for how many i is 6*i*m <= nmax - 6*k+d?
-      let x = (nmax-(6*k+d))`div`(6*m) + 1 ]
+      let x = fromIntegral ((nmax - (6*k+d))`div`(6*m') + 1) ]
+  where m' = (fromIntegral m :: Int64)
 
-prob326 nmax m = sum [ x*(x-1) | x <- elems a ] `div` 2
+prob326 :: Int64 -> Int -> Integer
+prob326 nmax m = sum [ x*(x-1) | x <- map toInteger (elems a) ] `div` 2
   where a = count_remainder nmax m
 
 main :: IO String
