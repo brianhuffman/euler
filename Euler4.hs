@@ -13,6 +13,7 @@ import qualified Euler318
 import qualified Euler321
 import qualified Euler322
 import qualified Euler325
+import qualified Euler326
 import qualified Euler327
 import qualified Euler328
 import qualified Euler329
@@ -32,7 +33,8 @@ checks = [
   (321, 0.0,  1, Euler321.main, Euler321.answer, "Swapping Counters"),
   (322, 0.0,  0, Euler322.main, Euler322.answer, "Binomial coefficients divisible by 10"),
   (325, 0.0,  1, Euler325.main, Euler325.answer, "Stone Game II"),
+  (326, 999,999, Euler326.main, Euler326.answer, "Modulo Summations"),
   (327, 0.0,  1, Euler327.main, Euler327.answer, "Rooms of Doom"),
-  (328, 999,999, Euler328.main, Euler328.answer, "Lowest-cost Search"),
+  (328, 120,370, Euler328.main, Euler328.answer, "Lowest-cost Search"),
   (329, 0.0,  2, Euler329.main, Euler329.answer, "Prime Frog")
   ]
