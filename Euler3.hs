@@ -69,6 +69,7 @@ import qualified Euler271
 import qualified Euler272
 import qualified Euler273
 import qualified Euler274
+import qualified Euler276
 import qualified Euler277
 import qualified Euler278
 import qualified Euler284
@@ -157,7 +158,7 @@ checks =
   (273,  19,606, Euler273.main, Euler273.answer, "Sum of Squares"),
   (274, 7.0, 24, Euler274.main, Euler274.answer, "Divisibility Multipliers"),
   -- 275 "Balanced Sculptures"
-  -- 276 "Primitive Triangles"
+  (276,  42,  1, Euler276.main, Euler276.answer, "Primitive Triangles"),
   (277, 0.0,  1, Euler277.main, Euler277.answer, "A Modified Collatz Sequence"),
   (278, 1.2,  2, Euler278.main, Euler278.answer, "Linear Combinations of Semiprimes"),
   -- 279 "Triangles with integral sides and an integral angle"
