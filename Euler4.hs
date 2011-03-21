@@ -5,6 +5,7 @@ import qualified Euler303
 import qualified Euler304
 import qualified Euler306
 import qualified Euler307
+import qualified Euler308
 import qualified Euler310
 import qualified Euler313
 import qualified Euler314
@@ -29,7 +30,7 @@ checks = [
   -- 305 "Reflexive Position"
   (306, 0.0,  1, Euler306.main, Euler306.answer, "Paper-strip Game"),
   (307, 2.4,  4, Euler307.main, Euler307.answer, "Chip Defects"),
-  -- 308 "An amazing Prime-generating Automaton"
+  (308,5600, 19, Euler308.main, Euler308.answer, "An amazing Prime-generating Automaton"),
   -- 309 "Integer Ladders"
   (310, 4.6,  6, Euler310.main, Euler310.answer, "Nim Square"),
   -- 311 "Biclinic Integer Quadrilaterals"
