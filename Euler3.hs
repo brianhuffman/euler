@@ -74,6 +74,7 @@ import qualified Euler278
 import qualified Euler284
 import qualified Euler285
 import qualified Euler287
+import qualified Euler291
 import qualified Euler293
 import qualified Euler294
 import qualified Euler297
@@ -171,7 +172,7 @@ checks =
   -- 288 "An enormous factorial"
   -- 289 "Eulerian Cycles"
   -- 290 "Digital Signature"
-  -- 291 "Panaitopol Primes"
+  (291,2761,  2, Euler291.main, Euler291.answer, "Panaitopol Primes"),
   -- 292 "Pythagorean Polygons"
   (293, 0.2,  2, Euler293.main, Euler293.answer, "Pseudo-Fortunate Numbers"),
   (294, 0.2, 14, Euler294.main, Euler294.answer, "Sum of digits - experience #23"),
