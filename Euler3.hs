@@ -76,6 +76,7 @@ import qualified Euler284
 import qualified Euler285
 import qualified Euler287
 import qualified Euler288
+import qualified Euler290
 import qualified Euler291
 import qualified Euler293
 import qualified Euler294
@@ -173,7 +174,7 @@ checks =
   (287, 122,  2, Euler287.main, Euler287.answer, "Quadtree encoding"),
   (288,  20,  2, Euler288.main, Euler288.answer, "An enormous factorial"),
   -- 289 "Eulerian Cycles"
-  -- 290 "Digital Signature"
+  (290, 4.1,151, Euler290.main, Euler290.answer, "Digital Signature"),
   (291,2761,  2, Euler291.main, Euler291.answer, "Panaitopol Primes"),
   -- 292 "Pythagorean Polygons"
   (293, 0.2,  2, Euler293.main, Euler293.answer, "Pseudo-Fortunate Numbers"),
