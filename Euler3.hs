@@ -64,6 +64,7 @@ import qualified Euler265
 import qualified Euler266
 import qualified Euler267
 import qualified Euler268
+import qualified Euler269
 import qualified Euler270
 import qualified Euler271
 import qualified Euler272
@@ -153,7 +154,7 @@ checks =
   (266, 6.0, 40, Euler266.main, Euler266.answer, "Pseudo Square Root"),
   (267, 0.3, 14, Euler267.main, Euler267.answer, "Billionaire"),
   (268, 9.9,  1, Euler268.main, Euler268.answer, "Four divisors below 100"),
-  -- 269 "Polynomials with at least one integer root"
+  (269, 1.0, 56, Euler269.main, Euler269.answer, "Polynomials with at least one integer root"),
   (270, 0.0,  1, Euler270.main, Euler270.answer, "Cutting Squares"),
   (271, 0.0,  1, Euler271.main, Euler271.answer, "Modular Cubes, Part 1"),
   (272, 330, 68, Euler272.main, Euler272.answer, "Modular Cubes, Part 2"),
