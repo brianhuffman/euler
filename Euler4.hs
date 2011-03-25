@@ -1,12 +1,14 @@
 module Euler4 where
 
 import qualified Euler301
+-- import qualified Euler302
 import qualified Euler303
 import qualified Euler304
 import qualified Euler306
 import qualified Euler307
 import qualified Euler308
 import qualified Euler310
+import qualified Euler312
 import qualified Euler313
 import qualified Euler314
 import qualified Euler315
@@ -24,7 +26,7 @@ import qualified Euler329
 checks :: [(Int, Double, Int, IO String, String, String)]
 checks = [
   (301, 0.0,  1, Euler301.main, Euler301.answer, "Nim"),
-  -- 302 "Strong Achilles Numbers"
+  -- (302,9999,999, Euler302.main, Euler302.answer, "Strong Achilles Numbers"),
   (303, 9.9,  3, Euler303.main, Euler303.answer, "Multiples with small digits"),
   (304,  43,  2, Euler304.main, Euler304.answer, "Primonacci"),
   -- 305 "Reflexive Position"
@@ -34,7 +36,7 @@ checks = [
   -- 309 "Integer Ladders"
   (310, 4.6,  6, Euler310.main, Euler310.answer, "Nim Square"),
   -- 311 "Biclinic Integer Quadrilaterals"
-  -- 312 "Cyclic paths on Sierpiński graphs"
+  (312, 0.2,  8, Euler312.main, Euler312.answer, "Cyclic paths on Sierpiński graphs"),
   (313, 0.3,  4, Euler313.main, Euler313.answer, "Sliding game"),
   (314, 184,324, Euler314.main, Euler314.answer, "The Mouse on the Moon"),
   (315,  11, 56, Euler315.main, Euler315.answer, "Digital root clocks"),
