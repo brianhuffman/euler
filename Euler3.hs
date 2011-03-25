@@ -148,7 +148,7 @@ checks =
   (260,  43, 13, Euler260.main, Euler260.answer, "Stone Game"),
   (261, 0.2,  7, Euler261.main, Euler261.answer, "Pivotal Square Sums"),
   -- 262 "Mountain Range"
-  (263, 505, 10, Euler263.main, Euler263.answer, "An engineer's dream come true"),
+  (263,  34,  2, Euler263.main, Euler263.answer, "An engineer's dream come true"),
   -- 264 "Triangle Centres"
   (265, 0.1,  1, Euler265.main, Euler265.answer, "Binary Circles"),
   (266, 6.0, 40, Euler266.main, Euler266.answer, "Pseudo Square Root"),

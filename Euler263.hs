@@ -66,6 +66,19 @@ practical n = f 1 (prime_factorization n)
     f m [] = True
     f m ((p,e) : pf) = p <= m+1 && f (m * repunit p (e+1)) pf
 
+-- optimized version
+practical' :: Int -> Bool
+practical' n = f 1 primes n
+  where
+    f m (p:ps) x
+      | x == 1  = True
+      | m+1 < p = False
+      | x < p^2 = x <= m+1
+      | otherwise =
+        case divN x p of
+          (_, 0) -> f m ps x
+          (y, e) -> f (m * repunit p (e+1)) ps y
+
 {---------------------------------------------------------------------
 -- Properties of Practical Numbers
 
@@ -173,6 +186,11 @@ paradises () =
   [ n |
     k <- [0, 840 ..],
     n <- [k+20, k+820],
+    practical' n,
+    practical' (n-8),
+    practical' (n-4),
+    practical' (n+4),
+    practical' (n+8),
     is_prime (n-9),
     is_prime (n-3),
     is_prime (n+3),
@@ -182,12 +200,7 @@ paradises () =
     not (is_prime (n-1)),
     not (is_prime (n+1)),
     not (is_prime (n+5)),
-    not (is_prime (n+7)),
-    practical n,
-    practical (n-8),
-    practical (n-4),
-    practical (n+4),
-    practical (n+8)
+    not (is_prime (n+7))
   ]
 
 main :: IO String
