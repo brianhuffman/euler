@@ -14,6 +14,7 @@ import qualified Euler314
 import qualified Euler315
 import qualified Euler317
 import qualified Euler318
+import qualified Euler320
 import qualified Euler321
 import qualified Euler322
 import qualified Euler323
@@ -44,7 +45,7 @@ checks = [
   (317, 0.0,  1, Euler317.main, Euler317.answer, "Firecracker"),
   (318, 0.0,  1, Euler318.main, Euler318.answer, "2011 nines"),
   -- 319 "Bounded Sequences"
-  -- 320 "Factorials divisible by a huge integer"
+  (320, 712, 10, Euler320.main, Euler320.answer, "Factorials divisible by a huge integer"),
   (321, 0.0,  1, Euler321.main, Euler321.answer, "Swapping Counters"),
   (322, 0.0,  0, Euler322.main, Euler322.answer, "Binomial coefficients divisible by 10"),
   (323, 0.0,  1, Euler323.main, Euler323.answer, "Bitwise-OR operations on random integers"),
