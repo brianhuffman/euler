@@ -73,6 +73,7 @@ import qualified Euler274
 import qualified Euler276
 import qualified Euler277
 import qualified Euler278
+import qualified Euler281
 import qualified Euler284
 import qualified Euler285
 import qualified Euler287
@@ -166,7 +167,7 @@ checks =
   (278, 1.2,  2, Euler278.main, Euler278.answer, "Linear Combinations of Semiprimes"),
   -- 279 "Triangles with integral sides and an integral angle"
   -- 280 "Ant and seeds"
-  -- 281 "Pizza Toppings"
+  (281, 0.0,  1, Euler281.main, Euler281.answer, "Pizza Toppings"),
   -- 282 "The Ackermann function"
   -- 283 "Integer sided triangles for which the area/perimeter ratio is integral"
   (284, 505,  3, Euler284.main, Euler284.answer, "Steady Squares"),
