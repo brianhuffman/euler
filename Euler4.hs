@@ -23,6 +23,7 @@ import qualified Euler326
 import qualified Euler327
 import qualified Euler328
 import qualified Euler329
+import qualified Euler330
 
 checks :: [(Int, Double, Int, IO String, String, String)]
 checks = [
@@ -54,5 +55,6 @@ checks = [
   (326,  25,287, Euler326.main, Euler326.answer, "Modulo Summations"),
   (327, 0.0,  1, Euler327.main, Euler327.answer, "Rooms of Doom"),
   (328, 999,999, Euler328.main, Euler328.answer, "Lowest-cost Search"),
-  (329, 0.0,  2, Euler329.main, Euler329.answer, "Prime Frog")
+  (329, 0.0,  2, Euler329.main, Euler329.answer, "Prime Frog"),
+  (330, 8.1,  3, Euler330.main, Euler330.answer, "Euler's Number")
   ]
