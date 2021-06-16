@@ -45,7 +45,7 @@ unit_fraction x = numerator x == 1
 -- up to 10^6: 
 
 values =
-  [ (n, c, prime_factorization n) |
+  [ (n, denominator c, prime_factorization n) |
     n <- [3,5..],
     not (is_prime n),
     let c = coresilience n,
@@ -54,49 +54,98 @@ values =
 
 {-
 
-Case n = pq.
+Case n = ab where a < b, both prime.
 
-phi(n) = (p-1)(q-1)
+phi(n) = (a-1)(b-1)
+n - phi(n) = a + b - 1
 
-n - phi(n)            | n - 1
-pq - (p-1)(q-1)       | pq - 1
-pq - (pq - p - q + 1) | pq - 1
-p + q - 1             | pq - 1
+n - phi(n) | n - 1
+a + b - 1  | ab - 1
+a + b - 1  | a(a + b - 1) - (ab - 1)
+a + b - 1  | a^2 + ab - a - ab + 1
+a + b - 1  | a^2 - a + 1
 
-p + q - 1 | pq - 1
-p + q - 1 | p(p + q - 1) - (pq - 1)
-p + q - 1 | p^2 + pq - p - pq + 1
-p + q - 1 | p^2 - p + 1
-
-Let a(i) = i^2 - i + 1
-d | a(i) ==> d | a(d+i)
-d | a(i) ==> d | a(1-i)    since a(1-i) = a(i)
-
-i < d
-odd d
-(d+1-i) is odd for odd i.
-
-Let b(i) = a(2i+1) = (2i+1)*2i + 1 = 4i^2 + 2i + 1
-d | b(i) ==> d | b(d+i)
-d | b(i) ==> d | a(2i+1) ==> d | a(2n+1-2i) = a(2(n-i)+1) = b(n-i)
-
-Let d = 2n+1
+Let f(a) = a^2 - a + 1
+p | f(a) ==> p | f(a+d)
+p | f(a) ==> p | f(1-a)    since f(1-a) = f(a)
 
 
+k(n - phi(n)) = n - 1
+k(a + b - 1) = ab - 1
+(a-k)(a + b - 1) = a(a + b - 1) - (ab - 1)
+(a-k)(a + b - 1) = a^2 + ab - a - ab + 1
+(a-k)(a + b - 1) = a^2 - a + 1
+
+---------------------------
+
+a^2 - a + 1 == 0  (mod n)
+2a == 1 +/- sqrt(-3)  (mod n)
+n == 1 or 3 (mod 6)
+
+---------------------------
+
+Let n = a-k.
+
+(a-k)(a + b - 1) = a^2 - a + 1
+n(a + b - 1) = a^2 - a + 1
+na + nb - n = a^2 - a + 1
+nb = a^2 - (n+1)a + n + 1
+nb = (a-1)(a-n) + 1
+nb == (a-1)(a-n) + 1  (mod n)
+0 == (a-1)a + 1  (mod n)
+-1 == (a-1)a  (mod n)
+
+
+-- Case n = 1 --
+
+b = (a-1)^2 + 1
+a*b = 3*5, 5*17, 7*37, 11*101, 13*(145), 17*257, ...
+
+-- Case n = 3 --
+
+3b = (a-1)(a-3) + 1
+a == 2 (mod 3)
+
+a*b = 5*3, 11*27, 17*75, 
+
+-- Case n = 7 --
+
+7b = (a-1)(a-7) + 1
+
+
+a   f(a)
+--------
+3    7
+5    21
+7    43
+11   111
+17   273
+
+a b
+----
+3 5
+5 17
+7 37
+11 101
+17 23
+17 257
+19 31
+31 103
+37 1297
+41 1601
+43 97
+47 263
+59 431
+61 463
+89 1031
+101 173
+101 677
+107 491
+211 397
 
 
 
- i  a(i)  b(i)
---------------
--3  13
--2   7   13
--1   3    3
- 0   1    1
- 1   1    7
- 2   3   21
- 3   7   43
- 4  13
-
+----------------------------
 
 -}
 
@@ -132,6 +181,21 @@ pf_array m =
 two_primes :: Integer -> [Integer]
 two_primes nmax =
   [ p * q |
+    p <- takeWhile (<= pmax) (tail primes),
+    -- q + (p-1) | p^2 - p + 1
+    x <- list_divisors_of_pf (a ! p),
+    let q = x - p + 1,
+    p < q,
+    p * q <= nmax,
+    is_prime q
+  ]
+  where
+    pmax = square_root nmax
+    a = pf_array pmax
+
+--two_primes' :: Integer -> [Integer]
+two_primes' nmax =
+  [ (p, q) |
     p <- takeWhile (<= pmax) (tail primes),
     -- q + (p-1) | p^2 - p + 1
     x <- list_divisors_of_pf (a ! p),
@@ -306,6 +370,7 @@ all_primes nmax =
 
 prob245 :: [Integer]
 prob245 = all_primes (2*10^11)
+--prob245 = two_primes (2*10^11)
 
 main :: IO String
 main = return $ show $ sum prob245

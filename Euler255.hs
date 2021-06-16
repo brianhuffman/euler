@@ -1,5 +1,6 @@
 module Euler255 where
 import Data.Ratio
+import EulerLib (showFloat)
 
 {-
 Problem 255
@@ -46,19 +47,20 @@ function respectively.
 
 -}
 
+type Z = Integer
 
-next :: Integer -> Integer -> Integer
+next :: Z -> Z -> Z
 next n x = y
   where d = (n + x - 1) `div` x  -- ceiling (n / x)
         y = (x + d) `div` 2  -- floor ((x + d) / 2)
 
--- least n such that next' n x == y
-next_inv :: Integer -> Integer -> Integer
+-- least n such that next n x == y
+next_inv :: Z -> Z -> Z
 next_inv x y = n
   where d = 2*y - x
         n = (d-1) * x + 1
 
-iters :: Integer -> Integer -> [(Integer, Integer)]
+iters :: Z -> Z -> [(Z, Z)]
 iters n x
   | x == x'   = (x, x') : []
   | otherwise = (x, x') : iters n x'
@@ -134,9 +136,32 @@ main = return $ showFloat 10 (total % (9*10^13))
 answer :: String
 answer = "4.4474011180"
 
-showFloat :: RealFrac a => Int -> a -> String
-showFloat n x = s
-  where
-    y = floor x :: Integer
-    z = round (x * 10^n) :: Integer
-    s = show y ++ "." ++ reverse (take n (reverse (show z)))
+{-
+
+n = 10000:
+200 -> 125  (until 10201)
+125 -> 102  (until 10001)
+102 -> 100  (until 10099)
+100 -> 100  (until 10101)
+
+n = 10001:
+200 -> 125  (until 10201)
+125 -> 103  (until 10251)
+103 -> 100  (until 10095)
+100 -> 100  (until 10101)
+
+n = 10095:
+200 -> 125  (until 10201)
+125 -> 103  (until 10251)
+103 -> 101  (until 10301)
+101 -> 100  (until 10101)
+100 -> 100  (until 10101)
+
+n = 10101:
+200 -> 125  (until 10201)
+125 -> 103  (until 10251)
+103 -> 101  (until 10301)
+101 -> 101  (until 10303)
+
+
+-}

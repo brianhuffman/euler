@@ -64,6 +64,7 @@ import qualified Euler258
 import qualified Euler259
 import qualified Euler260
 import qualified Euler261
+import qualified Euler263
 import qualified Euler265
 import qualified Euler266
 import qualified Euler267

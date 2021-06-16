@@ -32,14 +32,10 @@ Find how many Cardano Triplets exist such that a+b+c ≤ 100,000,000.
 
 {-
 
-cuberoot(2 + 1*sqrt(5)) + cuberoot(2 - 1*sqrt(5)) = 1
-
-(x + y)^3 = xxx + 3xxy + 3xyy + yyy
-
 cuberoot(a + b * sqrt(c)) + cuberoot(a - b * sqrt(c)) = 1
 
-(cuberoot(a + b * sqrt(c)) + cuberoot(a - b * sqrt(c)))^3 = 1
-
+let x = cuberoot(a + b * sqrt(c))
+let y = cuberoot(a - b * sqrt(c))
 let X = x^3
 let Y = y^3
 
