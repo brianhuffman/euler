@@ -1,7 +1,7 @@
 module Euler121 where
 import EulerLib
-import Ratio
-import Array
+import Data.Ratio
+import Data.Array
 
 ------------------------------------------------------------------------------
 -- 121. Investigate the game of chance involving coloured discs.

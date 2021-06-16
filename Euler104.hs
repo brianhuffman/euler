@@ -1,5 +1,5 @@
 module Euler104 where
-import List (sort)
+import Data.List (sort)
 
 {-
 Problem 104

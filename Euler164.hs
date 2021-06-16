@@ -1,6 +1,6 @@
 module Euler164 where
 import EulerLib
-import Array
+import Data.Array
 
 {-
 Problem 164

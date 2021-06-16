@@ -1,5 +1,5 @@
 module Euler056 where
-import Char (digitToInt)
+import Data.Char (digitToInt)
 
 ------------------------------------------------------------------------------
 -- 56. Considering natural numbers of the form, a^b, finding the maximum digital sum.

@@ -1,6 +1,6 @@
 module Euler059 where
-import Bits
-import Char
+import Data.Bits
+import Data.Char
 
 cipherTxt :: IO [Int]
 cipherTxt =

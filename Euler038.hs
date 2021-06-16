@@ -1,5 +1,5 @@
 module Euler038 where
-import List (sort)
+import Data.List (sort)
 
 ------------------------------------------------------------------------------
 -- 38. What is the largest 1 to 9 pandigital that can be formed by multiplying a fixed number by 1, 2, 3, ... ?

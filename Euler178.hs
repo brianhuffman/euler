@@ -1,6 +1,6 @@
 module Euler178 where
 import EulerLib
-import Array
+import Data.Array
 
 ------------------------------------------------------------------------------
 -- 178. Step Numbers

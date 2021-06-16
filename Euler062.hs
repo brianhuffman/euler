@@ -1,5 +1,5 @@
 module Euler062 where
-import List
+import Data.List
 
 ------------------------------------------------------------------------------
 -- 62. Find the smallest cube for which exactly five permutations of its digits are cube.

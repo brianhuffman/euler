@@ -1,7 +1,7 @@
 module Euler198 where
-import Ratio
-import Word
-import Int
+import Data.Ratio
+import Data.Word
+import Data.Int
 
 -- 198. Ambiguous Numbers
 {-

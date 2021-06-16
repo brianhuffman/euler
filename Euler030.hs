@@ -1,6 +1,6 @@
 module Euler030 where
-import Char (digitToInt)
-import List (sort)
+import Data.Char (digitToInt)
+import Data.List (sort)
 
 ------------------------------------------------------------------------------
 -- 30. Find the sum of all the numbers that can be written as the sum of fifth powers of their digits.

@@ -1,3 +1,5 @@
+{-# LANGUAGE FlexibleContexts #-}
+
 module Euler186 where
 import Lagged
 import Control.Monad.ST

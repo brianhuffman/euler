@@ -1,6 +1,6 @@
 module Euler145 where
 import EulerLib
-import Char (digitToInt)
+import Data.Char (digitToInt)
 
 ------------------------------------------------------------------------------
 -- 145. How many reversible numbers are there below one-billion?

@@ -1,10 +1,10 @@
 module Euler107 where
 import qualified Data.IntSet as IntSet
 import qualified SortedList as S
-import List (sort, insert)
+import Data.List (sort, insert)
 import Data.Array
-import Maybe
-import Char (isDigit)
+import Data.Maybe
+import Data.Char (isDigit)
 
 ------------------------------------------------------------------------------
 -- 107. Determining the most efficient way to connect the network.

@@ -1,3 +1,5 @@
+{-# LANGUAGE FlexibleContexts #-}
+
 module Euler260 where
 import Data.Array.Unboxed
 

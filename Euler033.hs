@@ -1,5 +1,5 @@
 module Euler033 where
-import Ratio
+import Data.Ratio
 
 ------------------------------------------------------------------------------
 -- 33. Discover all the fractions with an unorthodox cancelling method.

@@ -1,6 +1,6 @@
 module Euler054 where
 import EulerLib
-import List
+import Data.List
 
 pokerTxt :: IO [([String],[String])]
 pokerTxt = readFile "poker.txt" >>= return .

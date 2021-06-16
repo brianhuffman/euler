@@ -1,6 +1,6 @@
 module Euler124 where
 import Primes
-import List
+import Data.List
 
 ------------------------------------------------------------------------------
 -- 124. Determining the kth element of the sorted radical function.

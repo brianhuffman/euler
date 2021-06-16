@@ -1,6 +1,6 @@
 module Euler065 where
 import ContinuedFraction
-import Char
+import Data.Char
 
 ------------------------------------------------------------------------------
 -- 65. Find the sum of digits in the numerator of the 100th convergent of the continued fraction for e.

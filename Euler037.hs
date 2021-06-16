@@ -2,7 +2,7 @@ module Euler037 where
 import EulerLib
 import Primes
 import qualified SortedList as S
-import List
+import Data.List
 
 ------------------------------------------------------------------------------
 -- 37. Find the sum of all eleven primes that are both truncatable from left to right and right to left.

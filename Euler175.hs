@@ -1,5 +1,5 @@
 module Euler175 where
-import List (intersperse)
+import Data.List (intersperse)
 
 {-
 Problem 175

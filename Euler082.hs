@@ -1,6 +1,6 @@
 module Euler082 where
 import EulerLib
-import Array
+import Data.Array
 
 ------------------------------------------------------------------------------
 -- 82. Find the minimal path sum from the left column to the right column.

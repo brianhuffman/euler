@@ -1,6 +1,6 @@
 module Euler076 where
 import EulerLib
-import Array
+import Data.Array
 
 ------------------------------------------------------------------------------
 -- 76. How many different ways can one hundred be written as a sum of at least two positive integers?

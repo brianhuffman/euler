@@ -1,6 +1,6 @@
 module Euler008 where
-import Char (digitToInt)
-import List (tails)
+import Data.Char (digitToInt)
+import Data.List (tails)
 
 ------------------------------------------------------------------------------
 -- 8. Discover the largest product of five consecutive digits in the 1000-digit number.

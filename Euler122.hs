@@ -1,6 +1,6 @@
 module Euler122 where
 import qualified SortedList as S
-import List
+import Data.List
 
 ------------------------------------------------------------------------------
 -- 122. Finding the most efficient exponentiation method.

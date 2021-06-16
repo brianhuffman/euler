@@ -1,7 +1,7 @@
 module Euler167 where
 import EulerLib
 import qualified SortedList as S
-import List
+import Data.List
 
 {-
 Problem 167

@@ -1,6 +1,6 @@
 module Euler057 where
-import Ratio
-import List (inits)
+import Data.Ratio
+import Data.List (inits)
 
 ------------------------------------------------------------------------------
 -- 57. Investigate the expansion of the continued fraction for the square root of two.

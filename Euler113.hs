@@ -1,6 +1,6 @@
 module Euler113 where
 import EulerLib
-import Array
+import Data.Array
 
 ------------------------------------------------------------------------------
 -- 113. How many numbers below a googol (10^100) are not "bouncy"?

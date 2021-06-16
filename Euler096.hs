@@ -1,10 +1,10 @@
 module Euler096 where
 import EulerLib
 import qualified SortedList as S
-import Array
-import Maybe
-import Monad
-import List
+import Data.Array
+import Data.Maybe
+import Control.Monad
+import Data.List
 
 ------------------------------------------------------------------------------
 -- 96. Devise an algorithm for solving Su Doku puzzles.

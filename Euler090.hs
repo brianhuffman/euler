@@ -1,5 +1,5 @@
 module Euler090 where
-import Bits
+import Data.Bits
 
 ------------------------------------------------------------------------------
 -- 90. An unexpected way of using two cubes to make a square.

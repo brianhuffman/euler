@@ -1,6 +1,6 @@
 module Euler016 where
 import EulerLib
-import Char
+import Data.Char
 
 ------------------------------------------------------------------------------
 -- 16. What is the sum of the digits of the number 2^1000?

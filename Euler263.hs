@@ -31,7 +31,7 @@ first member of the next pair.
 We shall call a number n such that :
 
     * (n-9, n-3), (n-3,n+3), (n+3, n+9) form a triple-pair, and
-    * the numbers n-8, n-4, n, n+4 and n+8 are all practical, 
+    * the numbers n-8, n-4, n, n+4 and n+8 are all practical,
 
 an engineers’ paradise.
 
@@ -134,7 +134,7 @@ First (even) impractical numbers:
 102 = 6 17
 106 = 2 53
 110 = 2 5 11
-114 = 
+114 =
 
 70 = 2 5 7
 102 = 2 3 17
@@ -301,7 +301,7 @@ Thus one of the following must be a factor: 16, 3, 5, 7, 11, or 13.
 
 -- TODO: faster algorithm for testing practical numbers
 
-easily_practical n
+-- easily_practical n
 
 {-
 R(3036,3036)
@@ -332,13 +332,13 @@ R(340*131
 product_pf pf = product [ p^e | (p,e) <- pf ]
 
 big_divisor n = product_pf (init (prime_factorization n))
-   
+
 -- By experiment, we have practical n --> practical (big_divisor n).
 
 
 {--------------------------------------------------------------------
 
-* the numbers n-8, n-4, n, n+4 and n+8 are all practical, 
+* the numbers n-8, n-4, n, n+4 and n+8 are all practical,
 
 None of these can be congruent to 2 or 10 (mod 12).
 
@@ -400,7 +400,7 @@ candidates =
     is_prime (n+3),
     is_prime (n+9)
   ]
- 
+
 pre_paradises :: [Int]
 pre_paradises =
   [ n |

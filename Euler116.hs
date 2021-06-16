@@ -1,5 +1,5 @@
 module Euler116 where
-import List (zipWith3)
+import Data.List (zipWith3)
 
 ------------------------------------------------------------------------------
 -- 116. Investigating the number of ways of replacing square tiles with one of three coloured tiles.

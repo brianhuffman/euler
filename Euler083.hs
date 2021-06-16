@@ -1,6 +1,6 @@
 module Euler083 where
 import EulerLib
-import Array
+import Data.Array
 
 ------------------------------------------------------------------------------
 -- 83. Find the minimal path sum from the top left to the bottom right by moving left, right, up, and down.

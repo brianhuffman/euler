@@ -1,7 +1,7 @@
 module Euler044 where
 import EulerLib
 import qualified SortedList as S
-import List
+import Data.List
 
 ------------------------------------------------------------------------------
 -- 44. Find the smallest pair of pentagonal numbers whose sum and difference is pentagonal.

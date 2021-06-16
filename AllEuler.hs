@@ -1,5 +1,5 @@
 module Main where
-import System (getArgs)
+import System.Environment as System (getArgs)
 import System.Time
 import Data.Char (isDigit)
 import Data.List (sort)

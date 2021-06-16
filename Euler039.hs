@@ -1,7 +1,7 @@
 module Euler039 where
 import EulerLib
 import Pythagorean
-import List
+import Data.List
 
 ------------------------------------------------------------------------------
 -- 39. If p is the perimeter of a right angle triangle, {a, b, c}, which value, for p ≤ 1000, has the most solutions?

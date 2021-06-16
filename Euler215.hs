@@ -1,7 +1,7 @@
 module Euler215 where
 import EulerLib
-import Array
-import Bits
+import Data.Array
+import Data.Bits
 
 {-
 Consider the problem of building a wall out of 2x1 and 3x1 bricks

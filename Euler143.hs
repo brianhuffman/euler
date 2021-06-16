@@ -1,8 +1,8 @@
 module Euler143 where
 import Pythagorean
 import qualified SortedList as S
-import List
-import Array
+import Data.List
+import Data.Array
 
 ------------------------------------------------------------------------------
 -- 143. Investigating the Torricelli point of a triangle

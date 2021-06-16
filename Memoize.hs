@@ -7,7 +7,7 @@ module Memoize ( memoize, memoizeU ) where
 import GHC.Arr ( unsafeIndex )
 import Data.Array.Base
 import Data.Array.IO
-import System.IO.Unsafe	( unsafePerformIO )
+import System.IO.Unsafe ( unsafePerformIO )
 
 memoizeU :: (Ix i, MArray IOUArray e IO)
         => (i, i) -> (i -> e) -> (i -> e)

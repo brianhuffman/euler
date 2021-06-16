@@ -1,6 +1,6 @@
 module Euler022 where
-import Char
-import List
+import Data.Char
+import Data.List
 
 parseFile :: FilePath -> IO [String]
 parseFile path = do

@@ -1,7 +1,7 @@
 module Euler177 where
 import EulerLib
 import Data.Array.Unboxed
-import Maybe
+import Data.Maybe
 
 {-
 Problem 177

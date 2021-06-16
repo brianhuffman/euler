@@ -1,5 +1,5 @@
 module Euler011 where
-import List
+import Data.List
 
 ------------------------------------------------------------------------------
 -- 11. What is the greatest product of four numbers on the same straight line in the 20 by 20 grid?

@@ -1,7 +1,7 @@
 module Euler042 where
 import qualified SortedList as S
-import List (sort)
-import Char (ord)
+import Data.List (sort)
+import Data.Char (ord)
 
 ------------------------------------------------------------------------------
 -- 42. How many triangle words does the list of common English words contain?

@@ -1,6 +1,6 @@
 module Euler189 where
 import EulerLib
-import List
+import Data.List
 
 ------------------------------------------------------------------------------
 -- 189. Tri-colouring a triangular grid

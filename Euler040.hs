@@ -1,5 +1,5 @@
 module Euler040 where
-import Char (digitToInt)
+import Data.Char (digitToInt)
 
 {-
 Problem 40

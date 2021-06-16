@@ -1,7 +1,7 @@
 module Euler066 where
 import EulerLib
 import ContinuedFraction
-import List
+import Data.List
 import qualified SortedList as S
 
 ------------------------------------------------------------------------------

@@ -1,7 +1,7 @@
 module Euler119 where
 import EulerLib
 import qualified SortedList as S
-import Char (digitToInt)
+import Data.Char (digitToInt)
 
 ------------------------------------------------------------------------------
 -- 119. Investigating the numbers which are equal to sum of their digits raised to some power.

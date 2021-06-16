@@ -2,7 +2,7 @@ module Euler070 where
 import EulerLib
 import Primes
 import qualified SortedList as S
-import List
+import Data.List
 
 ------------------------------------------------------------------------------
 -- 70. Investigate values of n for which φ(n) is a permutation of n.

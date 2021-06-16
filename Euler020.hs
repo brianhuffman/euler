@@ -1,6 +1,6 @@
 module Euler020 where
 import EulerLib
-import Char
+import Data.Char
 
 ------------------------------------------------------------------------------
 -- 20. Find the sum of digits in 100!

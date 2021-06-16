@@ -1,6 +1,6 @@
 module Euler202 where
 import Primes
-import Word
+import Data.Word
 
 {-
 Problem 202

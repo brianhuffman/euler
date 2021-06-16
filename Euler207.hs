@@ -1,5 +1,5 @@
 module Euler207 where
-import Ratio
+import Data.Ratio
 
 {-
 For some positive integers k, there exists an integer partition of the form

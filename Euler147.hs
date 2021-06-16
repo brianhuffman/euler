@@ -1,6 +1,6 @@
 module Euler147 where
 import EulerLib
-import Array
+import Data.Array
 
 -- triangle_seq = scanl1 (+) [0..]
 

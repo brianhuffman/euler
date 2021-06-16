@@ -1,3 +1,5 @@
+{-# LANGUAGE FlexibleContexts #-}
+
 module PrimeArray where
 import Control.Monad.ST
 import Data.Array.ST

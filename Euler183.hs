@@ -1,7 +1,7 @@
 module Euler183 where
 import EulerLib
 import Primes
-import Ratio
+import Data.Ratio
 
 {-
 Problem 183

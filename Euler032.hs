@@ -1,5 +1,5 @@
 module Euler032 where
-import List (nub, sort)
+import Data.List (nub, sort)
 
 ------------------------------------------------------------------------------
 -- 32. Find the sum of all numbers that can be written as pandigital products.

@@ -1,6 +1,6 @@
 module Euler084 where
 import EulerLib
-import Array
+import Data.Array
 
 ------------------------------------------------------------------------------
 -- 84. In the game, Monopoly, find the three most popular squares when using two 4-sided dice.

@@ -1,3 +1,5 @@
+{-# LANGUAGE FlexibleContexts #-}
+
 module Euler245 where
 import Data.Ratio
 import SquareRoot (square_root)

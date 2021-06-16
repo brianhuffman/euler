@@ -1,5 +1,5 @@
 module Euler165 where
-import Ratio
+import Data.Ratio
 import Data.List
 import qualified SortedList as S
 import Int

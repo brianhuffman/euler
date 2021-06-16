@@ -1,6 +1,6 @@
 module Euler184 where
-import List
-import Ratio
+import Data.List as List
+import Data.Ratio
 
 {-
 Problem 184

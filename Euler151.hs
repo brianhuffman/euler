@@ -1,6 +1,6 @@
 module Euler151 where
 import EulerLib
-import Array
+import Data.Array
 
 ------------------------------------------------------------------------------
 -- 151. Paper sheets of standard sizes: an expected-value problem.

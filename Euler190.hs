@@ -1,6 +1,6 @@
 module Euler190 where
 import EulerLib
-import Ratio
+import Data.Ratio
 
 {-
 Problem 190

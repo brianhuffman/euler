@@ -1,6 +1,6 @@
 module Euler079 where
 import EulerLib
-import List
+import Data.List
 
 ------------------------------------------------------------------------------
 -- 79. By analysing a user's login attempts, can you determine the secret numeric passcode?

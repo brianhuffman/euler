@@ -1,5 +1,5 @@
 module Euler162 where
-import Array
+import Data.Array
 
 {-
 Problem 162

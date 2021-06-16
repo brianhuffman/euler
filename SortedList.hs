@@ -1,5 +1,5 @@
 module SortedList where
-import qualified List
+import qualified Data.List as List
 
 nubBy f [] = []
 nubBy f [x] = [x]

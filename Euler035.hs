@@ -1,7 +1,7 @@
 module Euler035 where
 import Primes
 import qualified SortedList as S
-import List
+import Data.List
 
 {-
 Problem 35

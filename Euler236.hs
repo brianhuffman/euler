@@ -1,5 +1,5 @@
 module Euler236 where
-import Ratio
+import Data.Ratio
 
 {-
 Problem 236

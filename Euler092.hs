@@ -1,7 +1,7 @@
 module Euler092 where
 import EulerLib
 import Data.Array.Unboxed
-import Char
+import Data.Char
 
 ------------------------------------------------------------------------------
 -- 92. Investigating a square digits number chain with a surprising property.

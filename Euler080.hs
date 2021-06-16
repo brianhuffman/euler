@@ -1,7 +1,7 @@
 module Euler080 where
 import SquareRoot
 import qualified SortedList as S
-import Char (digitToInt)
+import Data.Char (digitToInt)
 
 ------------------------------------------------------------------------------
 -- 80. Calculating the digital sum of the decimal digits of irrational square roots.

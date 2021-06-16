@@ -1,6 +1,6 @@
 module Euler172 where
 import EulerLib
-import Array
+import Data.Array
 
 ------------------------------------------------------------------------------
 -- 172. Investigating numbers with few repeated digits.

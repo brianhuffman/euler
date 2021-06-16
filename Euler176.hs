@@ -1,6 +1,6 @@
 module Euler176 where
 import Primes
-import List
+import Data.List
 
 {-
 Problem 176

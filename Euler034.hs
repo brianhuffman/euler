@@ -1,7 +1,7 @@
 module Euler034 where
 import EulerLib
-import List (sort)
-import Array
+import Data.List (sort)
+import Data.Array
 
 ------------------------------------------------------------------------------
 -- 34. Find the sum of all numbers which are equal to the sum of the factorial of their digits.

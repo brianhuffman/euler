@@ -1,6 +1,6 @@
 module Euler078 where
 import EulerLib
-import List
+import Data.List
 
 ------------------------------------------------------------------------------
 -- 78. Investigating the number of ways in which coins can be separated into piles.

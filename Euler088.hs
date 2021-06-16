@@ -1,8 +1,8 @@
 module Euler088 where
 import EulerLib
 import Primes
-import Array
-import List (nub, sort)
+import Data.Array
+import Data.List (nub, sort)
 import qualified SortedList as S
 
 ------------------------------------------------------------------------------

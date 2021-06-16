@@ -1,6 +1,6 @@
 module Euler209 where
 import EulerLib
-import List (sort)
+import Data.List (sort)
 
 {-
 A k-input binary truth table is a map from k input bits (binary digits,
